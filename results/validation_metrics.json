@@ -1,35 +1,127 @@
 {
-  "n": 16,
-  "answer_accuracy": 0.75,
-  "process_accuracy": 0.4375,
+  "n": 286,
+  "process_accuracy": 0.7132867132867133,
+  "process_flag_rate": 0.2867132867132867,
+  "answer_accuracy": 0.6713286713286714,
   "error_type_distribution": {
-    "无错误": 7,
-    "概念错误": 3,
-    "条件遗漏": 3,
-    "边界错误": 2,
-    "题意误读": 1
+    "无错误": 157,
+    "概念错误": 6,
+    "条件遗漏": 58,
+    "边界错误": 9,
+    "题意误读": 3,
+    "实现不一致": 49,
+    "计算错误": 2,
+    "复杂度错误": 2
+  },
+  "gold_error_type_distribution": {
+    "无错误": 97,
+    "概念错误": 21,
+    "条件遗漏": 21,
+    "边界错误": 20,
+    "题意误读": 19,
+    "计算错误": 18,
+    "幻觉": 18,
+    "格式不符": 18,
+    "复杂度错误": 18,
+    "实现不一致": 18,
+    "跳步推导": 18
   },
   "difficulty": {
     "easy": {
-      "n": 5,
-      "answer_accuracy": 0.8,
-      "process_accuracy": 0.4
-    },
-    "medium": {
-      "n": 5,
-      "answer_accuracy": 0.8,
-      "process_accuracy": 0.4
+      "n": 95,
+      "answer_accuracy": 0.6736842105263158,
+      "process_flag_rate": 0.3684210526315789,
+      "gold_process_flaw_rate": 0.6631578947368421,
+      "localization_accuracy": 0.31746031746031744,
+      "localization_denominator": 63,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 32,
+      "detection": {
+        "tp": 35,
+        "fp": 0,
+        "fn": 28,
+        "tn": 32,
+        "precision": 1.0,
+        "recall": 0.5555555555555556,
+        "f1": 0.7142857142857143,
+        "agreement_with_gold": 0.7052631578947368
+      }
     },
     "hard": {
-      "n": 6,
+      "n": 96,
       "answer_accuracy": 0.6666666666666666,
-      "process_accuracy": 0.5
+      "process_flag_rate": 0.125,
+      "gold_process_flaw_rate": 0.65625,
+      "localization_accuracy": 0.15873015873015872,
+      "localization_denominator": 63,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 33,
+      "detection": {
+        "tp": 12,
+        "fp": 0,
+        "fn": 51,
+        "tn": 33,
+        "precision": 1.0,
+        "recall": 0.19047619047619047,
+        "f1": 0.32,
+        "agreement_with_gold": 0.46875
+      }
+    },
+    "medium": {
+      "n": 95,
+      "answer_accuracy": 0.6736842105263158,
+      "process_flag_rate": 0.3684210526315789,
+      "gold_process_flaw_rate": 0.6631578947368421,
+      "localization_accuracy": 0.2698412698412698,
+      "localization_denominator": 63,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 32,
+      "detection": {
+        "tp": 35,
+        "fp": 0,
+        "fn": 28,
+        "tn": 32,
+        "precision": 1.0,
+        "recall": 0.5555555555555556,
+        "f1": 0.7142857142857143,
+        "agreement_with_gold": 0.7052631578947368
+      }
     }
   },
-  "localization_accuracy": 1.0,
-  "localization_denominator": 9,
+  "localization_accuracy": 0.24867724867724866,
+  "localization_denominator": 189,
+  "localization_accuracy_among_caught": 0.573170731707317,
+  "caught_denominator": 82,
   "false_positive_rate": 0.0,
-  "false_positive_denominator": 7,
-  "flagged_correct_answer_count": 4,
-  "flagged_true_issue_ratio": 1.0
+  "false_positive_denominator": 97,
+  "flagged_correct_answer_count": 35,
+  "flagged_true_issue_ratio": 1.0,
+  "detection": {
+    "tp": 82,
+    "fp": 0,
+    "fn": 107,
+    "tn": 97,
+    "precision": 1.0,
+    "recall": 0.43386243386243384,
+    "f1": 0.6051660516605165,
+    "agreement_with_gold": 0.6258741258741258
+  },
+  "confidence_interval_95": {
+    "answer_accuracy": [
+      0.6153846153846154,
+      0.7237762237762237
+    ],
+    "process_flag_rate": [
+      0.23426573426573427,
+      0.34265734265734266
+    ],
+    "localization_accuracy": [
+      0.19047619047619047,
+      0.31216931216931215
+    ],
+    "false_positive_rate": [
+      0.0,
+      0.0
+    ]
+  }
 }

@@ -26,6 +26,12 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
+      - name: Task bank gate (schema + sandbox execution of every reference solution)
+        run: PYTHONPATH=src python scripts/verify_tasks.py
+
+      - name: Gold set gate (labels must agree with execution)
+        run: PYTHONPATH=src python scripts/verify_gold.py
+
       - name: Self-check (zero-extra-dependency smoke test)
         run: PYTHONPATH=src python scripts/self_check.py
 

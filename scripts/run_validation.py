@@ -30,21 +30,38 @@ def main() -> None:
     out_dir.mkdir(exist_ok=True)
     (out_dir / "validation_details.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     (out_dir / "validation_metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # The audit sheet doubles as the blind double-annotation form: the right-hand
+    # columns are intentionally left empty for two independent human annotators,
+    # with a final adjudication column for disagreements. See docs/ANNOTATION_PROTOCOL.md.
     with (out_dir / "human_audit.csv").open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=[
-            "sample_id", "task_id", "difficulty", "gold_final_correct", "gold_process_correct",
-            "gold_first_error_step", "pred_process_correct", "pred_first_error_step", "pred_error_type", "audit_note",
+            "sample_id", "task_id", "difficulty", "gold_source", "intended_error_type",
+            "gold_final_correct", "gold_process_correct", "gold_first_error_step",
+            "pred_process_correct", "pred_first_error_step", "pred_error_type",
+            "ann1_step", "ann1_type", "ann1_is_real_issue",
+            "ann2_step", "ann2_type", "ann2_is_real_issue",
+            "agreement", "adjudicated_step", "adjudicated_type", "adjudicator_note",
+            "audit_note",
         ])
         writer.writeheader()
-        for row in rows:
+        for row, sample in zip(rows, samples):
+            construction = sample.get("construction") or {}
             writer.writerow({
                 "sample_id": row["sample_id"], "task_id": row["task_id"], "difficulty": row["difficulty"],
+                "gold_source": sample.get("source", "human"),
+                "intended_error_type": construction.get("intended_type", ""),
                 "gold_final_correct": row["gold"]["final_correct"],
                 "gold_process_correct": row["gold"]["process_correct"],
                 "gold_first_error_step": row["gold"].get("first_error_step"),
                 "pred_process_correct": row["evaluation"]["process_correct"],
                 "pred_first_error_step": row["evaluation"].get("first_error_step"),
                 "pred_error_type": row["evaluation"].get("error_type"),
+                # left blank on purpose for human annotators
+                "ann1_step": "", "ann1_type": "", "ann1_is_real_issue": "",
+                "ann2_step": "", "ann2_type": "", "ann2_is_real_issue": "",
+                "agreement": "", "adjudicated_step": "", "adjudicated_type": "",
+                "adjudicator_note": "",
                 "audit_note": row["audit_note"],
             })
     print(json.dumps(metrics, ensure_ascii=False, indent=2))

@@ -6,7 +6,10 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
-results/hy3_benchmark.json
+
+# NOTE: results/ are submission deliverables and MUST be committed.
+# Only raw model dumps that may contain secrets are excluded.
+results/*.raw.json
 
 # Packaging artifacts
 *.egg-info/
