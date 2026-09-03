@@ -1,0 +1,17 @@
+﻿sample_id,task_id,difficulty,gold_final_correct,gold_process_correct,gold_first_error_step,pred_process_correct,pred_first_error_step,pred_error_type,audit_note
+V01,E01,easy,True,True,,True,,,人工复核：步骤和实现一致。
+V02,E01,easy,True,False,S1,False,S1,概念错误,人工复核：代码正确，但 S1 的数学概念错误，属于结果正确但过程不成立。
+V03,E03,easy,True,True,,True,,,人工复核：满足唯一解和不同下标要求。
+V04,E03,easy,True,False,S1,False,S1,概念错误,人工复核：最终代码正确，但首步依据错误且与实现不一致。
+V05,E03,easy,False,False,S1,False,S1,条件遗漏,人工复核：违反不同下标要求，隐藏测试失败。
+V06,M01,medium,True,True,,True,,,人工复核：闭区间语义正确。
+V07,M01,medium,False,False,S2,False,S2,边界错误,人工复核：题目明确端点接触也需合并。
+V08,M02,medium,True,True,,True,,,人工复核：半开区间不变量成立。
+V09,M02,medium,False,False,S2,False,S2,边界错误,人工复核：重复元素时不能保证首次出现。
+V10,M03,medium,True,False,S1,False,S1,题意误读,人工复核：代码正确，但 S1 混淆子串与子序列。
+V11,H01,hard,True,True,,True,,,人工复核：dp 定义和转移完整。
+V12,H01,hard,True,False,S2,False,S2,条件遗漏,人工复核：实现正确，但过程遗漏两类操作。
+V13,H02,hard,True,True,,True,,,人工复核：二分与 dp 下标一致。
+V14,H02,hard,False,False,S1,False,S1,概念错误,人工复核：高权重长任务可能阻挡多个总权重更大的短任务。
+V15,H03,hard,True,True,,True,,,人工复核：覆盖重数、空 t 和最左并列规则。
+V16,H03,hard,False,False,S1,False,S1,条件遗漏,人工复核：t 含重复字符时集合方法错误。

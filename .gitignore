@@ -1,0 +1,24 @@
+.env
+.env.*
+!.env.example
+
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+results/hy3_benchmark.json
+
+# Packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# Streamlit
+.streamlit/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# WorkBuddy assistant runtime data (not project source)
+.workbuddy/

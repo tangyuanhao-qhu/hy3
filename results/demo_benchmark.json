@@ -1,0 +1,680 @@
+{
+  "generated_at": "2026-09-03T02:09:44.365367+00:00",
+  "demo_mode": true,
+  "model": "hy3",
+  "summary": {
+    "n": 9,
+    "answer_accuracy": 1.0,
+    "process_accuracy": 1.0,
+    "correct_but_unsupported_rate": 0.0,
+    "error_type_distribution": {
+      "无错误": 9
+    },
+    "difficulty": {
+      "easy": {
+        "n": 3,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 1.0
+      },
+      "medium": {
+        "n": 3,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 1.0
+      },
+      "hard": {
+        "n": 3,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 1.0
+      }
+    }
+  },
+  "rows": [
+    {
+      "task": {
+        "id": "E01",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E01",
+        "summary": "单次遍历累加偶数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "逐个检查元素是否为偶数",
+            "evidence": "x % 2 == 0 对正数、负数和 0 均成立"
+          },
+          {
+            "id": "S2",
+            "claim": "累加满足条件的元素，空列表自然得到 0",
+            "evidence": "时间 O(n)，额外空间 O(1)"
+          }
+        ],
+        "code": "def sum_even(nums):\n    return sum(x for x in nums if x % 2 == 0)\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E01",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E02",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E02",
+        "summary": "先规范化字符，再比较正序与逆序",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "用 isalnum 过滤非字母数字字符并统一大小写",
+            "evidence": "lower 使比较与大小写无关"
+          },
+          {
+            "id": "S2",
+            "claim": "规范化序列与其逆序相同当且仅当为回文",
+            "evidence": "空序列也满足该条件"
+          }
+        ],
+        "code": "def is_clean_palindrome(text):\n    clean = [c.lower() for c in text if c.isalnum()]\n    return clean == clean[::-1]\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E02",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E03",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E03",
+        "summary": "用 seen 哈希表记录已访问值的下标",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "遍历当前值 x 时查询 target-x 是否已在 seen",
+            "evidence": "只查询先前元素，保证不同下标"
+          },
+          {
+            "id": "S2",
+            "claim": "命中后返回先前下标与当前下标",
+            "evidence": "遍历顺序保证下标递增；时间 O(n)"
+          }
+        ],
+        "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        need = target - x\n        if need in seen:\n            return [seen[need], i]\n        seen[x] = i\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E03",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M01",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M01",
+        "summary": "按起点排序后维护最后一个已合并闭区间",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "先排序，空输入直接返回空列表",
+            "evidence": "排序建立后续扫描不变量"
+          },
+          {
+            "id": "S2",
+            "claim": "若当前起点不大于末区间终点则合并",
+            "evidence": "闭区间端点接触也相交"
+          },
+          {
+            "id": "S3",
+            "claim": "每个区间仅扫描一次",
+            "evidence": "总时间 O(n log n)，输出外空间 O(n)"
+          }
+        ],
+        "code": "def merge_intervals(intervals):\n    if not intervals:\n        return []\n    items = sorted(intervals)\n    out = [items[0][:]]\n    for start, end in items[1:]:\n        if start <= out[-1][1]:\n            out[-1][1] = max(out[-1][1], end)\n        else:\n            out.append([start, end])\n    return out\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M01",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M02",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M02",
+        "summary": "用半开区间二分查找 target 的左边界",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "维护 [lo, hi) 中可能包含左边界",
+            "evidence": "nums[mid] < target 时排除 mid 及左侧，否则保留 mid"
+          },
+          {
+            "id": "S2",
+            "claim": "收敛后验证 lo 指向 target，否则返回 -1",
+            "evidence": "覆盖空数组和不存在情形；时间 O(log n)"
+          }
+        ],
+        "code": "def first_occurrence(nums, target):\n    lo, hi = 0, len(nums)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo if lo < len(nums) and nums[lo] == target else -1\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M02",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M03",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M03",
+        "summary": "用 last 表和滑动窗口维护当前无重复区间",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "滑动窗口 [left,right] 始终不含重复字符",
+            "evidence": "重复字符位于窗口内时将 left 移到其上次位置后一位"
+          },
+          {
+            "id": "S2",
+            "claim": "left 只前进不后退并更新最大窗口长度",
+            "evidence": "每个字符常数次处理，时间 O(n)"
+          }
+        ],
+        "code": "def longest_unique_length(s):\n    last = {}\n    left = 0\n    best = 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right\n        best = max(best, right - left + 1)\n    return best\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M03",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H01",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H01",
+        "summary": "用 dp 行滚动计算三个编辑操作的最优值",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "dp[i][j] 表示两个前缀间编辑距离",
+            "evidence": "空前缀边界分别为插入或删除次数"
+          },
+          {
+            "id": "S2",
+            "claim": "字符相同继承左上，否则比较插入、删除、替换",
+            "evidence": "三种最后操作覆盖最优解"
+          },
+          {
+            "id": "S3",
+            "claim": "滚动保存前一行",
+            "evidence": "时间 O(nm)，空间 O(m)"
+          }
+        ],
+        "code": "def edit_distance(a, b):\n    prev = list(range(len(b) + 1))\n    for i, ca in enumerate(a, 1):\n        cur = [i]\n        for j, cb in enumerate(b, 1):\n            cur.append(prev[j-1] if ca == cb else 1 + min(prev[j], cur[j-1], prev[j-1]))\n        prev = cur\n    return prev[-1]\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H01",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H02",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H02",
+        "summary": "按结束时间排序，用二分找兼容前驱并做 dp",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "按结束时间排序并维护 ends",
+            "evidence": "便于二分查找 end <= start 的最后任务"
+          },
+          {
+            "id": "S2",
+            "claim": "dp 在选择当前任务与跳过当前任务之间取最大",
+            "evidence": "最优子结构覆盖所有可行最优解"
+          },
+          {
+            "id": "S3",
+            "claim": "每个任务进行一次二分",
+            "evidence": "时间 O(n log n)，空间 O(n)"
+          }
+        ],
+        "code": "def max_weight_nonoverlap(jobs):\n    items = sorted(jobs, key=lambda x: x[1])\n    ends = [x[1] for x in items]\n    dp = [0] * (len(items) + 1)\n    for i, (start, end, weight) in enumerate(items, 1):\n        lo, hi = 0, i - 1\n        while lo < hi:\n            mid = (lo + hi) // 2\n            if ends[mid] <= start:\n                lo = mid + 1\n            else:\n                hi = mid\n        compatible = lo if lo < i - 1 and ends[lo] <= start else lo - 1\n        dp[i] = max(dp[i-1], weight + dp[compatible + 1])\n    return dp[-1]\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H02",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H03",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H03",
+        "summary": "用带重数计数的滑动窗口寻找最短可行区间",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "need 记录 t 中每个字符的重数",
+            "evidence": "formed 只在某字符计数首次达到需求时增加"
+          },
+          {
+            "id": "S2",
+            "claim": "窗口可行时持续收缩左端并记录严格更短结果",
+            "evidence": "严格更新保证并列时保留最左者"
+          },
+          {
+            "id": "S3",
+            "claim": "左右指针单调前进",
+            "evidence": "滑动窗口时间 O(n)，计数空间 O(|字符集|)"
+          }
+        ],
+        "code": "def min_cover(s, t):\n    if not t:\n        return ''\n    need = {}\n    for c in t:\n        need[c] = need.get(c, 0) + 1\n    have = {}\n    formed = 0\n    left = 0\n    best = (len(s) + 1, 0, 0)\n    for right, c in enumerate(s):\n        have[c] = have.get(c, 0) + 1\n        if c in need and have[c] == need[c]:\n            formed += 1\n        while formed == len(need):\n            if right - left + 1 < best[0]:\n                best = (right - left + 1, left, right + 1)\n            d = s[left]\n            have[d] -= 1\n            if d in need and have[d] < need[d]:\n                formed -= 1\n            left += 1\n    return '' if best[0] > len(s) else s[best[1]:best[2]]\n",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H03",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    }
+  ]
+}

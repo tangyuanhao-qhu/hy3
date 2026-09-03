@@ -1,0 +1,35 @@
+{
+  "n": 16,
+  "answer_accuracy": 0.75,
+  "process_accuracy": 0.4375,
+  "error_type_distribution": {
+    "无错误": 7,
+    "概念错误": 3,
+    "条件遗漏": 3,
+    "边界错误": 2,
+    "题意误读": 1
+  },
+  "difficulty": {
+    "easy": {
+      "n": 5,
+      "answer_accuracy": 0.8,
+      "process_accuracy": 0.4
+    },
+    "medium": {
+      "n": 5,
+      "answer_accuracy": 0.8,
+      "process_accuracy": 0.4
+    },
+    "hard": {
+      "n": 6,
+      "answer_accuracy": 0.6666666666666666,
+      "process_accuracy": 0.5
+    }
+  },
+  "localization_accuracy": 1.0,
+  "localization_denominator": 9,
+  "false_positive_rate": 0.0,
+  "false_positive_denominator": 7,
+  "flagged_correct_answer_count": 4,
+  "flagged_true_issue_ratio": 1.0
+}

@@ -1,0 +1,931 @@
+[
+  {
+    "sample_id": "V01",
+    "task_id": "E01",
+    "difficulty": "easy",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "E01",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：步骤和实现一致。"
+  },
+  {
+    "sample_id": "V02",
+    "task_id": "E01",
+    "difficulty": "easy",
+    "gold": {
+      "final_correct": true,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "概念错误"
+    },
+    "evaluation": {
+      "task_id": "E01",
+      "final_correct": true,
+      "process_correct": false,
+      "verdict": "答案正确但过程不成立",
+      "first_error_step": "S1",
+      "error_type": "概念错误",
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "概念错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "概念错误",
+            "reason": "负偶数同样应计入"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：代码正确，但 S1 的数学概念错误，属于结果正确但过程不成立。"
+  },
+  {
+    "sample_id": "V03",
+    "task_id": "E03",
+    "difficulty": "easy",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "E03",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：满足唯一解和不同下标要求。"
+  },
+  {
+    "sample_id": "V04",
+    "task_id": "E03",
+    "difficulty": "easy",
+    "gold": {
+      "final_correct": true,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "概念错误"
+    },
+    "evaluation": {
+      "task_id": "E03",
+      "final_correct": true,
+      "process_correct": false,
+      "verdict": "答案正确但过程不成立",
+      "first_error_step": "S1",
+      "error_type": "概念错误",
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "概念错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "概念错误",
+            "reason": "直接排序会改变原始下标"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：最终代码正确，但首步依据错误且与实现不一致。"
+  },
+  {
+    "sample_id": "V05",
+    "task_id": "E03",
+    "difficulty": "easy",
+    "gold": {
+      "final_correct": false,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "条件遗漏"
+    },
+    "evaluation": {
+      "task_id": "E03",
+      "final_correct": false,
+      "process_correct": false,
+      "verdict": "答案与过程均存在问题",
+      "first_error_step": "S1",
+      "error_type": "条件遗漏",
+      "visible_tests": {
+        "passed": 1,
+        "total": 2,
+        "failures": [
+          {
+            "test": "two_sum([3,2,4], 6) == [1,2]",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 1,
+        "total": 3,
+        "failures": [
+          {
+            "test": "two_sum([3,3], 6) == [0,1]",
+            "error": "assertion false"
+          },
+          {
+            "test": "two_sum([1,5,8,2], 10) == [2,3]",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "条件遗漏",
+            "reason": "题目要求不同下标"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：违反不同下标要求，隐藏测试失败。"
+  },
+  {
+    "sample_id": "V06",
+    "task_id": "M01",
+    "difficulty": "medium",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "M01",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：闭区间语义正确。"
+  },
+  {
+    "sample_id": "V07",
+    "task_id": "M01",
+    "difficulty": "medium",
+    "gold": {
+      "final_correct": false,
+      "process_correct": false,
+      "first_error_step": "S2",
+      "error_type": "边界错误"
+    },
+    "evaluation": {
+      "task_id": "M01",
+      "final_correct": true,
+      "process_correct": false,
+      "verdict": "答案正确但过程不成立",
+      "first_error_step": "S2",
+      "error_type": "边界错误",
+      "visible_tests": {
+        "passed": 1,
+        "total": 2,
+        "failures": [
+          {
+            "test": "merge_intervals([[1,4],[4,5]]) == [[1,5]]",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S2",
+        "error_type": "边界错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "invalid",
+            "error_type": "边界错误",
+            "reason": "闭区间端点接触需要合并"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：题目明确端点接触也需合并。"
+  },
+  {
+    "sample_id": "V08",
+    "task_id": "M02",
+    "difficulty": "medium",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "M02",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：半开区间不变量成立。"
+  },
+  {
+    "sample_id": "V09",
+    "task_id": "M02",
+    "difficulty": "medium",
+    "gold": {
+      "final_correct": false,
+      "process_correct": false,
+      "first_error_step": "S2",
+      "error_type": "边界错误"
+    },
+    "evaluation": {
+      "task_id": "M02",
+      "final_correct": false,
+      "process_correct": false,
+      "verdict": "答案与过程均存在问题",
+      "first_error_step": "S2",
+      "error_type": "边界错误",
+      "visible_tests": {
+        "passed": 1,
+        "total": 2,
+        "failures": [
+          {
+            "test": "first_occurrence([1,2,2,2,5], 2) == 1",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 2,
+        "total": 3,
+        "failures": [
+          {
+            "test": "first_occurrence([2,2,2], 2) == 0",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S2",
+        "error_type": "边界错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "invalid",
+            "error_type": "边界错误",
+            "reason": "普通二分命中不能保证首次出现"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：重复元素时不能保证首次出现。"
+  },
+  {
+    "sample_id": "V10",
+    "task_id": "M03",
+    "difficulty": "medium",
+    "gold": {
+      "final_correct": true,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "题意误读"
+    },
+    "evaluation": {
+      "task_id": "M03",
+      "final_correct": true,
+      "process_correct": false,
+      "verdict": "答案正确但过程不成立",
+      "first_error_step": "S1",
+      "error_type": "题意误读",
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "题意误读",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "题意误读",
+            "reason": "题目要求连续子串"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：代码正确，但 S1 混淆子串与子序列。"
+  },
+  {
+    "sample_id": "V11",
+    "task_id": "H01",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "H01",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：dp 定义和转移完整。"
+  },
+  {
+    "sample_id": "V12",
+    "task_id": "H01",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": true,
+      "process_correct": false,
+      "first_error_step": "S2",
+      "error_type": "条件遗漏"
+    },
+    "evaluation": {
+      "task_id": "H01",
+      "final_correct": true,
+      "process_correct": false,
+      "verdict": "答案正确但过程不成立",
+      "first_error_step": "S2",
+      "error_type": "条件遗漏",
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S2",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "invalid",
+            "error_type": "条件遗漏",
+            "reason": "还必须比较插入和删除"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：实现正确，但过程遗漏两类操作。"
+  },
+  {
+    "sample_id": "V13",
+    "task_id": "H02",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "H02",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：二分与 dp 下标一致。"
+  },
+  {
+    "sample_id": "V14",
+    "task_id": "H02",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": false,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "概念错误"
+    },
+    "evaluation": {
+      "task_id": "H02",
+      "final_correct": false,
+      "process_correct": false,
+      "verdict": "答案与过程均存在问题",
+      "first_error_step": "S1",
+      "error_type": "概念错误",
+      "visible_tests": {
+        "passed": 1,
+        "total": 2,
+        "failures": [
+          {
+            "test": "max_weight_nonoverlap([[1,3,5],[2,5,6],[4,6,5],[6,7,4]]) == 14",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 2,
+        "total": 3,
+        "failures": [
+          {
+            "test": "max_weight_nonoverlap([[1,10,20],[2,3,7],[3,4,8],[4,5,9]]) == 24",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "概念错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "概念错误",
+            "reason": "局部最大权重不能保证全局最优"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：高权重长任务可能阻挡多个总权重更大的短任务。"
+  },
+  {
+    "sample_id": "V15",
+    "task_id": "H03",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": true,
+      "process_correct": true,
+      "first_error_step": null,
+      "error_type": null
+    },
+    "evaluation": {
+      "task_id": "H03",
+      "final_correct": true,
+      "process_correct": true,
+      "verdict": "答案与过程均成立",
+      "first_error_step": null,
+      "error_type": null,
+      "visible_tests": {
+        "passed": 2,
+        "total": 2,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 3,
+        "total": 3,
+        "failures": [],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.62,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：覆盖重数、空 t 和最左并列规则。"
+  },
+  {
+    "sample_id": "V16",
+    "task_id": "H03",
+    "difficulty": "hard",
+    "gold": {
+      "final_correct": false,
+      "process_correct": false,
+      "first_error_step": "S1",
+      "error_type": "条件遗漏"
+    },
+    "evaluation": {
+      "task_id": "H03",
+      "final_correct": false,
+      "process_correct": false,
+      "verdict": "答案与过程均存在问题",
+      "first_error_step": "S1",
+      "error_type": "条件遗漏",
+      "visible_tests": {
+        "passed": 1,
+        "total": 2,
+        "failures": [
+          {
+            "test": "min_cover('a','aa') == ''",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "hidden_tests": {
+        "passed": 2,
+        "total": 3,
+        "failures": [
+          {
+            "test": "min_cover('aa','aa') == 'aa'",
+            "error": "assertion false"
+          }
+        ],
+        "policy_error": null,
+        "timed_out": false
+      },
+      "process_review": {
+        "process_correct": false,
+        "first_error_step": "S1",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "invalid",
+            "error_type": "条件遗漏",
+            "reason": "覆盖必须满足每个字符的重数"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      }
+    },
+    "audit_note": "人工复核：t 含重复字符时集合方法错误。"
+  }
+]
