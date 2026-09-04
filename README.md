@@ -4,7 +4,15 @@
 
 > 当前仓库包含可运行的 Demo、**90 道分层题目**（每层 30 道，680 条隐藏断言）、**286 条金标**（16 条人工 + 270 条缺陷注入构造，10 类错误每类 ≥18 条）、沙盒执行器、过程评估器、指标与 bootstrap 置信区间、双人标注抽检表，以及 7.5 秒 Demo GIF。
 >
-> **一个重要区分**：`results/validation_*.json` 是**过程评估器自身**的有效性验证结果（确定性规则层在 286 条金标上的表现），详见 [`docs/REPORT.md`](docs/REPORT.md)；而 `results/demo_benchmark.json` 中的准确率 1.0 是内置参考解的自检输出（`demo_mode: true`），**不是 Hy3 的成绩**。Hy3 正式运行需配置 TokenHub 密钥后以 `DEMO_MODE=0` 执行，尚未完成。
+> **两类结果，不要混淆**：
+> - `results/validation_*.json` —— **过程评估器自身**的有效性验证（确定性规则层在 286 条金标上的表现）。
+> - `results/hy3_benchmark.json` —— **Hy3 模型**在 90 题上的真实成绩（2026-09-04，`demo_mode: false`，90/90 完成）。
+>
+> **Hy3 主要结果**：答案准确率 **0.867**（78/90）；排除沙盒策略违规后的算法准确率 **0.967**（87/90）；过程告警率原始 **0.722**，剔除规则层关键词假象后估计 **0.133**。
+>
+> ⚠️ 上述过程指标受两个已量化的系统性偏差影响：**题目未告知模型沙盒禁止 `import`**（占答案错误的 75%），以及**规则层用关键词匹配判定"条件遗漏"**（占过程告警的 82%，其中 86.9% 经裁决为同义换词的误报）。引用前请务必阅读 [`docs/REPORT.md`](docs/REPORT.md) 第 7.3–7.5 节的口径说明。
+>
+> `results/demo_benchmark.json` 中的准确率 1.0 是内置参考解的自检输出（`demo_mode: true`），**不是模型成绩**。
 
 ## 为什么选代码任务
 
@@ -64,7 +72,15 @@ python scripts/run_validation.py
 python scripts/annotation_agreement.py
 
 # 调用 Hy3 跑完整 90 题；先在 .env 中设置 DEMO_MODE=0
-python scripts/run_benchmark.py
+# 每完成一题即落盘，中断后加 --resume 可只跑未完成的题
+python scripts/run_benchmark.py --workers 4
+python scripts/run_benchmark.py --workers 4 --resume   # 续跑
+
+# 汇总模型结果（含 bootstrap CI、难度分层、校正后的过程指标）
+python scripts/summarize_hy3.py
+
+# 裁决规则层"缺少关键词"告警是真遗漏还是同义换词
+python scripts/audit_weak_signals.py
 
 # 生成 7.5 秒演示 GIF
 python scripts/make_demo_gif.py
@@ -75,7 +91,8 @@ python scripts/make_demo_gif.py
 - `results/validation_metrics.json`：定位准确率、误报率、检出精确率/召回率、难度分层、错误分布与 95% CI；
 - `results/validation_details.json`：逐样本预测和金标；
 - `results/human_audit.csv`：含 `ann1_*` / `ann2_*` / `adjudicated_*` 空列的双人盲审表；
-- `results/hy3_benchmark.json`：正式模型逐题原始结果（需 `DEMO_MODE=0`）；
+- `results/hy3_benchmark.json`：Hy3 逐题原始结果（步骤、代码、测试、复核全量留档）；
+- `results/weak_signal_audit.json`：规则层弱信号告警的逐条裁决；
 - `assets/demo.gif`：2 分钟限制内的流程演示。
 
 ## 题集设计
@@ -102,6 +119,20 @@ python scripts/make_demo_gif.py
 
 构造式金标的定位结论来自注入意图，**不等于两人独立标注的一致意见**。盲审表与 Cohen's kappa 计算已就绪（见 [`docs/ANNOTATION_PROTOCOL.md`](docs/ANNOTATION_PROTOCOL.md)），但 `ann1_*` / `ann2_*` 列仍待真人填写。
 
+## Hy3 评测结果
+
+2026-09-04 在 90 题上运行真实 Hy3（`demo_mode: false`，90/90 完成，0 失败），配置见报告第 1 节。
+
+| 指标 | 原始 | 说明 |
+|---|---:|---|
+| 答案准确率 | **0.867**（78/90）[0.800, 0.933] | 隐藏测试全部通过 |
+| 排除沙盒策略违规后 | **0.967**（87/90） | 12 道错题中有 9 道仅因 `import` 被沙盒拒绝 |
+| 过程告警率 | 0.722 → 估计 **0.133** | 82% 告警来自关键词匹配，其中 86.9% 经裁决为误报 |
+
+分层答案准确率：easy 0.967 / medium 0.833 / hard 0.800。在 n=30 下**只有 easy 与 hard 的差异显著**（+0.167, CI [0.033, 0.333]）。
+
+两个偏差均已定位并量化，且修复方案已验证：把"禁止 import"写进求解提示词后，重叠的 52 题上 import 从 5 处降到 0，答案正确率从 0.885 升到 1.000。完整分析、典型案例与偏差处置见 [`docs/REPORT.md`](docs/REPORT.md) 第 7 节。
+
 ## 有效性验证口径
 
 - **定位准确率**：金标过程有错的样本中，预测 `first_error_step` 与金标完全一致的比例。
@@ -122,12 +153,18 @@ python scripts/make_demo_gif.py
 ```text
 app.py                         Streamlit 应用
 src/hy3_process_eval/          Hy3 客户端、沙盒、评估器、指标
-data/tasks.jsonl               分层题集与标准答案
-data/validation_samples.jsonl  人工金标过程样本
-scripts/                       批量评测、有效性验证、GIF
+data/tasks.jsonl               90 道分层题集与标准答案
+data/validation_samples.jsonl  286 条金标过程样本（16 人工 + 270 构造）
+scripts/verify_tasks.py        题集校验：参考解须在沙盒中通过全部测试
+scripts/verify_gold.py         金标校验：标签须与真实执行结果一致
+scripts/run_validation.py      评估器有效性验证（金标对照）
+scripts/run_benchmark.py       Hy3 批量评测（支持 --resume 断点续跑）
+scripts/summarize_hy3.py       模型结果汇总、CI、难度分层与校正指标
+scripts/audit_weak_signals.py  裁决规则层"缺少关键词"告警是否为误报
+scripts/annotation_agreement.py 双人标注 Cohen's kappa 与待裁决清单
 tests/                         自动测试
-docs/                          计划、方法和正式报告模板
-results/                       可复现输出
+docs/                          计划、方法、出题规范、标注协议、正式报告
+results/                       可复现输出（模型结果与金标结果分列）
 ```
 
 ## 复现原则

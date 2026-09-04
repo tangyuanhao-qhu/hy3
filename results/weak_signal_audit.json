@@ -1,0 +1,2245 @@
+{
+  "generated_at": "2026-09-04T03:03:02.366278+00:00",
+  "model": "hy3",
+  "n_cases": 61,
+  "n_adjudicated": 61,
+  "n_paraphrased_false_alarm": 53,
+  "false_alarm_rate": 0.8688524590163934,
+  "results": [
+    {
+      "task_id": "E02",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "大小写"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "提取 text 中所有字母数字字符并转为小写，得到 cleaned 字符串",
+          "evidence": "cleaned = ''.join(c.lower() for c in text if c.isalnum())；isalnum 支持 Unicode 字母数字，满足约束"
+        },
+        {
+          "id": "S2",
+          "claim": "cleaned 为空或与其反转相等时即为回文",
+          "evidence": "return cleaned == cleaned[::-1]；空串返回 True 符合回文定义"
+        },
+        {
+          "id": "S3",
+          "claim": "时间复杂度 O(n) 空间 O(n)，n<=10000 满足约束",
+          "evidence": "单次遍历构建 cleaned，反转比较 O(n)；代码使用线性操作"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S1使用.lower()转为小写处理忽略大小写，等价表达了'大小写'概念"
+    },
+    {
+      "task_id": "M01",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "闭区间"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空输入直接返回空列表，避免后续索引错误",
+          "evidence": "边界 len(intervals)==0 => return []; 代码 if not intervals: return []"
+        },
+        {
+          "id": "S2",
+          "claim": "按起点升序排序，使重叠区间相邻，保证线性扫描可合并",
+          "evidence": "排序不变量: 处理后序列满足 start_i <= start_{i+1}; 代码 intervals.sort(key=lambda x: x[0])"
+        },
+        {
+          "id": "S3",
+          "claim": "初始化空结果列表，遍历排序区间维护合并状态",
+          "evidence": "不变量: merged 中区间互不重叠且按起点升序; 代码 merged = []"
+        },
+        {
+          "id": "S4",
+          "claim": "若当前起点大于结果末区间终点则不重叠，追加；否则合并（含端点接触）并更新终点为最大值",
+          "evidence": "重叠条件: cur[0] <= merged[-1][1] (端点接触合并); 代码 if not merged or interval[0] > merged[-1][1]: append else merged[-1][1]=max(...)"
+        },
+        {
+          "id": "S5",
+          "claim": "返回合并后列表，满足题目要求",
+          "evidence": "输出按起点升序且无重叠; 代码 return merged"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S4明确处理端点接触合并，等价表达了闭区间端点包含的特性，未真正遗漏"
+    },
+    {
+      "task_id": "H02",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "二分"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "按结束时间升序排序任务，使兼容任务在排序数组中索引更小",
+          "evidence": "jobs.sort(key=lambda x: x[1]); 端点接触 end<=start 兼容，ends 非递减"
+        },
+        {
+          "id": "S2",
+          "claim": "用 bisect_right 在结束时间数组上找到最后一个结束时间 <= 当前开始时间的任务索引",
+          "evidence": "p = bisect.bisect_right(ends, start) - 1; 若无非负则返回 -1"
+        },
+        {
+          "id": "S3",
+          "claim": "DP 递推：dp[i] = max(不选 i 的 dp[i-1], 选 i 的 weight + dp[p])",
+          "evidence": "dp[i] = max(dp[i-1] if i>0 else 0, weight + (dp[p] if p>=0 else 0)); 不变量 dp 单调且最优子结构"
+        },
+        {
+          "id": "S4",
+          "claim": "空列表返回 0，否则返回 dp 末元素",
+          "evidence": "if not jobs: return 0; return dp[-1] 满足 len<=10000 与 weight>=0"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤S2使用bisect_right实现二分查找定位兼容任务，等价表达了二分概念"
+    },
+    {
+      "task_id": "E05",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "双指针"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "长度小于2时直接返回False",
+          "evidence": "len(nums)<2 => 无两个不同下标，代码开头 if n<2: return False"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化 left=0, right=n-1，维持解若存在必在[left,right]内",
+          "evidence": "有序性：若和偏小则左指针右移，偏大则右指针左移，不变量保持"
+        },
+        {
+          "id": "S3",
+          "claim": "循环计算当前和并调整指针直至找到或区间无效",
+          "evidence": "while left<right: s=nums[left]+nums[right]; s==target返回True，s<target左移，s>target右移"
+        },
+        {
+          "id": "S4",
+          "claim": "指针相遇未找到则返回False",
+          "evidence": "循环结束 left>=right，搜索区间为空，返回 False"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度O(n)，空间O(1)",
+          "evidence": "每个指针最多移动n次，仅用常数额外变量"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤中明确使用'左指针'、'右指针'并描述其移动调整逻辑，等价于双指针法"
+    },
+    {
+      "task_id": "E06",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "哈希"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "长度不同则不可能为异位词，直接返回False",
+          "evidence": "len(s)!=len(t) => 字符总数不同，计数和不等；空串等长满足边界"
+        },
+        {
+          "id": "S2",
+          "claim": "用大小52的数组统计s增计、t减计，实现O(n)时间O(1)空间计数",
+          "evidence": "映射: upper idx=ord(c)-ord('A'), lower idx=26+ord(c)-ord('a'); 遍历s/t各一次，总操作O(n)"
+        },
+        {
+          "id": "S3",
+          "claim": "所有计数器为0时两字符串字符种类与次数完全相同，返回True",
+          "evidence": "计数数组全0等价于多重集相等；区分大小写因映射隔离而保持"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S2用数组与字符到索引的映射实现计数，等价于哈希表计数，属换词表达。"
+    },
+    {
+      "task_id": "E09",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "模拟"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化余额 balance=0 并遍历每个操作 op",
+          "evidence": "code: balance=0; for op in ops"
+        },
+        {
+          "id": "S2",
+          "claim": "若 op>0 则余额增加 op（存款总是成功）",
+          "evidence": "code: if op>0: balance+=op; 不变量 balance>=0 保持"
+        },
+        {
+          "id": "S3",
+          "claim": "若 op<0 且 balance >= -op 则 balance+=op（取款成功），否则拒绝（余额不变）",
+          "evidence": "code: elif op<0: if balance>=-op: balance+=op; 保证余额不负数"
+        },
+        {
+          "id": "S4",
+          "claim": "op==0 不改变余额",
+          "evidence": "code: 无对应分支，直接跳过"
+        },
+        {
+          "id": "S5",
+          "claim": "遍历结束返回最终余额，满足约束",
+          "evidence": "code: return balance; 复杂度 O(n) 时间 O(1) 空间"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤通过遍历操作并逐步更新余额的处理逻辑，等价表达了按题意模拟过程的概念"
+    },
+    {
+      "task_id": "E11",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "因子 5"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "n! 末尾连续零的个数等于其质因子分解中 10 的指数，即 min(v2(n!), v5(n!))",
+          "evidence": "10=2*5，每个末尾零消耗一对 (2,5)"
+        },
+        {
+          "id": "S2",
+          "claim": "对于非负整数 n，v2(n!) >= v5(n!)，故只需计算 v5(n!)",
+          "evidence": "每5个连续整数有一个5的倍数，而每2个有一个2的倍数，因子2更丰富"
+        },
+        {
+          "id": "S3",
+          "claim": "v5(n!) = sum_{k>=1} floor(n/5^k)，直到 5^k > n",
+          "evidence": "勒让德定理：n! 中素数 p 的指数为 Σ floor(n/p^k)"
+        },
+        {
+          "id": "S4",
+          "claim": "n=0 时求和为空，结果为0，符合 0! =1 末尾零个数为0",
+          "evidence": "边界：while n: 条件为假，cnt 初始0直接返回"
+        },
+        {
+          "id": "S5",
+          "claim": "迭代 n //= 5 并累加可高效计算该和，时间 O(log_5 n)，空间 O(1)",
+          "evidence": "循环次数约 log_5(10^9) < 13，满足 n<=10^9 约束"
+        },
+        {
+          "id": "S6",
+          "claim": "代码实现正确对应上述不变量与边界",
+          "evidence": "def trailing_zeros(n): cnt=0; while n: n//=5; cnt+=n; return cnt"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤通过v5(n!)和floor(n/5^k)及迭代除以5累加等价描述了计算因子5个数的逻辑"
+    },
+    {
+      "task_id": "E14",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "二分"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化闭区间 [0, n-1] 与 ans=-1，空数组时循环不执行直接返回 -1",
+          "evidence": "n=len(nums); l,r=0,n-1; ans=-1; while l<=r 在 n=0 时不进入"
+        },
+        {
+          "id": "S2",
+          "claim": "计算中点 mid，若 nums[mid] >= target 则更新 ans=mid 并向左收缩右边界 r=mid-1，否则向右收缩 l=mid+1",
+          "evidence": "mid=(l+r)//2; if nums[mid] >= target: ans=mid; r=mid-1 else: l=mid+1"
+        },
+        {
+          "id": "S3",
+          "claim": "循环终止时 ans 为最左 >= target 的下标，若所有元素均小于 target 则 ans 保持 -1",
+          "evidence": "return ans 覆盖找到与未找到两种情形"
+        },
+        {
+          "id": "S4",
+          "claim": "时间复杂度 O(log n)，空间 O(1)，满足不得线性扫描的约束",
+          "evidence": "每次迭代区间长度减半，仅使用常数额外变量"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤通过描述取中点、比较收缩边界及区间减半至O(log n)明确表达了二分查找逻辑，仅缺'二分'字面词"
+    },
+    {
+      "task_id": "E16",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "去重"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "将列表转换为集合可消除重复并自然处理空列表",
+          "evidence": "set([3,1,3,1])={1,3} 长度为2；set([])=set() 长度为0"
+        },
+        {
+          "id": "S2",
+          "claim": "返回集合长度即为不同元素个数，满足线性复杂度",
+          "evidence": "len(set(nums)) 平均O(n)时间 O(n)空间，n<=10000可行"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤S1使用'消除重复'等价表达了'去重'概念"
+    },
+    {
+      "task_id": "E17",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "a ^ a = 0"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空列表边界直接返回 None",
+          "evidence": "if not nums: return None 对应约束 len(nums)==0 返回 None"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化 res=0 并遍历 nums 做异或累加",
+          "evidence": "a^a=0, a^0=a；成对元素抵消，满足 O(n) 时间与 O(1) 空间"
+        },
+        {
+          "id": "S3",
+          "claim": "返回异或累加结果即为只出现一次的元素",
+          "evidence": "循环结束 res 为所有元素异或和，唯一元素保留"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤S2证据中以'a^a=0'紧凑写法明确描述了该性质及成对抵消逻辑，属等价表达"
+    },
+    {
+      "task_id": "E18",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "末项",
+        "求和公式"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "等差数列前 n 项和可由公式 S_n = n*(2*a1 + (n-1)*d)//2 一步算出，无需循环。",
+          "evidence": "由求和推导 S_n = n*a1 + d*n(n-1)/2 = n*(2*a1+(n-1)*d)/2；n*(2*a1+(n-1)*d) 恒为偶数，故 //2 得精确整数。"
+        },
+        {
+          "id": "S2",
+          "claim": "n=0 时公式自然返回 0，满足边界要求。",
+          "evidence": "代入 n=0 得 0*(2*a1 - d)//2 = 0，与指定边界一致。"
+        },
+        {
+          "id": "S3",
+          "claim": "算法为 O(1) 时间/空间，符合无循环约束且结果精确。",
+          "evidence": "仅常数次算术运算；Python 任意精度 int 容纳 64 位内结果。"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.92,
+      "reason": "步骤未出现“末项”一词且未等价描述末项含义，仅用变形公式直接计算，该关键概念被真正遗漏"
+    },
+    {
+      "task_id": "E21",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "严格大于 0"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化计数器为0，空列表时循环不执行直接返回0",
+          "evidence": "count=0；len(nums)可为0，循环跳过返回0"
+        },
+        {
+          "id": "S2",
+          "claim": "对每个元素x检查 x>0 且 x%k==0，k为正整数保证取模定义良好",
+          "evidence": "条件 x>0 and x%k==0；约束1<=k<=1000"
+        },
+        {
+          "id": "S3",
+          "claim": "满足条件时计数器加1，维持遍历前缀中符合条件元素数的循环不变量",
+          "evidence": "count += 1 在if块内"
+        },
+        {
+          "id": "S4",
+          "claim": "返回计数器，时间O(n)空间O(1)对应单次遍历无额外结构",
+          "evidence": "return count；仅用常数变量"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.99,
+      "reason": "步骤S2使用x>0等价表达了严格大于0的条件"
+    },
+    {
+      "task_id": "E22",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "inv[perm[i]] = i",
+        "下标"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空排列直接返回空列表",
+          "evidence": "len(perm)==0 时返回 []，满足边界要求"
+        },
+        {
+          "id": "S2",
+          "claim": "分配长度为 n 的结果列表 inv",
+          "evidence": "inv = [0]*n，n=len(perm)，空间 O(n)"
+        },
+        {
+          "id": "S3",
+          "claim": "一趟遍历枚举 i,v 并赋值 inv[v]=i",
+          "evidence": "for i,v in enumerate(perm): inv[v]=i，满足 inv[perm[i]]==i 且无嵌套查找，时间 O(n)"
+        },
+        {
+          "id": "S4",
+          "claim": "返回 inv 完成逆排列",
+          "evidence": "return inv 对应函数签名"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用 enumerate 产生的 i 作为索引赋值，等价表达了下标概念"
+    },
+    {
+      "task_id": "E23",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "当前最大值"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "计数器初始化为0，历史最大值设为负无穷以正确处理任意整数及空列表",
+          "evidence": "cnt = 0; m = float('-inf')"
+        },
+        {
+          "id": "S2",
+          "claim": "对每个元素x，若x严格大于m则计为破纪录，计数器加1并更新m",
+          "evidence": "if x > m: cnt += 1; m = x"
+        },
+        {
+          "id": "S3",
+          "claim": "遍历结束返回计数器，空列表时循环不执行直接返回0满足要求",
+          "evidence": "return cnt  # 空列表返回0"
+        },
+        {
+          "id": "S4",
+          "claim": "时间复杂度O(n)、空间O(1)，符合长度与数值约束",
+          "evidence": "单循环且仅用常数变量"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤中使用'历史最大值'及变量m的更新等价表达了'当前最大值'的维护逻辑"
+    },
+    {
+      "task_id": "E25",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "O(n)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化空字典 freq 以存储字符到计数的映射",
+          "evidence": "freq = {} 对应代码首行"
+        },
+        {
+          "id": "S2",
+          "claim": "对 s 中每个字符 ch，使用 freq.get(ch,0)+1 累加计数，自动区分大小写并涵盖空格/数字/标点/Unicode",
+          "evidence": "for ch in s: freq[ch] = freq.get(ch, 0) + 1"
+        },
+        {
+          "id": "S3",
+          "claim": "返回 freq；当 s 为空时循环不执行直接返回空字典，满足边界",
+          "evidence": "return freq 且约束 len(s)>=0"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "S2描述对s中每个字符遍历并常数计数，等价表达了O(n)线性时间处理逻辑"
+    },
+    {
+      "task_id": "E27",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "x % 10",
+        "x //= 10",
+        "n == 0"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "取 n 的绝对值以消除符号影响，得到非负整数",
+          "evidence": "n = abs(n); 题目规定按绝对值逐位处理，符号不参与统计"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化计数器 cnt 为 0",
+          "evidence": "cnt = 0; 不变量：cnt 累计已扫描位中 d 的出现次数"
+        },
+        {
+          "id": "S3",
+          "claim": "使用至少执行一次的循环逐位提取末位并比较，随后右移一位直至归零",
+          "evidence": "while True: if n%10==d: cnt+=1; n//=10; if n==0: break; 当 n=0 时 digit=0 被统计一次，满足 count_digit(0,0)=1"
+        },
+        {
+          "id": "S4",
+          "claim": "返回计数器 cnt 作为结果",
+          "evidence": "return cnt; 时间 O(log10(|n|))≤19，空间 O(1)，符合约束"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤使用 n%10、n//=10 和 n==0 等价表达了取模、整除和零判断，仅变量名或空格不同"
+    },
+    {
+      "task_id": "E30",
+      "difficulty": "easy",
+      "missing_concepts": [
+        "并列"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空列表直接返回空列表",
+          "evidence": "边界情况 len(nums)==0 返回 []"
+        },
+        {
+          "id": "S2",
+          "claim": "用字典统计各元素出现频次",
+          "evidence": "freq[x] = freq.get(x,0)+1 保证计数准确，O(N)"
+        },
+        {
+          "id": "S3",
+          "claim": "对唯一元素按(-频次, 元素值)排序",
+          "evidence": "sorted(freq.keys(), key=lambda x: (-freq[x], x)) 实现频次降序、数值升序"
+        },
+        {
+          "id": "S4",
+          "claim": "返回排序后的键列表即去重结果",
+          "evidence": "freq.keys() 天然去重，对应返回类型 list[int]"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "S3通过按(-频次,元素值)排序并说明频次降序数值升序，等价处理了频次相同的并列情况"
+    },
+    {
+      "task_id": "M04",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "左边界只增不减"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "维护滑动窗口 [left, right] 保证窗口内字符无重复，right 单向遍历实现线性扫描",
+          "evidence": "for right, c in enumerate(s): 右指针只增，满足 O(n) 单次扫描"
+        },
+        {
+          "id": "S2",
+          "claim": "用字典 last_pos 存储字符最近出现索引，支持 O(1) 重复检测",
+          "evidence": "last_pos = {}; if c in last_pos and last_pos[c] >= left"
+        },
+        {
+          "id": "S3",
+          "claim": "遇到窗口内重复字符时，将 left 跳到上次出现位置的下一位，保持无重复不变量",
+          "evidence": "left = last_pos[c] + 1 当 last_pos[c] >= left"
+        },
+        {
+          "id": "S4",
+          "claim": "每次迭代更新字符位置并刷新最大长度 ans = max(ans, right-left+1)",
+          "evidence": "last_pos[c]=right; ans = max(ans, right-left+1)"
+        },
+        {
+          "id": "S5",
+          "claim": "空串或全程无字符时 ans 初始为 0 直接返回，符合边界",
+          "evidence": "ans=0 初始化，循环不执行返回 0"
+        },
+        {
+          "id": "S6",
+          "claim": "时间复杂度 O(n)，空间 O(min(n,|ASCII|))，满足约束与线性要求",
+          "evidence": "单次遍历 + 哈希表，n<=5000"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S3描述left跳到上次出现位置下一位，隐含left单调不减，等价表达了左边界只增不减"
+    },
+    {
+      "task_id": "M05",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "下界"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化左闭右开区间 [left, right) 覆盖整个数组，right = len(nums)，答案必在该区间或不存在。",
+          "evidence": "left=0, right=len(nums)；空数组时循环跳过并返回 -1（代码首行）。"
+        },
+        {
+          "id": "S2",
+          "claim": "若 nums[mid] < target，则 mid 及其左侧均不满足，答案在右侧，故 left = mid + 1。",
+          "evidence": "不变量：区间左侧均 < target，二分收缩（代码 if 分支）。"
+        },
+        {
+          "id": "S3",
+          "claim": "若 nums[mid] >= target，则 mid 可能是答案但更左可能也满足，故 right = mid 保留 mid。",
+          "evidence": "不变量：[left, right) 仍包含第一个 >= target 的位置（代码 else 分支）。"
+        },
+        {
+          "id": "S4",
+          "claim": "循环结束 left == right 即候选下标；若 left == len(nums) 则全小于 target 返回 -1，否则返回 left。",
+          "evidence": "return left if left < len(nums) else -1；时间 O(log n)，空间 O(1)。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤通过描述寻找第一个>=target的最左位置逻辑等价表达了下界概念"
+    },
+    {
+      "task_id": "M06",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "单调"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "排序数组将原下标无序对映射为排序后位置对 p<q，元素个体保留故对数不变",
+          "evidence": "sorted copy s; each original index appears exactly once; counting p<q equals counting i<j"
+        },
+        {
+          "id": "S2",
+          "claim": "对于固定 i，因数组有序，满足 low <= s[i]+s[j] <= high 的 j>i 构成连续区间",
+          "evidence": "s[j] in [low-s[i], high-s[i]]; monotonic s ensures contiguous j"
+        },
+        {
+          "id": "S3",
+          "claim": "用 bisect_left 和 bisect_right 在 i+1 后定位区间，计数 = right-left",
+          "evidence": "left=bisect_left(s, low-s[i], i+1); right=bisect_right(s, high-s[i], i+1); ans+=right-left"
+        },
+        {
+          "id": "S4",
+          "claim": "边界 n<2 返回 0；二分自动处理无匹配、重复值和负数",
+          "evidence": "if len(nums)<2: return 0; bisect works with negatives and duplicates"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度 O(n log n)，空间 O(n)，满足 n<=3000 约束",
+          "evidence": "sort O(n log n); loop n * O(log n); sorted copy O(n)"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "S2以'数组有序'及'monotonic s ensures contiguous j'明确描述了单调性保证区间连续的等价逻辑"
+    },
+    {
+      "task_id": "M09",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "哈希表",
+        "空前缀"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化前缀和为0，频次映射 {0:1} 以包含从索引0开始的子数组",
+          "evidence": "freq={0:1}; prefix_sum=0"
+        },
+        {
+          "id": "S2",
+          "claim": "遍历 nums 累加当前前缀和 prefix_sum",
+          "evidence": "prefix_sum += num"
+        },
+        {
+          "id": "S3",
+          "claim": "若 prefix_sum - k 在 freq 中，则其出现次数即为以当前结尾且和为 k 的子数组数，累加到答案",
+          "evidence": "if prefix_sum - k in freq: count += freq[prefix_sum - k]"
+        },
+        {
+          "id": "S4",
+          "claim": "更新当前前缀和频次供后续查询",
+          "evidence": "freq[prefix_sum] = freq.get(prefix_sum, 0) + 1"
+        },
+        {
+          "id": "S5",
+          "claim": "空数组循环不执行返回0，满足要求；整体时间复杂度 O(n)，空间 O(n)",
+          "evidence": "for num in nums: ... return count; len<=10000"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.96,
+      "reason": "步骤用'频次映射'和'{0:1}初始化'换词表达了哈希表和空前缀的等价处理逻辑"
+    },
+    {
+      "task_id": "M10",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "单调栈",
+        "严格大于"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化答案数组全0和空栈用于存储下标",
+          "evidence": "ans = [0]*n; stack = []; 对应代码第2-3行"
+        },
+        {
+          "id": "S2",
+          "claim": "当栈顶温度严格小于当前温度时弹出并计算等待天数",
+          "evidence": "while stack and temps[i] > temps[stack[-1]]: idx=stack.pop(); ans[idx]=i-idx; 不变量：栈内温度从底到顶递减"
+        },
+        {
+          "id": "S3",
+          "claim": "当前下标入栈维持栈单调性",
+          "evidence": "stack.append(i)"
+        },
+        {
+          "id": "S4",
+          "claim": "遍历后栈中剩余下标无更高温度，ans初始0满足要求",
+          "evidence": "返回 ans; 边界 n=0 返回 []，n=1 返回 [0]"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度O(n)空间复杂度O(n)",
+          "evidence": "每个元素最多入栈出栈一次，约束 len<=10000 可行"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤用'栈单调性'和'严格小于'等价表达了'单调栈'和'严格大于'的概念"
+    },
+    {
+      "task_id": "M11",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "递归终止"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "n=0 时返回 1.0",
+          "evidence": "不变量 x^0=1，代码 if n==0: return 1.0"
+        },
+        {
+          "id": "S2",
+          "claim": "n<0 时返回正指数结果的倒数",
+          "evidence": "不变量 x^n=1/(x^{-n})，代码 if n<0: return 1.0/fast_power(x,-n)"
+        },
+        {
+          "id": "S3",
+          "claim": "非负 n 递归计算 half=fast_power(x,n//2)",
+          "evidence": "指数折半分治，代码 half=fast_power(x,n//2)"
+        },
+        {
+          "id": "S4",
+          "claim": "按奇偶用 half*half 或乘 x 组合",
+          "evidence": "不变量 x^n=(x^{n/2})^2*(x if n%2 else 1)，代码返回 half*half 或 half*half*x"
+        },
+        {
+          "id": "S5",
+          "claim": "时间/空间复杂度 O(log|n|)",
+          "evidence": "每次指数减半，递归深度 log|n|，与调用对应"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "S1中n=0时返回1.0明确描述了递归终止的base case处理"
+    },
+    {
+      "task_id": "M12",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "边界收缩",
+        "单行或单列"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空矩阵（[]或行均为空）直接返回空列表",
+          "evidence": "if not matrix or not matrix[0]: return []"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化上下左右边界及结果列表",
+          "evidence": "top,bottom,left,right=0,len(matrix)-1,0,len(matrix[0])-1; res=[]"
+        },
+        {
+          "id": "S3",
+          "claim": "从左到右遍历当前上边界，然后上边界内缩",
+          "evidence": "while top<=bottom and left<=right: for i in range(left,right+1): res.append(matrix[top][i]); top+=1"
+        },
+        {
+          "id": "S4",
+          "claim": "若仍有行，从上到下遍历当前右边界，然后右边界内缩",
+          "evidence": "if top<=bottom: for i in range(top,bottom+1): res.append(matrix[i][right]); right-=1"
+        },
+        {
+          "id": "S5",
+          "claim": "若仍有行和列，从右到左遍历当前下边界，然后下边界内缩",
+          "evidence": "if top<=bottom and left<=right: for i in range(right,left-1,-1): res.append(matrix[bottom][i]); bottom-=1"
+        },
+        {
+          "id": "S6",
+          "claim": "若仍有行和列，从下到上遍历当前左边界，然后左边界内缩",
+          "evidence": "if top<=bottom and left<=right: for i in range(bottom,top-1,-1): res.append(matrix[i][left]); left+=1"
+        },
+        {
+          "id": "S7",
+          "claim": "返回结果，每个元素恰好访问一次，时间O(mn)空间O(mn)输出",
+          "evidence": "return res # O(mn) time, O(mn) output"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "边界收缩用'内缩'表达，单行单列通过条件判断避免重复遍历，等价覆盖"
+    },
+    {
+      "task_id": "M13",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "可达边界",
+        "一次遍历"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "数组长度不超过1时无需跳跃，返回0。",
+          "evidence": "边界 len(nums)<=1 直接 return 0，符合题目规定。"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化 jumps=0, cur_end=0, farthest=0，分别表示已跳次数、当前跳跃覆盖边界、遍历中能到达的最远下标。",
+          "evidence": "不变量：cur_end 是上一跳可达的最远边界，初始为起点0；farthest 动态更新。"
+        },
+        {
+          "id": "S3",
+          "claim": "对 i 从 0 到 n-2 遍历，更新 farthest = max(farthest, i + nums[i])。",
+          "evidence": "公式：利用位置 i 可跳至 i+nums[i]，取最大值扩展探测范围。"
+        },
+        {
+          "id": "S4",
+          "claim": "当 i 等于 cur_end 时，必须再跳一次，jumps+=1 且 cur_end 更新为 farthest。",
+          "evidence": "不变量：到达当前边界说明需消耗一次跳跃，并将边界推到已探测最远，保证最少跳跃。"
+        },
+        {
+          "id": "S5",
+          "claim": "若更新后 cur_end >= n-1，提前 break，避免无效遍历。",
+          "evidence": "边界：已覆盖终点，最少次数已确定，代码 if cur_end >= n-1: break。"
+        },
+        {
+          "id": "S6",
+          "claim": "返回 jumps 即为最少跳跃次数。",
+          "evidence": "贪心策略正确性：每次在不得不跳时跳到能覆盖最远的下一边界，全局最优；时间 O(n)，空间 O(1)。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用'覆盖边界'、'对i从0到n-2遍历'等措辞等价表达了可达边界与一次遍历的概念"
+    },
+    {
+      "task_id": "M14",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "计数数组",
+        "频次",
+        "并列"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "边界条件：k==0或scores为空时直接返回空列表",
+          "evidence": "if k == 0 or not scores: return []"
+        },
+        {
+          "id": "S2",
+          "claim": "用Counter统计每个分数出现次数，时间O(n)",
+          "evidence": "cnt = Counter(scores)"
+        },
+        {
+          "id": "S3",
+          "claim": "按出现次数降序、分数降序排序，键为(-cnt[x], -x)",
+          "evidence": "sorted(cnt.keys(), key=lambda x: (-cnt[x], -x))"
+        },
+        {
+          "id": "S4",
+          "claim": "取前k个（若不足k则全取），切片自动处理",
+          "evidence": "sorted_scores[:k]"
+        },
+        {
+          "id": "S5",
+          "claim": "总体复杂度O(n + m log m)，m<=101，等效O(n)",
+          "evidence": "n<=10000, m<=101"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.9,
+      "reason": "步骤用Counter统计出现次数及负键排序处理同频顺序，等价表达了计数数组、频次与并列概念"
+    },
+    {
+      "task_id": "M15",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "部分匹配表",
+        "指针不回退"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若 needle 为空字符串，直接返回 0 满足题目特殊要求。",
+          "evidence": "边界条件：needle 空返回 0；代码开头 if not needle: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "预处理 needle 得到 lps 数组，lps[k] 为子串 needle[0..k] 的最长相等真前后缀长度。",
+          "evidence": "双指针 length 与 i：匹配时 lps[i]=++length；否则 length=lps[length-1] 直至 0；时间 O(m)"
+        },
+        {
+          "id": "S3",
+          "claim": "匹配时用 i 遍历 haystack、j 遍历 needle；字符匹配则 i,j 同增，不匹配时 j 回退到 lps[j-1]（j>0），i 始终递增不回退。",
+          "evidence": "不变量：i-j 为当前匹配起点；主串指针 i 只前进，符合 KMP 要求"
+        },
+        {
+          "id": "S4",
+          "claim": "当 j 达到 len(needle) 时返回 i-j 即为首次出现下标；遍历完主串未匹配则返回 -1。",
+          "evidence": "复杂度 O(n+m) 时间、O(m) 空间；边界无匹配返回 -1"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "lps数组即部分匹配表，i始终递增不回退即指针不回退，均为同义换词表达"
+    },
+    {
+      "task_id": "M16",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "单调队列",
+        "下标"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若 nums 为空、k<=0 或 k>len(nums)，直接返回空列表",
+          "evidence": "代码开头 `if not nums or k <= 0 or k > len(nums): return []`"
+        },
+        {
+          "id": "S2",
+          "claim": "维护存储索引的单调递减双端队列，队首始终为当前窗口最大值的索引",
+          "evidence": "`while dq and nums[dq[-1]] < x: dq.pop()` 保证入队前剔除更小值；`dq[0]` 即最大值索引"
+        },
+        {
+          "id": "S3",
+          "claim": "每次迭代移除已滑出窗口（索引 <= i-k）的队首，并在窗口形成（i>=k-1）时记录队首值",
+          "evidence": "`while dq and dq[0] <= i - k: dq.popleft()` 和 `if i >= k - 1: res.append(nums[dq[0]])`"
+        },
+        {
+          "id": "S4",
+          "claim": "返回结果列表，k=1 时自然得到原数组副本，整体时间 O(n) 空间 O(k)",
+          "evidence": "循环对 k=1 每个 i 满足 i>=0，队首即自身；每个元素最多入队出队一次"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤中用'索引'等价表达'下标'，用'单调递减双端队列'等价表达'单调队列'，逻辑完整覆盖"
+    },
+    {
+      "task_id": "M17",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "二分",
+        "至少一半有序"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空数组直接返回 -1，否则初始化闭区间 [0, n-1]。",
+          "evidence": "n=len(nums); if n==0: return -1; left,right=0,n-1"
+        },
+        {
+          "id": "S2",
+          "claim": "在 left<=right 时取中点 mid，若 nums[mid]==target 则返回 mid。",
+          "evidence": "while left<=right: mid=(left+right)//2; if nums[mid]==target: return mid"
+        },
+        {
+          "id": "S3",
+          "claim": "若左半 [left,mid] 有序（nums[left]<=nums[mid]），则检查 target 是否落在该半段。",
+          "evidence": "不变量：旋转数组任一点分两段至少一段严格递增；if nums[left]<=nums[mid]:"
+        },
+        {
+          "id": "S4",
+          "claim": "左半有序时，target 在 [nums[left], nums[mid]) 则搜左半，否则搜右半。",
+          "evidence": "if nums[left]<=target<nums[mid]: right=mid-1 else: left=mid+1"
+        },
+        {
+          "id": "S5",
+          "claim": "左半无序则右半 [mid,right] 必有序，类似判断 target 在 (nums[mid], nums[right]] 则搜右半。",
+          "evidence": "else: if nums[mid]<target<=nums[right]: left=mid+1 else: right=mid-1"
+        },
+        {
+          "id": "S6",
+          "claim": "循环结束未命中返回 -1，每次区间减半保证 O(log n) 时间。",
+          "evidence": "return -1; 迭代减半，复杂度 O(log n)，无排序无 import"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用取中点与区间减半实现二分，用至少一段严格递增描述至少一半有序，均为换词表达。"
+    },
+    {
+      "task_id": "M18",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "O(n+m)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化双指针 i, j 与空结果列表 res",
+          "evidence": "i=j=0, res=[] 对应代码起始赋值"
+        },
+        {
+          "id": "S2",
+          "claim": "双指针遍历时若 a[i] <= b[j] 取 a[i] 否则取 b[j]，保证非递减且相等优先 a",
+          "evidence": "while i<len(a) and j<len(b): if a[i]<=b[j]: append(a[i]); i+=1 else: append(b[j]); j+=1"
+        },
+        {
+          "id": "S3",
+          "claim": "将未遍历完的 a 或 b 剩余部分直接追加，保持有序",
+          "evidence": "res.extend(a[i:]); res.extend(b[j:]) 利用原列表有序性"
+        },
+        {
+          "id": "S4",
+          "claim": "返回 res，长度恒为 len(a)+len(b) 且不去重",
+          "evidence": "return res 满足约束：结果长度=len(a)+len(b)，无去重"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.9,
+      "reason": "步骤描述的双指针单次遍历与剩余追加正是O(n+m)时间复杂度的等价处理逻辑"
+    },
+    {
+      "task_id": "M19",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "快速选择",
+        "平均 O(n)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "随机选择 pivot 并将数组三路划分为 >pivot, ==pivot, <pivot 三部分",
+          "evidence": "三路划分不变量：greater 均大于 pivot，equal 等于，less 小于（降序排列）"
+        },
+        {
+          "id": "S2",
+          "claim": "若 k <= len(greater) 则在 greater 中递归查找第 k 大",
+          "evidence": "k 落在大于 pivot 的区间，因 greater 内元素排名均前于 equal/less"
+        },
+        {
+          "id": "S3",
+          "claim": "若 len(greater) < k <= len(greater)+len(equal) 则 pivot 即为第 k 大",
+          "evidence": "equal 部分占据连续排名区间，覆盖 k"
+        },
+        {
+          "id": "S4",
+          "claim": "否则在 less 中递归查找第 k - len(greater) - len(equal) 大",
+          "evidence": "偏移量扣除前两部分元素个数，保持 k 的降序语义"
+        },
+        {
+          "id": "S5",
+          "claim": "随机 pivot 使平均递归规模按比例缩减，平均时间复杂度 O(n)",
+          "evidence": "随机化后期望 T(n)=T(n/2)+O(n) => O(n)；不整体排序"
+        },
+        {
+          "id": "S6",
+          "claim": "边界处理：n=1 时直接返回，k 恒在 [1,n] 内",
+          "evidence": "代码 base case if len(arr)==1: return arr[0] 对应约束 1<=k<=len(nums)"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用随机选择pivot与三路划分递归查找描述了快速选择，用平均时间复杂度O(n)描述了平均O(n)，均为换词表达"
+    },
+    {
+      "task_id": "M20",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "O(n+m)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化长度为 n+1 的差分数组 diff 全 0，容纳 r+1 索引不越界",
+          "evidence": "diff = [0] * (n + 1)"
+        },
+        {
+          "id": "S2",
+          "claim": "对每个操作 [l,r,v] 执行 diff[l] += v, diff[r+1] -= v 实现区间加",
+          "evidence": "for l, r, v in ops: diff[l] += v; diff[r + 1] -= v"
+        },
+        {
+          "id": "S3",
+          "claim": "通过累加 diff 的前缀和得到最终数组元素",
+          "evidence": "cur += diff[i]; res[i] = cur"
+        },
+        {
+          "id": "S4",
+          "claim": "边界 n=0 返回 []，ops 空时自然得全 0 数组",
+          "evidence": "if n == 0: return []; 循环不执行"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.85,
+      "reason": "步骤仅描述差分与前缀和实现，未提及也未用等价措辞说明时间复杂度为O(n+m)"
+    },
+    {
+      "task_id": "M21",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "同向双指针",
+        "较小者前进"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化双指针 i,j 与空结果列表，准备同向遍历。",
+          "evidence": "i, j = 0, 0; res = []"
+        },
+        {
+          "id": "S2",
+          "claim": "当两指针均在界内时循环，保证一次扫描且各元素最多访问一次。",
+          "evidence": "while i < len(a) and j < len(b)"
+        },
+        {
+          "id": "S3",
+          "claim": "相等时追加元素并双指针均前进，各消耗一个相同值，自然满足出现次数为 min。",
+          "evidence": "if a[i] == b[j]: res.append(a[i]); i += 1; j += 1"
+        },
+        {
+          "id": "S4",
+          "claim": "不等时较小侧指针前进，利用非递减排序跳过不可能匹配项。",
+          "evidence": "elif a[i] < b[j]: i += 1 else: j += 1"
+        },
+        {
+          "id": "S5",
+          "claim": "循环结束返回结果，空输入或长度差异由条件自然处理，时间 O(n+m) 空间 O(1) 额外。",
+          "evidence": "return res; 边界 len=0 时跳过循环; 复杂度对应代码单次遍历"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.99,
+      "reason": "步骤用'双指针同向遍历'和'较小侧指针前进'换词表达了缺失的两个概念"
+    },
+    {
+      "task_id": "M22",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "哈希分组",
+        "排序键",
+        "O(n * k log k)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "遍历 words，对每个单词计算忽略大小写的规范 key（小写后排序的字符元组），该 key 唯一标识字母异位词组。",
+          "evidence": "key = tuple(sorted(w.lower())) 满足异位词等价且忽略大小写；长度<=20 排序代价低。"
+        },
+        {
+          "id": "S2",
+          "claim": "使用 dict 映射 key->该组单词列表，按输入顺序 append 原始单词，从而组内保持输入顺序。",
+          "evidence": "groups.setdefault(key, []).append(w) 保证原拼写与顺序。"
+        },
+        {
+          "id": "S3",
+          "claim": "Python 3.7+ dict 保持 key 首次插入顺序，直接按 dict 值输出即得组按首次出现顺序排列。",
+          "evidence": "list(groups.values()) 顺序与首次遇见 key 顺序一致，满足要求。"
+        },
+        {
+          "id": "S4",
+          "claim": "边界：空输入返回 []；重复单词同 key 同组；时间复杂度 O(N*L log L)，空间 O(N*L)，符合约束。",
+          "evidence": "if not words: return []；N<=10000, L<=20 可行。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.99,
+      "reason": "步骤用dict映射分组、排序元组作key及O(N*L log L)等价表达了哈希分组、排序键和O(n*k log k)概念"
+    },
+    {
+      "task_id": "M23",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "模拟"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "长度不同的序列直接判为不合法",
+          "evidence": "约束 popped 长度可能不同；题目要求长度不同判不合法，代码 if len(pushed)!=len(popped): return False"
+        },
+        {
+          "id": "S2",
+          "claim": "按 pushed 顺序入栈，栈顶匹配 popped 当前元素时弹出并推进指针",
+          "evidence": "不变量：栈保存已压未弹元素；循环 while stack and stack[-1]==popped[j] 保证尽可能弹出，代码 for x in pushed: stack.append(x); while ...: stack.pop(); j+=1"
+        },
+        {
+          "id": "S3",
+          "claim": "当且仅当所有元素弹出（j 到达末端）时序列合法",
+          "evidence": "长度相同下 j==len(popped) 等价于栈空；代码 return j == len(popped) 覆盖最终栈非空情况"
+        },
+        {
+          "id": "S4",
+          "claim": "时间复杂度 O(n)，空间复杂度 O(n)",
+          "evidence": "每个元素最多入栈出栈一次，栈大小不超过 n；对应代码单一循环与栈结构"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S2描述了按序入栈与匹配弹出的过程，等价于模拟栈操作"
+    },
+    {
+      "task_id": "M24",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "按左端点排序",
+        "O(n log n)"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若 s >= t，目标为空，直接返回 0。",
+          "evidence": "代码开头 if s >= t: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "将区间按左端点升序、同左端点右端点降序排序，使贪心扫描有序。",
+          "evidence": "intervals.sort(key=lambda x: (x[0], -x[1]))"
+        },
+        {
+          "id": "S3",
+          "claim": "初始化 cur=s, ans=0, i=0，当 cur<t 时收集所有左端点<=cur的区间并更新最大右端点 max_r。",
+          "evidence": "while cur < t: max_r=cur; while i<n and intervals[i][0]<=cur: max_r=max(max_r, intervals[i][1]); i+=1"
+        },
+        {
+          "id": "S4",
+          "claim": "若 max_r 未扩展（等于 cur），说明出现空隙或起点无法覆盖，返回 -1。",
+          "evidence": "if max_r == cur: return -1"
+        },
+        {
+          "id": "S5",
+          "claim": "否则将覆盖末端更新为 max_r，计数加 1；循环至 cur>=t 终止。",
+          "evidence": "cur = max_r; ans += 1"
+        },
+        {
+          "id": "S6",
+          "claim": "循环结束必已覆盖 [s,t]，返回最少区间数 ans。",
+          "evidence": "return ans"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.95,
+      "reason": "步骤中未出现'O(n log n)'字面词，也未用等价措辞描述排序或算法的线性对数时间复杂度，该概念被真正遗漏。"
+    },
+    {
+      "task_id": "M25",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "区间 DP",
+        "首尾字符"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "定义 dp[i][j] 为子串 s[i..j] 变成回文的最少插入次数，初始化全 0 覆盖空串与单字符边界。",
+          "evidence": "dp = [[0]*n for _ in range(n)]; n<=1 直接返回 0，对应 i==j 或 i>j 时为 0"
+        },
+        {
+          "id": "S2",
+          "claim": "区间长度 L 从 2 到 n 递增枚举，保证计算长区间时短区间已求解。",
+          "evidence": "for L in range(2, n+1): for i in range(n-L+1): j=i+L-1"
+        },
+        {
+          "id": "S3",
+          "claim": "若 s[i]==s[j]，两端字符已匹配，不需要插入，dp[i][j]=dp[i+1][j-1]。",
+          "evidence": "if s[i]==s[j]: dp[i][j]=dp[i+1][j-1]"
+        },
+        {
+          "id": "S4",
+          "claim": "若 s[i]!=s[j]，需在左侧或右侧插入一个字符匹配另一端，取最优加一：dp[i][j]=min(dp[i+1][j], dp[i][j-1])+1。",
+          "evidence": "else: dp[i][j]=min(dp[i+1][j], dp[i][j-1])+1"
+        },
+        {
+          "id": "S5",
+          "claim": "整个串 s[0..n-1] 的答案即 dp[0][n-1]，空串或单字符已在边界返回 0。",
+          "evidence": "return dp[0][n-1]"
+        },
+        {
+          "id": "S6",
+          "claim": "算法时间复杂度 O(n^2) 且空间复杂度 O(n^2)，满足 n<=300 约束。",
+          "evidence": "双重循环 L 与 i 共 O(n^2) 次状态转移，dp 为 n×n 矩阵"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用'子串dp[i][j]按长度枚举'和'两端字符'等价表达了区间DP与首尾字符概念"
+    },
+    {
+      "task_id": "M26",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "固定第一个数"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "长度不足3时直接返回空列表",
+          "evidence": "约束 len(nums)<=3000，边界 if len(nums)<3: return []"
+        },
+        {
+          "id": "S2",
+          "claim": "对 nums 排序使三元组内部非递减且相同值相邻",
+          "evidence": "nums.sort() 保证 nums[i]<=nums[left]<=nums[right] 且便于去重"
+        },
+        {
+          "id": "S3",
+          "claim": "遍历 i 且 nums[i]>0 时终止循环",
+          "evidence": "排序后若 nums[i]>0 则三数之和必>0，break"
+        },
+        {
+          "id": "S4",
+          "claim": "跳过重复的 nums[i] 以避免重复三元组",
+          "evidence": "if i>0 and nums[i]==nums[i-1]: continue"
+        },
+        {
+          "id": "S5",
+          "claim": "双指针 left=i+1, right=n-1 根据和移动并跳过重复",
+          "evidence": "while left<right: s=...; s==0 记录并 left++/right-- 且 while 内跳过相等值；s<0 left++；s>0 right--"
+        },
+        {
+          "id": "S6",
+          "claim": "结果自然按字典序升序无需再排序",
+          "evidence": "i 递增且 left 递增使 (a,b,c) 按 a 然后 b 升序，满足字典序"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤中遍历 i 并设 left=i+1 使用双指针，等价表达了固定第一个数作为三元组首元素的逻辑"
+    },
+    {
+      "task_id": "M27",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "next 数组"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化快慢指针于节点0，处理空链表边界",
+          "evidence": "n=len(nexts); if n==0: return [-1,0]; slow=fast=0"
+        },
+        {
+          "id": "S2",
+          "claim": "循环中慢指针移一步、快指针移两步，每次解引用前检查-1，遇-1即无环返回[-1,0]",
+          "evidence": "if nexts[slow]==-1: return [-1,0]; slow=nexts[slow]; if nexts[fast]==-1: return [-1,0]; fast=nexts[fast]; if nexts[fast]==-1: return [-1,0]; fast=nexts[fast]"
+        },
+        {
+          "id": "S3",
+          "claim": "快慢指针相等时说明有环，跳出检测循环",
+          "evidence": "if slow==fast: break"
+        },
+        {
+          "id": "S4",
+          "claim": "慢指针回起点，与快指针同速移动直至相遇，该点即为环入口",
+          "evidence": "slow=0; while slow!=fast: slow=nexts[slow]; fast=nexts[fast]; entrance=slow"
+        },
+        {
+          "id": "S5",
+          "claim": "从入口沿next绕环回到入口，计数得环长度",
+          "evidence": "length=1; cur=nexts[entrance]; while cur!=entrance: cur=nexts[cur]; length+=1"
+        },
+        {
+          "id": "S6",
+          "claim": "返回[入口,长度]，算法时间O(n)额外空间O(1)",
+          "evidence": "return [entrance, length]; 仅用固定指针，每节点最多访问常数次"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤中使用 nexts 变量及解引用操作等价表达了 next 数组的后继映射逻辑"
+    },
+    {
+      "task_id": "M28",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "按位统计"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "区间计数转化为前缀差，避免枚举",
+          "evidence": "ans = f(hi,d)-f(lo-1,d)，f(n,d) 计 [0,n] 且 n<0 时返 0"
+        },
+        {
+          "id": "S2",
+          "claim": "对 f(n,d) 按十进制位分解，每位用 higher/current/lower 计算贡献",
+          "evidence": "factor=10^i, higher=n//(factor*10), current=(n//factor)%10, lower=n%factor"
+        },
+        {
+          "id": "S3",
+          "claim": "d≠0 或个位(i=0)时贡献 = higher*factor + (current>d?factor: current==d?lower+1:0)",
+          "evidence": "高位任意取 factor 种，当前位约束低位范围"
+        },
+        {
+          "id": "S4",
+          "claim": "d=0 且 i>0 时需排除前导零，贡献 = (higher-1)*factor + (current>0?factor: current==0?lower+1:0) 当 higher>0 否则 0",
+          "evidence": "更高位不能为全零，否则该位不存在"
+        },
+        {
+          "id": "S5",
+          "claim": "循环至 higher 与 current 均为 0，总贡献累加，时间 O(log10 n)",
+          "evidence": "hi≤10^9 最多 10 位，无逐个枚举"
+        },
+        {
+          "id": "S6",
+          "claim": "实现 f 并组合，处理 lo=0 边界",
+          "evidence": "code 中 f(lo-1,d) 对 -1 返 0，覆盖闭区间含 0"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "S2中'按十进制位分解，每位计算贡献'明确描述了按位统计的等价处理逻辑"
+    },
+    {
+      "task_id": "M29",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "扫描线",
+        "差分事件",
+        "同一时刻先出后进"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "过滤掉 start==end 的零长度区间，因为它们不覆盖任何时刻，对重叠无贡献；空列表或全过滤后返回0。",
+          "evidence": "代码: events = [(s,e) for s,e in events if s < e]; if not events: return 0。边界: 空列表返回0，[x,x)不贡献。"
+        },
+        {
+          "id": "S2",
+          "claim": "将每个有效区间拆分为两个事件: (start, +1) 表示活跃开始，(end, -1) 表示活跃结束（半开区间 end 时刻不活跃）。",
+          "evidence": "代码: evs.append((s,1)); evs.append((e,-1))。不变量: 每个区间净贡献0，仅在区间内部增加计数。"
+        },
+        {
+          "id": "S3",
+          "claim": "事件按时间升序排序；时间相同时按 delta 升序（即 -1 先于 +1），保证端点相接时先结束再开始，不记为重叠。",
+          "evidence": "代码: evs.sort(key=lambda x: (x[0], x[1])) 因 -1 < 1 结束事件在前。对应约束: 端点相接不算重叠。"
+        },
+        {
+          "id": "S4",
+          "claim": "线性扫描事件，维护当前活跃数 cur 和最大值 ans，cur += delta 并更新 ans。",
+          "evidence": "代码: for _, d in evs: cur += d; ans = max(ans, cur)。初始 cur=0, ans=0。"
+        },
+        {
+          "id": "S5",
+          "claim": "返回 ans 即为最大重叠数，时间复杂度 O(n log n) 空间 O(n)。",
+          "evidence": "代码: return ans。n<=10000，排序主导复杂度。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤以'线性扫描事件'、'拆分为+1/-1事件'、'时间同则-1先于+1'分别等价表达了扫描线、差分事件、同一时刻先出后进"
+    },
+    {
+      "task_id": "M30",
+      "difficulty": "medium",
+      "missing_concepts": [
+        "层序",
+        "奇偶层"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空树直接返回空列表",
+          "evidence": "约束: children 为空列表表示空树，返回空列表; if not children: return []"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化队列从根节点0开始，深度0",
+          "evidence": "节点0为根; q = deque([0]); depth = 0"
+        },
+        {
+          "id": "S3",
+          "claim": "逐层出队并记录节点，同时按原始左到右顺序将子节点入队",
+          "evidence": "for child in children[node]: q.append(child) 保证下一层顺序不受输出反转影响"
+        },
+        {
+          "id": "S4",
+          "claim": "奇数深度层反转输出列表，偶数层保持",
+          "evidence": "if depth % 2 == 1: level_nodes.reverse() 实现之字形"
+        },
+        {
+          "id": "S5",
+          "claim": "收集各层结果返回，时间O(N)空间O(N)",
+          "evidence": "每个节点入队出队一次; res 存储所有节点; N=len(children)"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.97,
+      "reason": "步骤以逐层出队入队和奇数偶数深度层等价表达了层序与奇偶层概念"
+    },
+    {
+      "task_id": "H04",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "字典序"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "Define dp[i][j] as lexicographically smallest LCS of suffixes a[i:] and b[j:], with base dp[n][*]=dp[*][m]=\"\".",
+          "evidence": "Out-of-bounds suffixes are empty, so LCS is empty string."
+        },
+        {
+          "id": "S2",
+          "claim": "Recurrence: if a[i]==b[j], candidate c1=a[i]+dp[i+1][j+1]; else c1 empty. Compare with c2=dp[i+1][j] and c3=dp[i][j+1], pick longest, tie-break lexicographically smaller.",
+          "evidence": "LCS length property ensures match candidate length >= skip candidates; lex tie-break enforces dictionary order requirement."
+        },
+        {
+          "id": "S3",
+          "claim": "Fill table bottom-up for i from n-1..0, j from m-1..0, then return dp[0][0].",
+          "evidence": "O(n*m*L) with n,m<=200 and L<=200 is within limits; dp[0][0] covers full input strings."
+        },
+        {
+          "id": "S4",
+          "claim": "Edge cases (empty input or no common subsequence) yield empty string automatically.",
+          "evidence": "Base cases and max/lex selection propagate \"\" when no matches exist."
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤使用'lexicographically smallest'和'lex tie-break'等措辞明确等价表达了字典序最小的选取逻辑。"
+    },
+    {
+      "task_id": "H05",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "区间 dp"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若石子堆数不超过1，最小代价为0",
+          "evidence": "约束：空或单堆返回0；代码 if n <= 1: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "预处理前缀和使区间和查询为O(1)",
+          "evidence": "pref[i+1]-pref[i]=stones[i]; sum(i,j)=pref[j+1]-pref[i]"
+        },
+        {
+          "id": "S3",
+          "claim": "区间DP转移：dp[i][j]=min_{k=i}^{j-1}(dp[i][k]+dp[k+1][j])+sum(i,j)",
+          "evidence": "合并相邻两堆代价为两子区间代价和加当前区间和；dp[i][i]=0"
+        },
+        {
+          "id": "S4",
+          "claim": "返回dp[0][n-1]为答案，时间O(n^3)空间O(n^2)可行",
+          "evidence": "n<=60，60^3=216000；代码返回dp[0][n-1]"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.99,
+      "reason": "步骤S3明确给出dp[i][j]区间转移方程并称之为区间DP，已等价描述区间dp概念"
+    },
+    {
+      "task_id": "H08",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "中心扩展",
+        "奇偶"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空串直接返回 0，满足边界约束",
+          "evidence": "if n==0: return 0; 约束空串返回0"
+        },
+        {
+          "id": "S2",
+          "claim": "定义 dp[i][j] 为子串 s[i..j] 的最小对称失配数，单字符或空为0",
+          "evidence": "dp[i][j]=0 when i>=j; 对应中间单字符不配对不计失配"
+        },
+        {
+          "id": "S3",
+          "claim": "递推 dp[i][j] = dp[i+1][j-1] + (s[i]!=s[j]) 按长度递增填表保证子问题先解",
+          "evidence": "for length in 2..n: dp[i][j]=prev+(0 if eq else 1); 时间 O(n^2)"
+        },
+        {
+          "id": "S4",
+          "claim": "遍历所有子串，若 dp[i][j] <= k 则更新最大长度",
+          "evidence": "for i,j: if dp[i][j]<=k: ans=max(ans, j-i+1); k=0 即普通最长回文"
+        },
+        {
+          "id": "S5",
+          "claim": "返回 ans，空间 O(n^2) 适配 n<=500，正确性与定义一致",
+          "evidence": "n<=500 => 250k cells, 可行"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.9,
+      "reason": "步骤采用动态规划而非中心扩展，且未区分奇偶长度中心，虽解法正确但完全未处理题目要求的关键概念，属真正遗漏。"
+    },
+    {
+      "task_id": "H10",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "0-1",
+        "倒序"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化dp[0]=0、其余-1以仅表示恰好装满状态",
+          "evidence": "dp = [-1]*(cap+1); dp[0]=0"
+        },
+        {
+          "id": "S2",
+          "claim": "对重量>0物品逆序更新，保证每件最多取一次且转移仅从可达状态",
+          "evidence": "for j in range(cap, w-1, -1): if dp[j-w]!=-1: dp[j]=max(dp[j], dp[j-w]+v)"
+        },
+        {
+          "id": "S3",
+          "claim": "重量0且价值非负物品必取，其价值和独立累加不影响容量可达性",
+          "evidence": "if w==0: zero_val+=v"
+        },
+        {
+          "id": "S4",
+          "claim": "若dp[cap]不可达返回-1，否则返回dp[cap]+zero_val，正确处理cap=0及零重物品",
+          "evidence": "if dp[cap]==-1: return -1; return dp[cap]+zero_val"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度O(n*cap)、空间O(cap)，符合约束",
+          "evidence": "双重循环规模n<=100, cap<=1000"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用'逆序更新'和'每件最多取一次'等价表达了'倒序'和'0-1'概念，非真正遗漏。"
+    },
+    {
+      "task_id": "H12",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "状态机"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "将每天结束时的持仓情况分为 hold（持有）、sold（当日刚卖出）、rest（不持有且可买）三种互斥状态",
+          "evidence": "状态覆盖所有可能且 rest 表示冷冻期结束，保证冷冻日不能买入"
+        },
+        {
+          "id": "S2",
+          "claim": "转移方程：hold = max(hold, rest - price)，sold = hold + price - fee，rest = max(rest, sold)",
+          "evidence": "买入仅来自 rest 故卖出后次日（rest未含当日sold）不能买；sold 扣除 fee；rest 继承 sold 使冷冻后一天可买"
+        },
+        {
+          "id": "S3",
+          "claim": "初始化 hold = -prices[0], sold = -inf, rest = 0；空数组返回 0",
+          "evidence": "首日可买入或不操作；-inf 表示不可能状态；rest=0 为基准利润"
+        },
+        {
+          "id": "S4",
+          "claim": "遍历价格同步更新三状态，最终返回 max(0, sold, rest)",
+          "evidence": "同步更新使用旧值保证当日依赖前日；max 含 0 处理无法盈利情况"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度 O(n)，空间 O(1)，对应单循环与三个变量",
+          "evidence": "n=len(prices)<=1000，仅常数变量"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤明确定义了三种状态及转移方程、初始化与最终选择，等价表达了状态机模型"
+    },
+    {
+      "task_id": "H14",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "二分答案"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空数组直接返回0",
+          "evidence": "题目约束：空数组返回0"
+        },
+        {
+          "id": "S2",
+          "claim": "二分下界为max(nums)，上界为sum(nums)",
+          "evidence": "每段非空且保持顺序，最大段和至少含最大元素，至多全数组和；对应left,right初始化"
+        },
+        {
+          "id": "S3",
+          "claim": "贪心校验函数can(x)计算最少段数：遍历并累加，超x则新段",
+          "evidence": "非负元素保证贪心产生最少段数；若段数<=k则x可行"
+        },
+        {
+          "id": "S4",
+          "claim": "二分收缩：mid可行则right=mid否则left=mid+1",
+          "evidence": "循环不变量[left,right]含答案；终止时left==right为最小可行值"
+        },
+        {
+          "id": "S5",
+          "claim": "返回left即最小最大段和",
+          "evidence": "与函数签名返回类型一致"
+        },
+        {
+          "id": "S6",
+          "claim": "时间复杂度O(n log S)空间O(1)",
+          "evidence": "n<=1000,S<=1e9,can中for O(n),while二分O(logS),代码while+for对应；闭包can仅用常数空间"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤中使用了'二分下界'、'二分收缩'并配合贪心校验函数，明确描述了在答案区间上二分搜索最小可行值的逻辑，等价于'二分答案'概念。"
+    },
+    {
+      "task_id": "H15",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "二维前缀和"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若矩阵行数或列数为0，直接返回0以满足空矩阵边界。",
+          "evidence": "代码 `if not matrix or not matrix[0]: return 0` 对应题目空矩阵返回0约束。"
+        },
+        {
+          "id": "S2",
+          "claim": "枚举所有行区间 [top,bottom]，累加得到列压缩和 col_sum[j]=∑_{r=top}^{bottom} matrix[r][j]。",
+          "evidence": "双重循环 `for top... for bottom... col_sum[j] += matrix[bottom][j]` 维护行区间和不变性。"
+        },
+        {
+          "id": "S3",
+          "claim": "对每个 col_sum 用前缀和哈希表统计连续子数组和等于 target 的数量，即对应列区间的子矩阵数。",
+          "evidence": "前缀和 `prefix` 与 `freq`：`count += freq.get(prefix-target,0)` 实现 prefix_j - prefix_i = target，支持负数。"
+        },
+        {
+          "id": "S4",
+          "claim": "时间复杂度 O(n^2 m)、空间 O(m)，在 n,m≤60 时满足约束。",
+          "evidence": "嵌套循环与哈希操作为 O(n^2 m) 次，代码结构与复杂度对应。"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.95,
+      "reason": "解法采用行压缩与一维前缀和哈希，未使用或等价描述二维前缀和矩阵的计算与查询逻辑。"
+    },
+    {
+      "task_id": "H17",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "数位动态规划",
+        "取模",
+        "前导零"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "将 n 转为数字列表，初始化贴界状态 dp[1][0]=1",
+          "evidence": "digits=list(map(int,str(n))); dp[1][0]=1"
+        },
+        {
+          "id": "S2",
+          "claim": "逐位处理，按 tight 决定当前位上限 d_max 或 9",
+          "evidence": "for d_max in digits: limit = d_max if tight else 9"
+        },
+        {
+          "id": "S3",
+          "claim": "枚举数字 d 转移，new_tight 与 new_rem 分开累加，贴界/自由不混",
+          "evidence": "new_tight=1 if(tight and d==limit)else 0; ndp[new_tight][(rem+d)%k]+=dp[tight][rem]"
+        },
+        {
+          "id": "S4",
+          "claim": "最终余0的总数含贴界与自由两态，即区间[0,n]答案",
+          "evidence": "return dp[0][0]+dp[1][0]"
+        },
+        {
+          "id": "S5",
+          "claim": "时间 O(位数·k·10)，空间 O(k) 因仅两个 2×k 数组",
+          "evidence": "L≤10,k≤100; dp,ndp size 2*k"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.92,
+      "reason": "步骤中完全未提及前导零，也未等价说明前导零不贡献数位和的处理逻辑，该概念真正遗漏"
+    },
+    {
+      "task_id": "H19",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "状态压缩",
+        "位掩码",
+        "子集"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "当节点数 n<=1 时无需移动，直接返回0。",
+          "evidence": "代码开头 if n <= 1: return 0 处理 n=0,1 边界。"
+        },
+        {
+          "id": "S2",
+          "claim": "定义 dp[mask][u] 为已访问点集 mask 且当前在 u 的最小代价，初始化仅起点0代价为0。",
+          "evidence": "dp = [[INF]*n for _ in range(1<<n)]; dp[1][0]=0，其中 mask=1<<0。"
+        },
+        {
+          "id": "S3",
+          "claim": "对每个状态 (mask,u) 向未访问节点 v 转移，更新新状态代价为 dp[mask][u]+dist[u][v]。",
+          "evidence": "三重循环：for mask... for u if mask has u... for v if not in mask: dp[mask|1<<v][v] = min(..., dp[mask][u]+dist[u][v])，保证 v!=u 且利用有向代价。"
+        },
+        {
+          "id": "S4",
+          "claim": "答案为所有节点均访问后（mask全1）在各终点 u 上的最小 dp 值，因终点任意。",
+          "evidence": "return min(dp[(1<<n)-1]) 取最终集合最小值。"
+        },
+        {
+          "id": "S5",
+          "claim": "时间复杂度 O(2^n * n^2)，空间 O(2^n * n)，n<=12 可行。",
+          "evidence": "代码三重循环规模与状态数组大小对应约束。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.97,
+      "reason": "步骤以 mask 和位运算表示已访问点集及转移，换词表达了状态压缩、位掩码与子集概念"
+    },
+    {
+      "task_id": "H20",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "动态规划",
+        "相对顺序",
+        "长度不等"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "若len(s1)+len(s2)!=len(s3)直接返回0，因交错长度必须相等",
+          "evidence": "if n1+n2 != n3: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "定义dp[j]为当前i下用s1前i个和s2前j个组成s3前缀的方案数，初值dp[0]=1表示空串匹配",
+          "evidence": "dp=[0]*(n2+1); dp[0]=1"
+        },
+        {
+          "id": "S3",
+          "claim": "递推：对i,j，若s1[i-1]==s3[i+j-1]则加旧dp[j]（上一行），若s2[j-1]==s3[i+j-1]则加已更新的dp[j-1]（当前行左），覆盖dp[j]",
+          "evidence": "ways=0; if i>0 and s1[i-1]==s3[i+j-1]: ways+=dp[j]; if j>0 and s2[j-1]==s3[i+j-1]: ways+=dp[j-1]; dp[j]=ways"
+        },
+        {
+          "id": "S4",
+          "claim": "遍历所有i(0..n1),j(0..n2)后dp[n2]即为答案，空间O(n2)时间O(n1*n2)，精确整数无溢出",
+          "evidence": "for i in range(n1+1): for j in range(n2+1): ... return dp[n2]"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.99,
+      "reason": "动态规划由dp数组与递推表达，相对顺序由前缀匹配隐含，长度不等由长度和检查返回0处理"
+    },
+    {
+      "task_id": "H21",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "反向"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空数组边界返回0",
+          "evidence": "if not nums: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "正向耐心排序计算 lis[i]（以 i 结尾严格递增长度）",
+          "evidence": "tails 维护最小末尾，bisect_left 严格递增插入，pos+1 为长度；代码 lis_arr(nums)"
+        },
+        {
+          "id": "S3",
+          "claim": "反转数组同样耐心排序得 lds[i]（以 i 开头严格递减长度）",
+          "evidence": "rev=nums[::-1]; dec=lis_arr(rev)[::-1]，反转后原递减变严格递增，映射回原索引"
+        },
+        {
+          "id": "S4",
+          "claim": "枚举峰值 i，双调长度=lis[i]+lds[i]-1，取最大",
+          "evidence": "max(inc[i]+dec[i]-1)；单元素/单调序列因某侧为1自然覆盖"
+        },
+        {
+          "id": "S5",
+          "claim": "时间 O(n log n)，空间 O(n)，满足约束",
+          "evidence": "每元素一次二分 O(log n)，两遍遍历；tails 与输出数组 O(n)"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤S3使用'反转数组'并映射回原索引，等价表达了反向遍历计算递减部分的要求"
+    },
+    {
+      "task_id": "H23",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "转移矩阵"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "当 n=0 或 n=1 时直接返回 f0%mod 或 f1%mod，避免不必要的矩阵运算",
+          "evidence": "边界 n<=1 时递推未定义或仅需初值，代码 if n==0: return f0%mod; if n==1: return f1%mod"
+        },
+        {
+          "id": "S2",
+          "claim": "递推关系可表示为向量 V_i=[f(i),f(i-1)]^T = M * V_{i-1}，其中 M=[[a,b],[1,0]]",
+          "evidence": "由 f(i)=a*f(i-1)+b*f(i-2) 和 f(i-1)=1*f(i-1)+0*f(i-2) 得矩阵形式"
+        },
+        {
+          "id": "S3",
+          "claim": "对于 n>=2，有 V_n = M^(n-1) * V_1，故 f(n) = M^(n-1)[0][0]*f1 + M^(n-1)[0][1]*f0",
+          "evidence": "矩阵乘法结合律，V_1=[f1,f0]^T，取第一行"
+        },
+        {
+          "id": "S4",
+          "claim": "使用二进制拆指数的矩阵快速幂计算 M^(n-1) mod mod，每次矩阵乘法取模，时间复杂度 O(log n)",
+          "evidence": "mat_pow 循环 while power>0，每次平方并可选乘，乘法内所有项 %mod"
+        },
+        {
+          "id": "S5",
+          "claim": "所有输入先对 mod 取模，且 mod=1 时 1%mod=0 矩阵仍正确，保证任意约束下结果正确",
+          "evidence": "a%mod,b%mod,1%mod 处理；mod=1 时任何数%1=0，f(n)%1=0"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "S2明确定义了矩阵M=[[a,b],[1,0]]用于状态向量转移，等价表达了转移矩阵概念"
+    },
+    {
+      "task_id": "H24",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "二维费用",
+        "0/1 背包",
+        "不重复选取"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "初始化(cap_w+1)*(cap_v+1)的DP表为0，dp[j][k]表示重量≤j且体积≤k时的最大价值。",
+          "evidence": "dp = [[0]*(cap_v+1) for _ in range(cap_w+1)]，初始全0满足无物品时价值为0。"
+        },
+        {
+          "id": "S2",
+          "claim": "对每件物品，倒序遍历j从cap_w到weights[i]、k从cap_v到volumes[i]，执行dp[j][k]=max(dp[j][k], dp[j-w][k-v]+val)，确保每件最多选一次且两维均不超限。",
+          "evidence": "for j in range(cap_w, w-1, -1): for k in range(cap_v, v-1, -1): dp[j][k] = max(dp[j][k], dp[j-w][k-v]+val)，倒序避免重复选取。"
+        },
+        {
+          "id": "S3",
+          "claim": "最终dp[cap_w][cap_v]即为所求最大价值，n=0时循环跳过直接返回0。",
+          "evidence": "return dp[cap_w][cap_v]，边界n=0时dp保持全0。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤用重量体积两维约束和倒序遍历且每件最多选一次等价描述了二维费用、0/1背包及不重复选取，属换词表达。"
+    },
+    {
+      "task_id": "H25",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "传递性",
+        "字典序最小"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "将整数列表转为字符串列表以保留前导零并支持拼接比较，空列表直接返回空串。",
+          "evidence": "strs = [str(x) for x in nums]; if not nums: return ''"
+        },
+        {
+          "id": "S2",
+          "claim": "手写冒泡排序，比较相邻串拼接的字典序，若 s[j]+s[j+1] > s[j+1]+s[j] 则交换，使序列满足自定义序。",
+          "evidence": "for i in range(n): for j in range(0, n-i-1): if strs[j]+strs[j+1] > strs[j+1]+strs[j]: swap"
+        },
+        {
+          "id": "S3",
+          "claim": "不变量：每轮冒泡后将当前最大（按自定义比较）元素沉底，最终任意相邻对满足 s[i]+s[i+1] <= s[i+1]+s[i]。",
+          "evidence": "冒泡排序维持末尾已排序段有序，循环不变式"
+        },
+        {
+          "id": "S4",
+          "claim": "交换论证：若最优序列存在相邻 x,y 使 x+y > y+x，交换后整体字典序变小，故满足相邻条件的序列全局最优。",
+          "evidence": "字符串字典序从左到右，局部交换降低连接处字典序"
+        },
+        {
+          "id": "S5",
+          "claim": "边界处理：拼接后若全为 '0' 则返回 '0'，否则返回拼接串；空列表已覆盖。",
+          "evidence": "result=''.join(strs); if result and all(c=='0' for c in result): return '0'"
+        },
+        {
+          "id": "S6",
+          "claim": "复杂度 O(n^2 * L) 对应双重循环与字符串比较，n<=1000, L<=10 满足约束。",
+          "evidence": "n=len(strs)<=1000, 内层比较 O(L) 字符串操作"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.98,
+      "reason": "传递性概念在步骤中完全未提及且未用等价措辞表达，缺失会导致排序正确性证明不完整"
+    },
+    {
+      "task_id": "H26",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "区间划分",
+        "清洁间隔",
+        "最大重叠"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "空区间列表直接返回0",
+          "evidence": "if not intervals: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "按开始时间升序排序以满足扫描顺序",
+          "evidence": "intervals.sort(key=lambda x: x[0])"
+        },
+        {
+          "id": "S3",
+          "claim": "手写二叉小根堆存储每个会议室的最早可用时间（last_end+gap）",
+          "evidence": "class MinHeap with push/pop/peek/size; heap=MinHeap()"
+        },
+        {
+          "id": "S4",
+          "claim": "对区间[s,e]，若堆非空且堆顶<=s则可复用该会议室，弹出堆顶",
+          "evidence": "if heap.size()>0 and heap.peek()<=s: heap.pop()"
+        },
+        {
+          "id": "S5",
+          "claim": "将当前区间结束+gap压入堆作为该会议室新可用时间",
+          "evidence": "heap.push(e+gap)"
+        },
+        {
+          "id": "S6",
+          "claim": "遍历结束后堆的大小即为所需最少会议室数",
+          "evidence": "return heap.size()"
+        },
+        {
+          "id": "S7",
+          "claim": "时间复杂度O(n log n)（排序+堆操作），空间O(n)",
+          "evidence": "sort O(n log n), each heap op O(log n), heap stores <=n items"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤用堆模拟会议室分配并处理了end+gap，等价表达了区间划分、清洁间隔和最大重叠含义"
+    },
+    {
+      "task_id": "H27",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "区间动态规划",
+        "后手",
+        "最优策略"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "定义dp[i][j]为区间[i,j]当前行动方相对对手的最大分差，边界dp[i][i]=nums[i]，空区间分差0。",
+          "evidence": "单元素只能全取，分差即自身值；对应代码初始化dp[i][i]及空数组返回0。"
+        },
+        {
+          "id": "S2",
+          "claim": "当前玩家每次可选从左/右取1个或取2个（长度≥2），取后剩余区间交对手，其相对分差为对应子区间dp值。",
+          "evidence": "规则允许同端取1或2；转移选项覆盖四种操作，剩余不足2个时只能取全部已由边界/条件处理。"
+        },
+        {
+          "id": "S3",
+          "claim": "状态转移为四种操作分差的最大值：dp[i][j]=max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1], nums[i]+nums[i+1]-subdp_left2, nums[j]+nums[j-1]-subdp_right2)，其中子区间空时减0。",
+          "evidence": "公式直接体现玩家得分减对手分差；代码用i+2<=j等条件避免越界并实现空区间减0。"
+        },
+        {
+          "id": "S4",
+          "claim": "按区间长度L从2到n递增计算，保证子区间先求出；最终答案为dp[0][n-1]。",
+          "evidence": "循环for length in 2..n，i遍历起点；返回dp[0][n-1]即先手最大分差。"
+        },
+        {
+          "id": "S5",
+          "claim": "算法时间O(n^2)（状态数n^2，转移O(1)），空间O(n^2)，满足n≤60约束。",
+          "evidence": "双重循环长度与起点共O(n^2)次，每状态常数操作；dp为n×n矩阵。"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤用'按区间长度递增计算'、'当前行动方相对对手'和'最大分差'等措辞等价表达了区间动态规划、后手与最优策略"
+    },
+    {
+      "task_id": "H28",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "Kruskal"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "n<=1时直接返回0，满足边界要求",
+          "evidence": "if n <= 1: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "初始化并查集parent和rank数组以支持连通性查询",
+          "evidence": "parent = list(range(n)); rank = [0]*n"
+        },
+        {
+          "id": "S3",
+          "claim": "过滤自环边并按权值升序排序，保证贪心顺序",
+          "evidence": "filtered = [(u,v,w) for u,v,w in edges if u!=v]; filtered.sort(key=lambda e:e[2])"
+        },
+        {
+          "id": "S4",
+          "claim": "find实现路径压缩，union实现按秩合并，保证近常数时间",
+          "evidence": "while parent[x]!=x: parent[x]=parent[parent[x]]; x=parent[x] 及 rank比较挂载"
+        },
+        {
+          "id": "S5",
+          "claim": "遍历边若端点不同根则合并并累加权值，选满n-1条提前终止",
+          "evidence": "if union(u,v): total+=w; count+=1; if count==n-1: break"
+        },
+        {
+          "id": "S6",
+          "claim": "选满n-1条边返回总权值否则图不连通返回-1",
+          "evidence": "return total if count == n-1 else -1"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.98,
+      "reason": "步骤通过按权值升序排序后贪心选边合并的等价逻辑明确描述了Kruskal算法"
+    },
+    {
+      "task_id": "H29",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "Dijkstra",
+        "非负权"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "src 等于 dst 时直接返回 0，处理边界",
+          "evidence": "if src == dst: return 0"
+        },
+        {
+          "id": "S2",
+          "claim": "构建邻接表存储有向边，支持重边和零权边",
+          "evidence": "adj = [[] for _ in range(n)]; for u,v,w in edges: adj[u].append((v,w))"
+        },
+        {
+          "id": "S3",
+          "claim": "手写二叉小根堆，通过列表与上浮/下沉维护堆性质，支持 push/pop",
+          "evidence": "class MinHeap with _sift_up/_sift_down comparing by dist[0]"
+        },
+        {
+          "id": "S4",
+          "claim": "初始化距离数组为 INF，src 距离置 0 并推入堆",
+          "evidence": "dist[src]=0; heap.push((0,src))"
+        },
+        {
+          "id": "S5",
+          "claim": "弹出堆顶 (d,u)，若 d > dist[u] 则跳过，实现惰性删除",
+          "evidence": "if d > dist[u]: continue"
+        },
+        {
+          "id": "S6",
+          "claim": "首次弹出 dst 即最短距离，直接返回 d",
+          "evidence": "if u == dst: return d"
+        },
+        {
+          "id": "S7",
+          "claim": "松弛邻居：若 d+w < dist[v] 则更新并推入新距离",
+          "evidence": "nd = d+w; if nd < dist[v]: dist[v]=nd; heap.push((nd,v))"
+        },
+        {
+          "id": "S8",
+          "claim": "堆空未达 dst 返回 -1，否则返回 dist[dst]",
+          "evidence": "return -1 if dist[dst]==INF else dist[dst]"
+        },
+        {
+          "id": "S9",
+          "claim": "时间 O((n+E) log E)，空间 O(n+E)，与堆和邻接表对应",
+          "evidence": "每边最多 push 一次，堆操作 O(log E)"
+        }
+      ],
+      "addressed": false,
+      "confidence": 0.95,
+      "reason": "步骤描述了Dijkstra流程但未提及边权非负性质，非负权概念真正遗漏"
+    },
+    {
+      "task_id": "H30",
+      "difficulty": "hard",
+      "missing_concepts": [
+        "差分约束"
+      ],
+      "steps": [
+        {
+          "id": "S1",
+          "claim": "区间和约束转化为前缀和差分不等式并建边",
+          "evidence": "s[r+1]-s[l]>=lo => 边 l->r+1 权 lo; s[r+1]-s[l]<=hi => s[l]>=s[r+1]-hi => 边 r+1->l 权 -hi"
+        },
+        {
+          "id": "S2",
+          "claim": "二进制取值约束转化为相邻前缀和差分边",
+          "evidence": "0<=s[i+1]-s[i]<=1 => 边 i->i+1 权0 与 i+1->i 权-1，保证 a[i]∈{0,1}"
+        },
+        {
+          "id": "S3",
+          "claim": "添加超级源点使图连通并初始化",
+          "evidence": "src=n+1 向 i=0..n 连权0边，节点数 V=n+2，确保所有点可达"
+        },
+        {
+          "id": "S4",
+          "claim": "Bellman-Ford 求最长路判正环决定可行性",
+          "evidence": "初始化 dist[src]=0 余 -inf，松弛 V-1 轮后仍能松弛则存在正环返回 False，否则 True；复杂度 O(V*E)<=62*522"
+        },
+        {
+          "id": "S5",
+          "claim": "边界情况自然处理",
+          "evidence": "n=0 或 constraints 空时无边矛盾，代码提前返回 True 或自然无正环返回 True"
+        }
+      ],
+      "addressed": true,
+      "confidence": 0.95,
+      "reason": "步骤用'前缀和差分不等式并建边'等措辞等价描述了差分约束系统的构建"
+    }
+  ]
+}

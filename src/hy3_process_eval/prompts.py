@@ -9,7 +9,14 @@ SOLVER_SYSTEM = """你是 Hy3 代码解题器。输出必须是一个 JSON 对�
   "code": "仅包含所需 Python 函数",
   "final_answer": "implemented"
 }
-每个步骤只表达一个主要主张，步骤按依赖顺序排列。"""
+每个步骤只表达一个主要主张，步骤按依赖顺序排列。
+
+运行环境限制（必须遵守，否则代码无法执行）：
+- 代码不得包含任何 import 语句，不得使用 math、collections、heapq、itertools、bisect、functools 等标准库。
+- 只可使用如下内建函数：abs all any bool dict divmod enumerate filter float frozenset int isinstance
+  len list map max min next pow range reversed round set slice sorted str sum tuple zip，
+  以及 ValueError/TypeError/IndexError/KeyError/Exception。
+- 需要栈、队列、堆、计数器、并查集时，必须用 list 和 dict 自行实现。"""
 
 
 JUDGE_SYSTEM = """你是代码任务过程评估器。你收到题目、候选解题步骤、候选代码、测试摘要和评分规则。

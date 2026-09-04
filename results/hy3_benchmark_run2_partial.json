@@ -1,0 +1,5481 @@
+{
+  "generated_at": "2026-09-04T03:20:41.800420+00:00",
+  "demo_mode": false,
+  "model": "hy3",
+  "summary": {
+    "n": 52,
+    "answer_accuracy": 1.0,
+    "process_accuracy": 0.2692307692307692,
+    "process_flag_rate": 0.7307692307692307,
+    "correct_but_unsupported_rate": 0.7307692307692307,
+    "error_type_distribution": {
+      "无错误": 14,
+      "条件遗漏": 37,
+      "边界错误": 1
+    },
+    "difficulty": {
+      "easy": {
+        "n": 30,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 0.3333333333333333
+      },
+      "medium": {
+        "n": 19,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 0.10526315789473684
+      },
+      "hard": {
+        "n": 3,
+        "answer_accuracy": 1.0,
+        "process_accuracy": 0.6666666666666666
+      }
+    }
+  },
+  "rows": [
+    {
+      "task": {
+        "id": "E01",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E01",
+        "summary": "遍历列表，将偶数值累加到总和，空列表自然返回0。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化累加器为0，空列表时直接返回0",
+            "evidence": "total = 0 在循环前，满足空列表约束"
+          },
+          {
+            "id": "S2",
+            "claim": "对每个元素用取模判断偶数，是则累加",
+            "evidence": "if x % 2 == 0: total += x，Python中负数偶数取模也为0"
+          },
+          {
+            "id": "S3",
+            "claim": "返回累加器，时间复杂度O(n)空间O(1)",
+            "evidence": "return total，仅用list遍历无额外结构"
+          }
+        ],
+        "code": "def sum_even(nums: list[int]) -> int:\n    total = 0\n    for x in nums:\n        if x % 2 == 0:\n            total += x\n    return total",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E01",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "total=0在循环前，空列表返回0满足约束"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "if x%2==0累加，Python负数偶数取模0正确"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "return total，仅遍历列表O(n)空间O(1)"
+            }
+          ],
+          "confidence": 0.98,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E02",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E02",
+        "summary": "使用双指针跳过非字母数字字符并忽略大小写比较，判断清理后字符串是否为回文。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化左右指针分别指向字符串首尾",
+            "evidence": "left=0, right=len(text)-1"
+          },
+          {
+            "id": "S2",
+            "claim": "左指针右移跳过非字母数字字符，右指针左移跳过非字母数字字符",
+            "evidence": "while left<right and not text[left].isalnum(): left+=1; while left<right and not text[right].isalnum(): right-=1"
+          },
+          {
+            "id": "S3",
+            "claim": "当左指针小于右指针时，比较两端字符的小写形式，不等则返回False",
+            "evidence": "if text[left].lower() != text[right].lower(): return False"
+          },
+          {
+            "id": "S4",
+            "claim": "指针靠拢继续，直到 left>=right 返回True；空或全非字母数字也返回True",
+            "evidence": "循环终止条件 left>=right 返回 True，覆盖边界"
+          }
+        ],
+        "code": "def is_clean_palindrome(text: str) -> bool:\n    left = 0\n    right = len(text) - 1\n    while left < right:\n        while left < right and not text[left].isalnum():\n            left += 1\n        while left < right and not text[right].isalnum():\n            right -= 1\n        if left < right:\n            if text[left].lower() != text[right].lower():\n                return False\n            left += 1\n            right -= 1\n    return True",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E02",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：大小写"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E03",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E03",
+        "summary": "用哈希表记录已遍历数字的下标，查找补数实现 O(n) 时间的两数之和。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "使用字典 seen 映射数值到其首次出现的下标，支持 O(1) 补数查找",
+            "evidence": "dict 实现哈希表；for i, x in enumerate(nums) 遍历"
+          },
+          {
+            "id": "S2",
+            "claim": "对每个 x 计算补数 comp = target - x，若 comp 在 seen 中则返回 [seen[comp], i]，因 seen[comp] 为之前下标必小于 i，自然递增",
+            "evidence": "补数公式 target - x；唯一解保证存在且下标不同"
+          },
+          {
+            "id": "S3",
+            "claim": "若未找到则将当前 x 与 i 存入 seen，继续遍历直至找到解",
+            "evidence": "seen[x] = i；约束保证恰有一组解故循环必返回"
+          },
+          {
+            "id": "S4",
+            "claim": "边界满足：长度≥2、唯一解、不重复使用同一元素，无需额外处理",
+            "evidence": "约束 2<=len(nums)<=10000，保证唯一解且不能重复使用同一元素"
+          }
+        ],
+        "code": "def two_sum(nums: list[int], target: int) -> list[int]:\n    seen = {}\n    for i, x in enumerate(nums):\n        comp = target - x\n        if comp in seen:\n            return [seen[comp], i]\n        seen[x] = i\n    return []",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E03",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：O(n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M01",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M01",
+        "summary": "排序后线性扫描合并重叠或端点接触的闭区间",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空输入直接返回空列表处理边界",
+            "evidence": "if not intervals: return []"
+          },
+          {
+            "id": "S2",
+            "claim": "按起点升序排序使重叠区间相邻，时间 O(n log n)",
+            "evidence": "sorted_intervals = sorted(intervals, key=lambda x: x[0])"
+          },
+          {
+            "id": "S3",
+            "claim": "初始化当前合并区间为排序后首区间",
+            "evidence": "cur_start, cur_end = sorted_intervals[0]"
+          },
+          {
+            "id": "S4",
+            "claim": "若区间起点<=当前终点（含端点接触）则扩展终点，否则保存并重置，维持合并不变量",
+            "evidence": "if s <= cur_end: cur_end = max(cur_end, e) else: merged.append([cur_start, cur_end]); cur_start, cur_end = s, e"
+          },
+          {
+            "id": "S5",
+            "claim": "遍历结束追加最后一个合并区间",
+            "evidence": "merged.append([cur_start, cur_end])"
+          },
+          {
+            "id": "S6",
+            "claim": "返回合并结果，已按起点升序",
+            "evidence": "return merged"
+          },
+          {
+            "id": "S7",
+            "claim": "空间 O(n) 用于排序副本与结果，符合约束",
+            "evidence": "sorted_intervals 与 merged 均为 list，n<=10000"
+          }
+        ],
+        "code": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    if not intervals:\n        return []\n    sorted_intervals = sorted(intervals, key=lambda x: x[0])\n    merged = []\n    cur_start, cur_end = sorted_intervals[0]\n    for interval in sorted_intervals[1:]:\n        s, e = interval\n        if s <= cur_end:\n            cur_end = max(cur_end, e)\n        else:\n            merged.append([cur_start, cur_end])\n            cur_start, cur_end = s, e\n    merged.append([cur_start, cur_end])\n    return merged",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M01",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "边界错误",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "边界错误",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "invalid",
+              "error_type": "边界错误",
+              "reason": "闭区间端点接触需要合并"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S7",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M02",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M02",
+        "summary": "使用二分查找定位非递减数组中 target 的最左下标，未找到返回 -1。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "采用二分查找以满足 O(log n) 时间复杂度应对最长 1e5 输入",
+            "evidence": "内建循环与索引，无递归，复杂度 O(log n)"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化 lo=0, hi=len(nums)-1, ans=-1 以统一处理空数组与未命中",
+            "evidence": "空数组时 hi=-1，循环不进入直接返回 ans=-1"
+          },
+          {
+            "id": "S3",
+            "claim": "当 nums[mid]==target 时记录 mid 并将 hi=mid-1 以收缩右边界保证最左",
+            "evidence": "不变量：ans 为已见最小下标，区间 [lo,hi] 不含已排除右侧"
+          },
+          {
+            "id": "S4",
+            "claim": "根据 nums[mid] 与 target 比较移动 lo 或 hi 维持搜索区间正确",
+            "evidence": "nums[mid]<target => lo=mid+1；否则 hi=mid-1"
+          },
+          {
+            "id": "S5",
+            "claim": "返回 ans，若从未命中则为 -1",
+            "evidence": "代码末尾 return ans"
+          }
+        ],
+        "code": "def first_occurrence(nums: list[int], target: int) -> int:\n    lo = 0\n    hi = len(nums) - 1\n    ans = -1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if nums[mid] == target:\n            ans = mid\n            hi = mid - 1\n        elif nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return ans",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M02",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：左边界"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M03",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M03",
+        "summary": "滑动窗口配合字典记录字符最近出现位置，动态维护无重复字符最长子串长度。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化字典 last 存储字符最近索引，左边界 left=0，最大长度 max_len=0",
+            "evidence": "last={}; left=0; max_len=0 对应代码开头"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历右端点 right 与字符 ch，若 ch 在窗口内（last 有记录且索引>=left），左边界跳至 last[ch]+1 消除重复",
+            "evidence": "if ch in last and last[ch] >= left: left = last[ch] + 1 保证窗口内字符唯一"
+          },
+          {
+            "id": "S3",
+            "claim": "更新 last[ch]=right，计算当前长度 right-left+1 并刷新 max_len",
+            "evidence": "last[ch]=right; cur=right-left+1; if cur>max_len: max_len=cur 维护不变量 max_len 为历史最大"
+          },
+          {
+            "id": "S4",
+            "claim": "遍历结束返回 max_len，空串自然得0，全同字符得1，满足 0<=len(s)<=100000 边界",
+            "evidence": "return max_len; 当 s='' 循环不执行返回0，当 s='a' 返回1，时间 O(n) 空间 O(字符集)"
+          }
+        ],
+        "code": "def longest_unique_length(s: str) -> int:\n    last = {}\n    left = 0\n    max_len = 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right\n        cur = right - left + 1\n        if cur > max_len:\n            max_len = cur\n    return max_len",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M03",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：滑动窗口"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H01",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H01",
+        "summary": "使用一维 DP 滚动数组计算 Levenshtein 编辑距离，空间 O(n) 时间 O(nm)。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化 dp 数组长度为 len(b)+1，dp[j]=j 表示空串 a 转为 b[:j] 需 j 次插入",
+            "evidence": "dp = list(range(n + 1))"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历 a 每个字符 i，更新 dp[0]=i 并记录上一行 dp[0] 到 prev",
+            "evidence": "for i in range(1, m+1): prev = dp[0]; dp[0] = i"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历 b 每个字符 j，若字符相等则 dp[j]=prev，否则取删除/插入/替换最小值加1",
+            "evidence": "if a[i-1]==b[j-1]: dp[j]=prev else dp[j]=1+min(dp[j], dp[j-1], prev)"
+          },
+          {
+            "id": "S4",
+            "claim": "返回 dp[n] 即 a 到 b 的最小编辑距离，边界空串自然满足",
+            "evidence": "return dp[n]; m=0 时不循环返回 n，n=0 时 dp=[0] 返回 m"
+          },
+          {
+            "id": "S5",
+            "claim": "复杂度 O(len(a)*len(b)) 时间，O(len(b)) 空间，满足约束",
+            "evidence": "双重循环界限 m,n <=500；仅用 list 与 min"
+          }
+        ],
+        "code": "def edit_distance(a: str, b: str) -> int:\n    m, n = len(a), len(b)\n    dp = list(range(n + 1))\n    for i in range(1, m + 1):\n        prev = dp[0]\n        dp[0] = i\n        for j in range(1, n + 1):\n            temp = dp[j]\n            if a[i-1] == b[j-1]:\n                dp[j] = prev\n            else:\n                dp[j] = 1 + min(dp[j], dp[j-1], prev)\n            prev = temp\n    return dp[n]",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H01",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "初始化 dp 为 0..n 表示空串到 b 前缀需 j 次插入，与代码 dp=list(range(n+1)) 一致"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "i 循环开始设置 dp[0]=i 且 prev 保存上一行 dp[0]，代码逻辑一致"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "相等取左上角 prev，不等取删/插/替最小值+1，核心逻辑与代码一致且未遗漏插入删除"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "返回 dp[n]，空串边界正确（m=0 返 n, n=0 返 m），未声称空串距离0"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "时间 O(mn) 空间 O(n) 满足约束，分析正确"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H02",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H02",
+        "summary": "按结束时间排序后动态规划，二分查找兼容前驱任务以在 O(n log n) 内求最大权重。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "按结束时间升序排序任务，使兼容任务在索引上严格在前",
+            "evidence": "sorted(jobs, key=lambda x: x[1]) 保证 ends 非降，端点接触 end<=start 满足兼容"
+          },
+          {
+            "id": "S2",
+            "claim": "提取结束时间列表 ends 以支持二分查找前驱",
+            "evidence": "ends[i] = sorted_jobs[i][1]；ends 单调，可用二分"
+          },
+          {
+            "id": "S3",
+            "claim": "对每个任务 i 二分查找最大 p<i 且 ends[p] <= start_i",
+            "evidence": "bisect_right_le 返回最后一个 <= target 的索引，条件 ends[p]<=start_i 对应不重叠"
+          },
+          {
+            "id": "S4",
+            "claim": "dp[i]=max(dp[i-1], weight_i + (dp[p] if p>=0 else 0)) 递推最优解",
+            "evidence": "不选 i 则继承前 i-1 最优；选 i 则加兼容前驱 p 的最优，覆盖所有子集"
+          },
+          {
+            "id": "S5",
+            "claim": "空列表返回0，否则返回 dp[n-1]",
+            "evidence": "n=0 直接 return 0；dp 定义保证 dp[n-1] 为全局最大权重"
+          }
+        ],
+        "code": "def max_weight_nonoverlap(jobs: list[list[int]]) -> int:\n    if not jobs:\n        return 0\n    sorted_jobs = sorted(jobs, key=lambda x: x[1])\n    n = len(sorted_jobs)\n    ends = [job[1] for job in sorted_jobs]\n    dp = [0] * n\n    def bisect_right_le(ends, target, i):\n        left, right = 0, i - 1\n        res = -1\n        while left <= right:\n            mid = (left + right) // 2\n            if ends[mid] <= target:\n                res = mid\n                left = mid + 1\n            else:\n                right = mid - 1\n        return res\n    dp[0] = sorted_jobs[0][2]\n    for i in range(1, n):\n        start_i = sorted_jobs[i][0]\n        weight_i = sorted_jobs[i][2]\n        p = bisect_right_le(ends, start_i, i)\n        incl = weight_i + (dp[p] if p >= 0 else 0)\n        dp[i] = max(dp[i-1], incl)\n    return dp[n-1]",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H02",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "排序后兼容任务结束时间严格小，索引严格在前且端点兼容"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "ends单调提取支持二分查找前驱"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "二分找最晚p使ends[p]<=start_i正确对应端点兼容"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "DP递推max(不选,选+前驱最优)符合最优子结构"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空列表返0，dp[n-1]为全局最大权重"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "H03",
+        "difficulty": "hard"
+      },
+      "solution": {
+        "task_id": "H03",
+        "summary": "使用滑动窗口与字典计数，在O(n)时间内找到覆盖t所有字符重数的最左最短子串",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "边界处理：t为空时直接返回空串，符合约束",
+            "evidence": "if not t: return \"\""
+          },
+          {
+            "id": "S2",
+            "claim": "用dict统计t的字符需求need及需求种类数total",
+            "evidence": "need={}; for c in t: need[c]=need.get(c,0)+1; total=len(need)"
+          },
+          {
+            "id": "S3",
+            "claim": "滑动窗口扩展右边界r，维护窗口内计数have及满足需求的字符种类数satisfied",
+            "evidence": "for r in range(len(s)): if c in need: have[c]=have.get(c,0)+1; if have[c]==need[c]: satisfied+=1"
+          },
+          {
+            "id": "S4",
+            "claim": "当satisfied==total时窗口覆盖，记录严格更短的子串（保证最左），并收缩左边界l更新计数",
+            "evidence": "while satisfied==total: if r-l+1<min_len: update; have[s[l]]-=1; if <need: satisfied-=1; l+=1"
+          },
+          {
+            "id": "S5",
+            "claim": "遍历结束若找到有效窗口则返回最左最短子串，否则空串；时间O(|s|+|t|)空间O(字符集)",
+            "evidence": "if min_len<=len(s): return s[min_start:min_start+min_len] else \"\"; 双指针各遍历一次"
+          }
+        ],
+        "code": "def min_cover(s: str, t: str) -> str:\n    if not t:\n        return \"\"\n    need = {}\n    for c in t:\n        need[c] = need.get(c, 0) + 1\n    total = len(need)\n    have = {}\n    satisfied = 0\n    l = 0\n    min_len = len(s) + 1\n    min_start = 0\n    for r in range(len(s)):\n        c = s[r]\n        if c in need:\n            have[c] = have.get(c, 0) + 1\n            if have[c] == need[c]:\n                satisfied += 1\n        while satisfied == total:\n            cur_len = r - l + 1\n            if cur_len < min_len:\n                min_len = cur_len\n                min_start = l\n            c_l = s[l]\n            if c_l in need:\n                have[c_l] -= 1\n                if have[c_l] < need[c_l]:\n                    satisfied -= 1\n            l += 1\n    if min_len <= len(s):\n        return s[min_start:min_start+min_len]\n    return \"\"",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "H03",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 3,
+          "total": 3,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：重数"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E04",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E04",
+        "summary": "单趟遍历 nums，统计满足 lo <= x <= hi 的元素个数。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化计数器为0，用于累计区间内元素",
+            "evidence": "cnt=0 对应代码起始状态，空列表返回0"
+          },
+          {
+            "id": "S2",
+            "claim": "对 nums 进行单趟遍历，每个元素 x 检查一次",
+            "evidence": "for x in nums 保证 O(n) 时间复杂度"
+          },
+          {
+            "id": "S3",
+            "claim": "若元素 x 满足闭区间条件 lo <= x <= hi 则计数器加1",
+            "evidence": "if lo <= x <= hi: cnt += 1 包含端点且处理负数/重复"
+          },
+          {
+            "id": "S4",
+            "claim": "遍历结束返回计数器作为结果",
+            "evidence": "return cnt 满足函数签名要求"
+          }
+        ],
+        "code": "def count_in_range(nums: list[int], lo: int, hi: int) -> int:\n    cnt = 0\n    for x in nums:\n        if lo <= x <= hi:\n            cnt += 1\n    return cnt",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E04",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 6,
+          "total": 6,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "cnt=0初始化，空列表返回0正确"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "单趟for遍历保证O(n)"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "闭区间判断含端点，覆盖负数重复"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "返回cnt与代码和签名一致"
+            }
+          ],
+          "confidence": 0.98,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E05",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E05",
+        "summary": "使用双指针在有序数组中线性扫描判断两数之和。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "长度小于2时不可能有两个不同下标，直接返回False",
+            "evidence": "len(nums)<2 => return False; 边界约束 len<=10000"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化左右指针覆盖全数组，维持解在区间内的不变量",
+            "evidence": "left=0, right=len(nums)-1; 若存在解则必在[left,right]"
+          },
+          {
+            "id": "S3",
+            "claim": "当left<right时计算两指针指向元素之和s",
+            "evidence": "while left<right: s=nums[left]+nums[right]; 保证下标不同"
+          },
+          {
+            "id": "S4",
+            "claim": "若s==target则找到合法配对返回True",
+            "evidence": "s==target => return True; 对应代码分支"
+          },
+          {
+            "id": "S5",
+            "claim": "若s<target则左指针右移排除当前左元素",
+            "evidence": "排序性质: nums[left]+nums[k]<=s<target for k<=right, 故left+=1"
+          },
+          {
+            "id": "S6",
+            "claim": "若s>target则右指针左移排除当前右元素",
+            "evidence": "排序性质: nums[k]+nums[right]>=s>target for k>=left, 故right-=1"
+          },
+          {
+            "id": "S7",
+            "claim": "循环结束未返回则无解，返回False，时间复杂度O(n)",
+            "evidence": "每个元素最多访问一次; 最终 return False"
+          }
+        ],
+        "code": "def has_two_sum_sorted(nums: list[int], target: int) -> bool:\n    n = len(nums)\n    if n < 2:\n        return False\n    left = 0\n    right = n - 1\n    while left < right:\n        s = nums[left] + nums[right]\n        if s == target:\n            return True\n        elif s < target:\n            left += 1\n        else:\n            right -= 1\n    return False",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E05",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S7",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S7",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S7",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S7",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：双指针"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E06",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E06",
+        "summary": "用字典计数s中字符，遍历t递减计数，长度不等或计数不匹配则返回False",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若两串长度不同则必不是异位词，直接返回False",
+            "evidence": "len(s)!=len(t) -> False; 空串等长时通过"
+          },
+          {
+            "id": "S2",
+            "claim": "用dict统计s中每个字符出现次数，键区分大小写",
+            "evidence": "count={}; for ch in s: count[ch]=count.get(ch,0)+1 或条件赋值"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历t，对每个字符在计数器中减1，若字符缺失或计数将负则提前返回False",
+            "evidence": "if ch not in count or count[ch]==0: return False; count[ch]-=1"
+          },
+          {
+            "id": "S4",
+            "claim": "遍历结束后所有计数器值必须为0才互为异位词",
+            "evidence": "for v in count.values(): if v!=0: return False"
+          },
+          {
+            "id": "S5",
+            "claim": "全部检查通过返回True",
+            "evidence": "return True"
+          }
+        ],
+        "code": "def is_anagram(s: str, t: str) -> bool:\n    if len(s) != len(t):\n        return False\n    count = {}\n    for ch in s:\n        if ch in count:\n            count[ch] += 1\n        else:\n            count[ch] = 1\n    for ch in t:\n        if ch not in count or count[ch] == 0:\n            return False\n        count[ch] -= 1\n    for v in count.values():\n        if v != 0:\n            return False\n    return True",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E06",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：哈希"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E07",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E07",
+        "summary": "使用前缀和数组预处理，使每个区间和查询在 O(1) 完成，整体 O(n+q)。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若 nums 或 queries 为空，直接返回空列表，满足边界要求且避免无效计算",
+            "evidence": "约束: 空输入返回空列表; 代码: if n==0 or len(queries)==0: return []"
+          },
+          {
+            "id": "S2",
+            "claim": "构建长度 n+1 的前缀和数组 pref，其中 pref[i]=sum(nums[0:i])，预处理耗时 O(n)",
+            "evidence": "不变量: pref[0]=0, pref[i+1]=pref[i]+nums[i]; 代码: for i in range(n): pref[i+1]=pref[i]+nums[i]"
+          },
+          {
+            "id": "S3",
+            "claim": "对每个查询 (l,r)，区间和等于 pref[r+1]-pref[l]，可在 O(1) 得到",
+            "evidence": "公式: sum(nums[l:r+1]) = pref[r+1]-pref[l]; 代码: res.append(pref[r+1]-pref[l])"
+          },
+          {
+            "id": "S4",
+            "claim": "总时间为 O(n+q)，空间 O(n)，返回结果列表符合签名",
+            "evidence": "复杂度: 预处理 O(n) + q 次 O(1); 代码: return res"
+          }
+        ],
+        "code": "def range_sums(nums: list[int], queries: list[tuple[int, int]]) -> list[int]:\n    n = len(nums)\n    if n == 0 or len(queries) == 0:\n        return []\n    pref = [0] * (n + 1)\n    for i in range(n):\n        pref[i+1] = pref[i] + nums[i]\n    res = []\n    for l, r in queries:\n        res.append(pref[r+1] - pref[l])\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E07",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 6,
+          "total": 6,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空输入返回空列表与代码一致，符合题意"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "前缀和数组定义与构建正确，O(n)预处理"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "闭区间和公式pref[r+1]-pref[l]正确，O(1)查询"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "整体复杂度O(n+q)，返回列表符合签名"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E08",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E08",
+        "summary": "遍历字符串收集非空白字符序列为单词，再用单空格连接以消除连续空白并去除首尾空白。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "遍历字符，将连续非空白字符存入临时列表，遇空白则提交已完成单词至单词列表",
+            "evidence": "不变量: current仅含非空白字符; 空白判定 ch==' ' or ch=='\\t' or ch=='\\n'; 代码 for ch in text 分支处理"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历结束后提交最后一个单词；若输入全空白则单词列表为空",
+            "evidence": "边界: if current: words.append(...); 全空白时 words=[] 返回空串"
+          },
+          {
+            "id": "S3",
+            "claim": "用单个空格连接单词列表返回，自然压缩空白并去首尾",
+            "evidence": "' '.join(words) 对应 O(n) 时间/空间复杂度；空列表时返回 ''"
+          }
+        ],
+        "code": "def normalize_spaces(text: str) -> str:\n    words = []\n    current = []\n    for ch in text:\n        if ch == ' ' or ch == '\\t' or ch == '\\n':\n            if current:\n                words.append(''.join(current))\n                current = []\n        else:\n            current.append(ch)\n    if current:\n        words.append(''.join(current))\n    return ' '.join(words)",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E08",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S3",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S3",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：split"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E09",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E09",
+        "summary": "遍历操作列表，按规则更新余额，拒绝超额取款，返回最终非负余额",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化余额为零并遍历每个操作",
+            "evidence": "balance=0; for op in ops"
+          },
+          {
+            "id": "S2",
+            "claim": "正数操作直接增加余额（存款）",
+            "evidence": "if op>0: balance+=op"
+          },
+          {
+            "id": "S3",
+            "claim": "负数操作仅当取款额不超过余额时才减去，否则拒绝",
+            "evidence": "elif op<0: if -op<=balance: balance+=op"
+          },
+          {
+            "id": "S4",
+            "claim": "零操作不改变余额",
+            "evidence": "op==0 时分支忽略，无修改"
+          },
+          {
+            "id": "S5",
+            "claim": "遍历结束返回非负余额，满足约束",
+            "evidence": "return balance; 不变量 balance>=0 始终成立"
+          }
+        ],
+        "code": "def atm_balance(ops):\n    balance = 0\n    for op in ops:\n        if op > 0:\n            balance += op\n        elif op < 0:\n            if -op <= balance:\n                balance += op\n    return balance",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E09",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：模拟"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E10",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E10",
+        "summary": "用 list 模拟栈，左括号入栈，右括号检查栈顶匹配，最后栈空则平衡。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化空 list 作为栈存储左括号",
+            "evidence": "stack = [] 对应栈结构，仅用 list 实现"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历字符，左括号 '([{' 入栈",
+            "evidence": "if c in mapping.values(): stack.append(c) 保持未匹配左括号顺序"
+          },
+          {
+            "id": "S3",
+            "claim": "右括号 ')]}' 需匹配栈顶左括号，否则返回 False",
+            "evidence": "dict mapping {')':'(', ']':'[', '}':'{'}; if not stack or stack.pop() != mapping[c]: return False"
+          },
+          {
+            "id": "S4",
+            "claim": "遍历结束后栈空表示全部匹配",
+            "evidence": "return len(stack) == 0 对应所有左括号被匹配"
+          },
+          {
+            "id": "S5",
+            "claim": "空字符串栈空直接返回 True",
+            "evidence": "循环不执行，len(stack)==0 成立，满足题意"
+          }
+        ],
+        "code": "def is_balanced(s: str) -> bool:\n    stack = []\n    mapping = {')': '(', ']': '[', '}': '{'}\n    for c in s:\n        if c in mapping.values():\n            stack.append(c)\n        else:\n            if not stack or stack.pop() != mapping[c]:\n                return False\n    return len(stack) == 0",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E10",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：O(n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E11",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E11",
+        "summary": "通过计算 n 除以 5 的幂次向下取整之和得到 n! 中因子 5 的个数，即末尾零个数。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "n! 末尾零个数等于其质因数分解中 10 的个数，由因子 2 和 5 的较小值决定。",
+            "evidence": "因偶数多于 5 的倍数，因子 2 个数恒不少于因子 5，故只需计因子 5 个数。"
+          },
+          {
+            "id": "S2",
+            "claim": "因子 5 的总数为 sum_{k>=1} floor(n/5^k)。",
+            "evidence": "每 5 个数贡献一个 5，每 25 个额外贡献一个，依此类推；公式对应勒让德定理。"
+          },
+          {
+            "id": "S3",
+            "claim": "通过循环将 n 反复整除 5 并累加商，可高效求得该和且不计算阶乘。",
+            "evidence": "代码 while n>=5: n//=5; cnt+=n 等价于累加 floor(n/5^k)。"
+          },
+          {
+            "id": "S4",
+            "claim": "边界 n=0 或 n<5 时返回 0，符合 0!=1 末尾零为 0，且复杂度 O(log_5 n)。",
+            "evidence": "循环不执行，cnt 初始 0；n<=1e9 时循环至多约 13 次。"
+          }
+        ],
+        "code": "def trailing_zeros(n: int) -> int:\n    cnt = 0\n    while n >= 5:\n        n //= 5\n        cnt += n\n    return cnt",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E11",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "正确指出末尾零由因子2和5较小值决定，并合理推断因子2充足故计因子5"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "勒让德公式正确表达因子5总数"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "循环累除5累加商等价于公式，且不计算阶乘"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "边界n<5返回0正确，复杂度O(log_5 n)合理"
+            }
+          ],
+          "confidence": 0.98,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E12",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E12",
+        "summary": "使用内建稳定排序 sorted 按绝对值键排序，返回新列表且不修改原列表。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "调用 sorted(nums, key=abs) 生成按绝对值升序排列的新列表",
+            "evidence": "sorted 是允许的内建稳定排序函数，key=abs 提取绝对值；返回新列表，原 nums 不被修改"
+          },
+          {
+            "id": "S2",
+            "claim": "相等绝对值的元素保持原相对顺序，满足稳定性要求",
+            "evidence": "Python Timsort 稳定，当 key 相等时保留原输入次序，符合题目稳定要求"
+          },
+          {
+            "id": "S3",
+            "claim": "边界情况正确处理：空列表返回空列表，单元素返回副本",
+            "evidence": "sorted([]) -> []；约束 0<=len(nums)<=10000 在排序能力内"
+          },
+          {
+            "id": "S4",
+            "claim": "时间复杂度 O(n log n)，空间 O(n)，与代码一一对应",
+            "evidence": "sorted 实现复杂度为 n log n，代码仅一行返回排序结果，无额外结构"
+          }
+        ],
+        "code": "def sort_by_abs(nums):\n    return sorted(nums, key=abs)",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E12",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 6,
+          "total": 6,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "使用 sorted(key=abs) 正确按绝对值升序生成新列表且不修改原列表，符合题意与 required_concepts"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "Python sorted 基于 Timsort 稳定，key 相等时保留原输入次序，满足稳定性要求，无概念错误"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空列表 sorted 返回 []，单元素返回副本，边界由内建函数自然处理且符合长度约束"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "sorted 时间 O(n log n) 空间 O(n)，代码仅一行返回，复杂度与实现一致"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E13",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E13",
+        "summary": "通过取模计算有效右移位数，利用切片拼接生成新列表而不修改原列表。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若输入列表为空，直接返回空列表以避免取模和切片错误",
+            "evidence": "n=len(nums); if n==0: return []"
+          },
+          {
+            "id": "S2",
+            "claim": "有效右移位数 k 对长度 n 取模，处理 k 大于 n 或为零的情况",
+            "evidence": "k = k % n 使得 0<=k<n 且保持循环等价"
+          },
+          {
+            "id": "S3",
+            "claim": "新列表由末尾 k 个元素接上前 n-k 个元素构成，切片产生新对象不修改原列表",
+            "evidence": "return nums[n-k:] + nums[:n-k] 生成独立列表"
+          }
+        ],
+        "code": "def rotate_right(nums: list[int], k: int) -> list[int]:\n    n = len(nums)\n    if n == 0:\n        return []\n    k = k % n\n    return nums[n-k:] + nums[:n-k]",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E13",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空列表时取模会除零，提前返回避免错误"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "k%n处理大k和零保持循环等价"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "切片拼接生成新列表不修改原列表"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E14",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E14",
+        "summary": "使用二分查找在有序数组中定位第一个不小于 target 的下标，越界则返回 -1。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化左闭右开区间 [left, right) 覆盖整个数组，left=0, right=len(nums)，用于搜索首个 >= target 的下标。",
+            "evidence": "不变量：候选下标始终位于 [left, right) 中；代码对应 left=0, right=len(nums)。"
+          },
+          {
+            "id": "S2",
+            "claim": "每次取中点 mid，若 nums[mid] < target 则左边界右移 left=mid+1，否则右边界左移 right=mid，保证区间减半且候选性质不变。",
+            "evidence": "若 nums[mid] < target，mid 及其左侧均不满足，故 left=mid+1；否则 mid 可能满足，故 right=mid；代码对应 while 循环体。"
+          },
+          {
+            "id": "S3",
+            "claim": "循环终止时 left == right，且 left 为首个满足 nums[i] >= target 的下标（若无解则 left == len(nums)）。",
+            "evidence": "区间长度每次减半至 0；不变量保证正确性；代码对应 while left < right 结束。"
+          },
+          {
+            "id": "S4",
+            "claim": "若 left 等于数组长度返回 -1，否则返回 left，满足题目所有边界与复杂度要求。",
+            "evidence": "空数组/全小于 target 时 left==len(nums) 返回 -1；时间 O(log n)，空间 O(1)；代码对应末尾 if。"
+          }
+        ],
+        "code": "def lower_bound(nums: list[int], target: int) -> int:\n    left = 0\n    right = len(nums)\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] < target:\n            left = mid + 1\n        else:\n            right = mid\n    if left == len(nums):\n        return -1\n    return left",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E14",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：二分, 最左"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E15",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E15",
+        "summary": "升序排序后线性扫描相邻元素差的最大值，长度不足2返回0",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "元素个数少于2时直接返回0以满足边界条件",
+            "evidence": "if len(nums) < 2: return 0"
+          },
+          {
+            "id": "S2",
+            "claim": "使用内建sorted获得非降序序列，重复元素相邻差为0",
+            "evidence": "s = sorted(nums) 利用允许的内建sorted"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历相邻元素计算差并更新最大值，初始0覆盖非负差",
+            "evidence": "for i in range(1, len(s)): gap=s[i]-s[i-1]; if gap>max_gap: max_gap=gap; return max_gap"
+          },
+          {
+            "id": "S4",
+            "claim": "时间复杂度O(n log n)排序加O(n)扫描，n<=10000可行",
+            "evidence": "sorted O(n log n), single loop O(n)"
+          }
+        ],
+        "code": "def max_adjacent_gap(nums: list[int]) -> int:\n    if len(nums) < 2:\n        return 0\n    s = sorted(nums)\n    max_gap = 0\n    for i in range(1, len(s)):\n        gap = s[i] - s[i-1]\n        if gap > max_gap:\n            max_gap = gap\n    return max_gap",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E15",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "边界条件处理正确，代码一致"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "使用sorted排序，符合题目要求和禁止声明"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "遍历相邻差并更新最大值，初始0正确，代码一致"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "复杂度分析正确，符合约束"
+            }
+          ],
+          "confidence": 0.99,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E16",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E16",
+        "summary": "用集合记录遍历过的元素，返回集合大小即为不同元素个数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化空集合用于记录已出现的不同元素",
+            "evidence": "seen = set() 满足空列表返回0（len=0）"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历列表将每个元素加入集合，利用集合去重特性保证唯一",
+            "evidence": "for x in nums: seen.add(x) 时间复杂度O(n)"
+          },
+          {
+            "id": "S3",
+            "claim": "返回集合长度即为不同元素个数",
+            "evidence": "return len(seen) 对应约束0<=len(nums)<=10000，空间O(n)"
+          }
+        ],
+        "code": "def count_distinct(nums: list[int]) -> int:\n    seen = set()\n    for x in nums:\n        seen.add(x)\n    return len(seen)",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E16",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "初始化空集合，空列表时长度为0，符合题意与签名"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "遍历加入集合，利用set去重，线性时间，无相邻比较限制"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "返回集合大小即不同元素个数，与代码一致且复杂度合规"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E17",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E17",
+        "summary": "利用异或运算的抵消性质，一趟线性扫描求出只出现一次的元素",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空列表无目标元素，直接返回 None",
+            "evidence": "边界约束 len(nums)==0 时返回 None，对应 if not nums: return None"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化异或累加器为 0",
+            "evidence": "res=0，因 a^0=a 且 0 为异或单位元"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历每个元素进行异或，成对元素相互抵消",
+            "evidence": "res ^= x；异或满足交换律/结合律且 a^a=0，故扫描后 res 等于所有元素的异或和即单一元素"
+          },
+          {
+            "id": "S4",
+            "claim": "返回异或结果，满足 O(n) 时间与 O(1) 空间",
+            "evidence": "单次循环无额外数据结构，代码对应约束"
+          }
+        ],
+        "code": "def single_number(nums):\n    if not nums:\n        return None\n    res = 0\n    for x in nums:\n        res ^= x\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E17",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 6,
+          "total": 6,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：a ^ a = 0"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E18",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E18",
+        "summary": "用等差数列求和公式 S_n = n*a1 + d*n*(n-1)//2 一步计算，无循环。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "等差数列前n项和可表示为 n*a1 + d*n*(n-1)//2",
+            "evidence": "由通项 a_k = a1+(k-1)d 求和得 S_n = n*a1 + d*∑_{k=0}^{n-1}k = n*a1 + d*n*(n-1)/2，因 n*(n-1) 恒为偶数故整除精确"
+          },
+          {
+            "id": "S2",
+            "claim": "n=0 时公式自然返回0，满足边界",
+            "evidence": "代入 n=0 得 0*a1 + d*0*(-1)//2 = 0"
+          },
+          {
+            "id": "S3",
+            "claim": "函数仅用整数算术与整除，无循环无导入，符合约束",
+            "evidence": "code 仅用 * // + 与参数"
+          }
+        ],
+        "code": "def arithmetic_sum(a1: int, d: int, n: int) -> int:\n    return n * a1 + d * n * (n - 1) // 2",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E18",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S3",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S3",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：末项, 求和公式, O(1)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E19",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E19",
+        "summary": "将字符串转为列表，用双指针线性扫描交换元音后拼接返回新字符串",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "将输入字符串转为字符列表以支持原地交换，避免多次重建字符串",
+            "evidence": "lst = list(s); 空间 O(n)，满足不可变字符串修改需求"
+          },
+          {
+            "id": "S2",
+            "claim": "定义元音集合并使用左右指针从两端向中间扫描",
+            "evidence": "vowels = set('aeiouAEIOU'); l, r = 0, len(lst)-1"
+          },
+          {
+            "id": "S3",
+            "claim": "左指针跳过非元音，右指针跳过非元音，两者均指向元音时交换并靠拢",
+            "evidence": "while l<r and lst[l] not in vowels: l+=1; 类似 r; if l<r: swap; l+=1; r-=1; 每字符最多访问两次，时间 O(n)"
+          },
+          {
+            "id": "S4",
+            "claim": "将处理后的列表拼接为新字符串返回",
+            "evidence": "return ''.join(lst); 其余字符下标不变，元音顺序反转"
+          },
+          {
+            "id": "S5",
+            "claim": "边界情况正确处理：空串、无元音、单字符、全元音及大小写保持",
+            "evidence": "循环条件 l<r 自然处理 len<=1；无元音时不交换；交换保留原字符大小写"
+          }
+        ],
+        "code": "def reverse_vowels(s: str) -> str:\n    vowels = set('aeiouAEIOU')\n    lst = list(s)\n    l, r = 0, len(lst) - 1\n    while l < r:\n        while l < r and lst[l] not in vowels:\n            l += 1\n        while l < r and lst[r] not in vowels:\n            r -= 1\n        if l < r:\n            lst[l], lst[r] = lst[r], lst[l]\n            l += 1\n            r -= 1\n    return ''.join(lst)",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E19",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：双指针"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E20",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E20",
+        "summary": "先判空与方阵性质，再双重循环验证主对角线对称，返回布尔值。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空矩阵（len(matrix)==0）直接返回 True，满足边界定义。",
+            "evidence": "if n == 0: return True"
+          },
+          {
+            "id": "S2",
+            "claim": "非方阵检测：遍历每行，若存在 len(row) != n 则返回 False，覆盖行数列数不等或各行长度不一致。",
+            "evidence": "for row in matrix: if len(row) != n: return False"
+          },
+          {
+            "id": "S3",
+            "claim": "对称性不变量：对所有 i,j 检查 matrix[i][j] == matrix[j][i]，不等则返回 False。",
+            "evidence": "for i in range(n): for j in range(n): if matrix[i][j] != matrix[j][i]: return False"
+          },
+          {
+            "id": "S4",
+            "claim": "时间复杂度 O(n^2)，空间复杂度 O(1)，对应双重循环与仅使用标量变量。",
+            "evidence": "两层 range(n) 循环，无额外数据结构分配"
+          },
+          {
+            "id": "S5",
+            "claim": "所有检查通过则返回 True。",
+            "evidence": "return True"
+          }
+        ],
+        "code": "def is_symmetric(matrix):\n    n = len(matrix)\n    if n == 0:\n        return True\n    for row in matrix:\n        if len(row) != n:\n            return False\n    for i in range(n):\n        for j in range(n):\n            if matrix[i][j] != matrix[j][i]:\n                return False\n    return True",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E20",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：主对角线"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E21",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E21",
+        "summary": "遍历列表，对每个元素检查严格大于0且模k为0，计数返回。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化计数器为0，空列表时循环不执行直接返回0",
+            "evidence": "cnt=0; for x in nums: 不执行时返回0，满足空列表返回0边界"
+          },
+          {
+            "id": "S2",
+            "claim": "对每个元素x，条件 x>0 and x%k==0 精确对应「严格大于0」与「能被k整除」",
+            "evidence": "k>=1保证取模有效；x>0排除0和负数；x%k==0表示整除"
+          },
+          {
+            "id": "S3",
+            "claim": "满足条件的元素使计数器加1，最终返回计数",
+            "evidence": "cnt+=1; return cnt 实现统计个数"
+          },
+          {
+            "id": "S4",
+            "claim": "时间复杂度O(n)，空间复杂度O(1)，符合约束",
+            "evidence": "单次遍历，仅用固定变量，n<=10000"
+          }
+        ],
+        "code": "def count_positive_multiples(nums: list[int], k: int) -> int:\n    cnt = 0\n    for x in nums:\n        if x > 0 and x % k == 0:\n            cnt += 1\n    return cnt",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E21",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：严格大于 0"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E22",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E22",
+        "summary": "创建等长列表，枚举 perm 将值映射到下标完成逆置换。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空排列直接返回空列表",
+            "evidence": "if len(perm)==0: return []"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化结果列表 inv 长度为 n 且占位",
+            "evidence": "inv = [0] * len(perm)"
+          },
+          {
+            "id": "S3",
+            "claim": "一趟遍历枚举下标 i 与值 val，赋值 inv[val]=i 无嵌套查找",
+            "evidence": "for i, val in enumerate(perm): inv[val] = i"
+          },
+          {
+            "id": "S4",
+            "claim": "返回 inv 满足 inv[perm[i]]==i，因 perm 为排列故每个 val 唯一无冲突",
+            "evidence": "return inv; 时间 O(n) 空间 O(n)"
+          }
+        ],
+        "code": "def inverse_permutation(perm):\n    n = len(perm)\n    if n == 0:\n        return []\n    inv = [0] * n\n    for i, val in enumerate(perm):\n        inv[val] = i\n    return inv",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E22",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：inv[perm[i]] = i"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E23",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E23",
+        "summary": "单次遍历维护历史最大值，严格大于时计数，首元素必计。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空列表返回0",
+            "evidence": "if not nums: return 0 处理 len=0 边界"
+          },
+          {
+            "id": "S2",
+            "claim": "用 max_so_far=None 表示尚无记录，count=0",
+            "evidence": "初始化不变量：count为已破纪录数，max_so_far为前缀最大值或None"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历中，若 max_so_far is None 或 x > max_so_far 则 count+=1 且更新 max_so_far=x",
+            "evidence": "严格大于才破纪录，相等不计数；首元素满足 None 条件计为1"
+          },
+          {
+            "id": "S4",
+            "claim": "返回 count",
+            "evidence": "时间复杂度 O(n)，空间 O(1)，对应代码返回"
+          }
+        ],
+        "code": "def count_records(nums: list[int]) -> int:\n    if not nums:\n        return 0\n    count = 0\n    max_so_far = None\n    for x in nums:\n        if max_so_far is None:\n            count += 1\n            max_so_far = x\n        elif x > max_so_far:\n            count += 1\n            max_so_far = x\n    return count",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E23",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：当前最大值"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E24",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E24",
+        "summary": "遍历列表并统计满足 low <= x <= high 的元素个数，优先处理 low>high 或空列表的边界情况。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "当 low > high 或 nums 为空时区间或输入为空，直接返回 0",
+            "evidence": "if low > high or len(nums) == 0: return 0 满足边界要求"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化计数器并遍历所有元素",
+            "evidence": "cnt = 0; for x in nums 覆盖每个元素一次"
+          },
+          {
+            "id": "S3",
+            "claim": "仅当元素在闭区间内时计数加一",
+            "evidence": "if low <= x <= high: cnt += 1 保持计数不变量为当前满足条件的个数"
+          },
+          {
+            "id": "S4",
+            "claim": "返回最终计数，时间复杂度 O(n) 空间 O(1)",
+            "evidence": "return cnt 对应线性扫描与常数额外空间"
+          }
+        ],
+        "code": "def count_in_range(nums: list[int], low: int, high: int) -> int:\n    if low > high or len(nums) == 0:\n        return 0\n    cnt = 0\n    for x in nums:\n        if low <= x <= high:\n            cnt += 1\n    return cnt",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E24",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "正确处理边界，代码一致"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "遍历完整，初始化正确"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "闭区间条件 low<=x<=high 正确"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "返回 cnt，O(n) 时间 O(1) 空间"
+            }
+          ],
+          "confidence": 0.95,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E25",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E25",
+        "summary": "遍历字符串并用字典累计每个字符出现次数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化空字典存储字符到频率的映射",
+            "evidence": "d = {} (dict 字面量)"
+          },
+          {
+            "id": "S2",
+            "claim": "对 s 中每个字符顺序遍历",
+            "evidence": "for c in s: 迭代字符串"
+          },
+          {
+            "id": "S3",
+            "claim": "若字符已在字典中则计数加1，否则初始化为1",
+            "evidence": "if c in d: d[c] += 1 else d[c] = 1"
+          },
+          {
+            "id": "S4",
+            "claim": "返回字典；空串时循环不执行直接返回空字典",
+            "evidence": "return d; len(s)==0 时 d 为空"
+          }
+        ],
+        "code": "def char_freq(s: str) -> dict[str, int]:\n    d = {}\n    for c in s:\n        if c in d:\n            d[c] += 1\n        else:\n            d[c] = 1\n    return d",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E25",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：freq.get, O(n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E26",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E26",
+        "summary": "通过取模得到有效移位量，利用切片拼接实现循环右移并返回新列表。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若输入列表为空，直接返回空列表以避免取模和切片错误",
+            "evidence": "n = len(nums); if n == 0: return []"
+          },
+          {
+            "id": "S2",
+            "claim": "对长度取模得到有效右移位数 k_mod，处理 k 大于长度的情况",
+            "evidence": "k = k % n 使得 0 <= k < n"
+          },
+          {
+            "id": "S3",
+            "claim": "使用切片将后 k 个元素移到前面，前 n-k 个元素接在后面，生成新列表不修改原列表",
+            "evidence": "return nums[n-k:] + nums[:n-k] 产生新列表，原 nums 未被改变"
+          }
+        ],
+        "code": "def rotate_right(nums: list[int], k: int) -> list[int]:\n    n = len(nums)\n    if n == 0:\n        return []\n    k = k % n\n    return nums[n-k:] + nums[:n-k]",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E26",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S3",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S3",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：O(n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E27",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E27",
+        "summary": "将整数绝对值转为字符串并逐字符统计目标数字出现次数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "对 n 取绝对值并转为十进制字符串，消除符号影响且覆盖 n=0 边界",
+            "evidence": "abs(n) 去除符号；str() 生成数字字符序列，str(0)='0' 使 count_digit(0,0)=1 自然成立"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历字符串每个字符，将字符转整数后与 d 比较，相等则计数器加一",
+            "evidence": "int(ch)==d 判断数字相等；for 循环累加确保统计所有位，使用内建 int/str 无额外库"
+          },
+          {
+            "id": "S3",
+            "claim": "返回计数器作为结果",
+            "evidence": "时间复杂度 O(位数) ≤ O(19)，空间 O(位数)；与约束 |n|≤10^18 匹配"
+          }
+        ],
+        "code": "def count_digit(n: int, d: int) -> int:\n    s = str(abs(n))\n    cnt = 0\n    for ch in s:\n        if int(ch) == d:\n            cnt += 1\n    return cnt",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E27",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S3",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S3",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：x % 10, x //= 10, n == 0"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E28",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E28",
+        "summary": "利用集合求交集去重并用 sorted 升序排列",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若 a 或 b 为空列表，直接返回空列表",
+            "evidence": "边界条件：任一列表为空时返回空列表；用 `if not a or not b: return []`"
+          },
+          {
+            "id": "S2",
+            "claim": "将 a 和 b 转为集合以去重并支持高效成员检测",
+            "evidence": "内建 set 允许使用；set(a) 和 set(b) 去除重复元素"
+          },
+          {
+            "id": "S3",
+            "claim": "取两集合交集得到同时出现在 a 与 b 中的元素（已去重）",
+            "evidence": "集合交集操作 `set(a) & set(b)` 返回共有元素集合"
+          },
+          {
+            "id": "S4",
+            "claim": "对交集元素按数值升序排序并返回列表",
+            "evidence": "内建 sorted 返回升序列表；满足结果去重且升序要求"
+          }
+        ],
+        "code": "def common_sorted(a: list[int], b: list[int]) -> list[int]:\n    if not a or not b:\n        return []\n    return sorted(set(a) & set(b))",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E28",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空列表边界处理正确，代码一致"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "set去重，符合去重要求"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "交集得共有去重元素"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "sorted升序返回列表"
+            }
+          ],
+          "confidence": 0.99,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E29",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E29",
+        "summary": "使用 Kadane 算法在 O(n) 时间内计算非空连续子数组最大和，空列表返回 0。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空列表直接返回 0 满足边界要求",
+            "evidence": "if not nums: return 0"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化 max_end 和 max_so_far 为首个元素，保证子数组非空且覆盖全负数情况",
+            "evidence": "max_end = nums[0]; max_so_far = nums[0]"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历后续元素，max_end 维护以当前位置结尾的最大子数组和（要么接上前面，要么从头开始）",
+            "evidence": "max_end = max(nums[i], max_end + nums[i])"
+          },
+          {
+            "id": "S4",
+            "claim": "max_so_far 记录遍历过程中的全局最大值",
+            "evidence": "max_so_far = max(max_so_far, max_end)"
+          },
+          {
+            "id": "S5",
+            "claim": "返回 max_so_far；全负数时 max_end 总取单元素故结果为最大负数",
+            "evidence": "return max_so_far; 不变量：max_so_far >= 任何已见子数组和"
+          }
+        ],
+        "code": "def max_subarray_sum(nums: list[int]) -> int:\n    if not nums:\n        return 0\n    max_end = nums[0]\n    max_so_far = nums[0]\n    for i in range(1, len(nums)):\n        max_end = max(nums[i], max_end + nums[i])\n        max_so_far = max(max_so_far, max_end)\n    return max_so_far",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E29",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：cur = max(x, cur + x), O(n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "E30",
+        "difficulty": "easy"
+      },
+      "solution": {
+        "task_id": "E30",
+        "summary": "统计元素频次后对去重元素按(-频次,元素)排序",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空列表边界直接返回空列表",
+            "evidence": "len(nums)==0 -> return [] 满足约束空列表返回空列表"
+          },
+          {
+            "id": "S2",
+            "claim": "用字典统计频次实现去重与计数",
+            "evidence": "for x in nums: if x in freq: freq[x]+=1 else: freq[x]=1; O(n) 空间存储元素到频次映射"
+          },
+          {
+            "id": "S3",
+            "claim": "提取去重键并按规则排序",
+            "evidence": "keys=list(freq.keys()); sorted(keys, key=get_key) 其中 get_key 返回 (-freq[x], x) 保证频次降序、同频数值升序"
+          },
+          {
+            "id": "S4",
+            "claim": "返回排序后列表即所求",
+            "evidence": "函数返回类型 list[int] 与签名一致，复杂度 O(n log n) 时间"
+          }
+        ],
+        "code": "def sort_by_frequency(nums):\n    if len(nums) == 0:\n        return []\n    freq = {}\n    for x in nums:\n        if x in freq:\n            freq[x] += 1\n        else:\n            freq[x] = 1\n    keys = list(freq.keys())\n    def get_key(x):\n        return (-freq[x], x)\n    return sorted(keys, key=get_key)",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "E30",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：key=lambda, 并列"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M04",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M04",
+        "summary": "用滑动窗口和字典记录字符最近出现位置，单次线性扫描求最长无重复子串长度。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "维护滑动窗口[left,right]并让right线性向前扫描整个字符串",
+            "evidence": "for right, ch in enumerate(s): 且left初始0，保证O(n)单次扫描"
+          },
+          {
+            "id": "S2",
+            "claim": "用字典last记录字符最近下标，若字符在窗口内重复则左边界跳至重复处后一位",
+            "evidence": "if ch in last and last[ch] >= left: left = last[ch] + 1；不变量：窗口内字符的last值均<left"
+          },
+          {
+            "id": "S3",
+            "claim": "每次扩展后更新字符位置并刷新最长长度",
+            "evidence": "last[ch]=right; curr_len=right-left+1; if curr_len > max_len: max_len = curr_len"
+          },
+          {
+            "id": "S4",
+            "claim": "空串或扫描结束返回max_len即为答案，满足线性时间与常数空间",
+            "evidence": "return max_len；空串循环不执行返回0，空间O(字符集)≤128"
+          }
+        ],
+        "code": "def length_of_longest_substring(s: str) -> int:\n    last = {}\n    max_len = 0\n    left = 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right\n        curr_len = right - left + 1\n        if curr_len > max_len:\n            max_len = curr_len\n    return max_len",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M04",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：左边界只增不减"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M05",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M05",
+        "summary": "使用二分查找（lower_bound）定位第一个大于等于 target 的下标。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化搜索区间 [lo, hi) 为整个数组，不变量：答案若存在必在 [lo, hi) 中，初始 lo=0, hi=len(nums)。",
+            "evidence": "代码 lo=0, hi=len(nums)；空数组时区间为空，直接返回 -1。"
+          },
+          {
+            "id": "S2",
+            "claim": "循环 while lo < hi 缩小区间：mid = (lo+hi)//2，若 nums[mid] < target 则 lo=mid+1，否则 hi=mid，保持不变量。",
+            "evidence": "divmod(lo+hi,2)[0] 得 mid；若 nums[mid] < target 说明 mid 及左侧均不满足，答案在右侧；否则 mid 可能就是答案或左侧有更早的，故 hi=mid。"
+          },
+          {
+            "id": "S3",
+            "claim": "循环终止时 lo == hi，该位置是候选答案；若 lo < len(nums) 返回 lo，否则返回 -1。",
+            "evidence": "代码 if lo < len(nums): return lo else -1；覆盖所有元素小于 target 情况。"
+          },
+          {
+            "id": "S4",
+            "claim": "边界与重复处理：空数组、全小于、全大于等于、重复元素均正确，因 hi 向左收缩保证最左。",
+            "evidence": "重复时 nums[mid] >= target 走 hi=mid 分支，最终停在第一个满足位置；时间复杂度 O(log n)，空间 O(1)。"
+          }
+        ],
+        "code": "def first_ge(nums: list[int], target: int) -> int:\n    lo = 0\n    hi = len(nums)\n    while lo < hi:\n        mid = divmod(lo + hi, 2)[0]\n        if nums[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    if lo < len(nums):\n        return lo\n    return -1",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M05",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：二分, 左闭右开, 下界"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M06",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M06",
+        "summary": "用字典统计频率，枚举不同数值的无序对并按组合数计算满足和在区间内的下标对数。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "统计 nums 中每个数值的出现频率到字典 freq",
+            "evidence": "freq = {}; for x in nums: if x in freq: freq[x]+=1 else: freq[x]=1; O(n), n<=3000"
+          },
+          {
+            "id": "S2",
+            "claim": "提取不同数值并升序排序为 vals",
+            "evidence": "vals = sorted(freq.keys()); O(k log k), k<=n"
+          },
+          {
+            "id": "S3",
+            "claim": "枚举 i<=j 的值对，若和在区间内则累加对应下标对数",
+            "evidence": "for i in range(k): for j in range(i,k): s=vals[i]+vals[j]; if low<=s<=high: ans += fi*freq[vj] if i!=j else fi*(fi-1)//2; 覆盖所有 i<j 且无重复"
+          },
+          {
+            "id": "S4",
+            "claim": "返回累计答案，整体复杂度 O(n + k^2) 且空间 O(k)",
+            "evidence": "k<=3000, k^2<=9e6 可接受；无 import 仅用内建函数"
+          }
+        ],
+        "code": "def count_pairs_in_range(nums, low, high):\n    freq = {}\n    for x in nums:\n        if x in freq:\n            freq[x] += 1\n        else:\n            freq[x] = 1\n    vals = sorted(freq.keys())\n    k = len(vals)\n    ans = 0\n    for i in range(k):\n        vi = vals[i]\n        fi = freq[vi]\n        for j in range(i, k):\n            vj = vals[j]\n            s = vi + vj\n            if low <= s <= high:\n                if i == j:\n                    ans += fi * (fi - 1) // 2\n                else:\n                    ans += fi * freq[vj]\n    return ans",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M06",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：单调, O(n log n)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M07",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M07",
+        "summary": "排序后线性扫描合并重叠或相邻的闭区间",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空列表直接返回空列表",
+            "evidence": "if not intervals: return [] 处理边界 len=0"
+          },
+          {
+            "id": "S2",
+            "claim": "按起点升序排序区间",
+            "evidence": "sorted(intervals) 利用列表字典序先比较 start 满足要求"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历时若当前起点小于等于已合并末区间终点则合并（扩展终点取max），否则追加",
+            "evidence": "invariant: merged 始终保持不相交且按起点升序；cur[0] <= last[1] 覆盖交集与端点接触"
+          },
+          {
+            "id": "S4",
+            "claim": "返回合并后的列表",
+            "evidence": "merged 即为所求，时间 O(n log n) 空间 O(n)"
+          }
+        ],
+        "code": "def merge_intervals(intervals):\n    if not intervals:\n        return []\n    sorted_intervals = sorted(intervals)\n    merged = []\n    for interval in sorted_intervals:\n        if not merged:\n            merged.append([interval[0], interval[1]])\n        else:\n            last = merged[-1]\n            if interval[0] <= last[1]:\n                last[1] = max(last[1], interval[1])\n            else:\n                merged.append([interval[0], interval[1]])\n    return merged",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M07",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "空列表返回[]，代码一致，处理len=0边界"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "sorted按列表首元素升序，满足起点排序要求"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "使用<=判断覆盖端点接触，合并取max保持不变量"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "返回merged，复杂度O(n log n)时间O(n)空间分析正确"
+            }
+          ],
+          "confidence": 0.96,
+          "source": "hy3"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M08",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M08",
+        "summary": "双指针从两端向中间移动，计算当前容器面积并更新最大值，每次移动较矮挡板指针以探索潜在更大面积。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "挡板数少于2时无法构成容器，返回0",
+            "evidence": "if len(heights) < 2: return 0"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化左右指针至首尾，最大面积初值0",
+            "evidence": "l=0; r=len(heights)-1; max_a=0"
+          },
+          {
+            "id": "S3",
+            "claim": "指针未相遇时，宽度为r-l，高度为两板较小值，更新最大面积",
+            "evidence": "w=r-l; h=min(heights[l], heights[r]); a=w*h; max_a=max(max_a, a)"
+          },
+          {
+            "id": "S4",
+            "claim": "移动较矮侧指针：宽度必减，唯有更高挡板才可能增大面积，且不会错过最优解",
+            "evidence": "if heights[l] <= heights[r]: l+=1 else: r-=1"
+          },
+          {
+            "id": "S5",
+            "claim": "循环结束返回记录的最大面积",
+            "evidence": "return max_a"
+          },
+          {
+            "id": "S6",
+            "claim": "时间复杂度O(n)空间O(1)，对应单次while遍历与常数变量",
+            "evidence": "while l<r 最多n次，仅用l,r,w,h,a,max_a标量"
+          }
+        ],
+        "code": "def max_area(heights: list[int]) -> int:\n    if len(heights) < 2:\n        return 0\n    l = 0\n    r = len(heights) - 1\n    max_a = 0\n    while l < r:\n        w = r - l\n        h = min(heights[l], heights[r])\n        a = w * h\n        if a > max_a:\n            max_a = a\n        if heights[l] <= heights[r]:\n            l += 1\n        else:\n            r -= 1\n    return max_a",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M08",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S6",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S6",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：双指针, 短板, 向内收缩"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M09",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M09",
+        "summary": "利用前缀和与哈希表统计满足 cur - prev = k 的前缀和对数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "连续子数组 [i+1..j] 和等于 k 等价于前缀和 prefix[j] - prefix[i] = k",
+            "evidence": "sum(nums[i+1:j+1]) = prefix[j] - prefix[i]"
+          },
+          {
+            "id": "S2",
+            "claim": "维护字典记录各前缀和出现次数，初始空前缀 prefix=0 计数为 1",
+            "evidence": "count_map = {0:1} 处理从起始开始的子数组"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历 nums 累加当前前缀和 cur，若 cur-k 在字典中则答案加上其计数，再将 cur 计数加 1",
+            "evidence": "if target in count_map: ans += count_map[target]; 再用 in 判断更新 count_map[cur]"
+          },
+          {
+            "id": "S4",
+            "claim": "空数组或全负数/零均正确：空数组循环不执行返回 0，负数不改变等式逻辑",
+            "evidence": "len(nums)=0 -> ans=0; 整数加减法对正负通用"
+          },
+          {
+            "id": "S5",
+            "claim": "时间复杂度 O(n) 空间复杂度 O(n)，对应单次遍历与字典存储前缀和",
+            "evidence": "for num in nums 一次遍历，字典最多存 n+1 个键"
+          }
+        ],
+        "code": "def count_subarray_sum(nums: list[int], k: int) -> int:\n    count_map = {}\n    count_map[0] = 1\n    cur = 0\n    ans = 0\n    for num in nums:\n        cur += num\n        target = cur - k\n        if target in count_map:\n            ans += count_map[target]\n        if cur in count_map:\n            count_map[cur] += 1\n        else:\n            count_map[cur] = 1\n    return ans",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M09",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：哈希表"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M10",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M10",
+        "summary": "用栈维护尚未遇到更高温度的下标，从左到右扫描计算等待天数。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化结果列表为全0，栈为空列表用于存储下标",
+            "evidence": "n=len(temps); ans=[0]*n; stack=[]; 空输入时返回[]"
+          },
+          {
+            "id": "S2",
+            "claim": "遍历每个下标 i，若当前温度严格大于栈顶温度则弹出栈顶并计算距离",
+            "evidence": "while stack and temps[i] > temps[stack[-1]]: idx=stack.pop(); ans[idx]=i-idx; 严格大于排除相等"
+          },
+          {
+            "id": "S3",
+            "claim": "将当前下标 i 入栈，保持栈中下标对应温度非递增",
+            "evidence": "stack.append(i); 不变量保证每个出栈元素找到右侧第一个更高温度"
+          },
+          {
+            "id": "S4",
+            "claim": "遍历结束返回 ans，栈中剩余下标保持0表示无更高温度",
+            "evidence": "return ans; 时间复杂度O(n), 空间复杂度O(n)"
+          }
+        ],
+        "code": "def daily_warmer(temps):\n    n = len(temps)\n    ans = [0] * n\n    stack = []\n    for i in range(n):\n        while stack and temps[i] > temps[stack[-1]]:\n            idx = stack.pop()\n            ans[idx] = i - idx\n        stack.append(i)\n    return ans",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M10",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：单调栈"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M11",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M11",
+        "summary": "递归分治快速幂：零指数返回1，负指数取倒数，正指数折半递归并按奇偶组合。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "指数为0时返回1.0，满足x^0=1的不变量",
+            "evidence": "代码 `if n == 0: return 1.0`"
+          },
+          {
+            "id": "S2",
+            "claim": "负指数转化为正指数的倒数，满足x^{-k}=1/x^k且|n|<=1000安全",
+            "evidence": "代码 `if n < 0: return 1.0 / fast_power(x, -n)`"
+          },
+          {
+            "id": "S3",
+            "claim": "对正指数递归计算折半幂 half = fast_power(x, n//2)，指数减半保证O(log|n|)时间",
+            "evidence": "代码 `half = fast_power(x, n // 2)` 实现分治"
+          },
+          {
+            "id": "S4",
+            "claim": "根据指数奇偶用 half 组合结果：偶返回 half*half，奇返回 x*half*half，避免连乘",
+            "evidence": "代码 `if n % 2 == 0: return half * half else: return x * half * half`"
+          }
+        ],
+        "code": "def fast_power(x: float, n: int) -> float:\n    if n == 0:\n        return 1.0\n    if n < 0:\n        return 1.0 / fast_power(x, -n)\n    half = fast_power(x, n // 2)\n    if n % 2 == 0:\n        return half * half\n    else:\n        return x * half * half",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M11",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：递归终止"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M12",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M12",
+        "summary": "使用四个边界指针逐层向内顺时针遍历矩阵，并在单行/单列时通过条件避免重复。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空矩阵或首行为空时直接返回空列表",
+            "evidence": "if not matrix or not matrix[0]: return [] 处理 [] 和 [[]] 边界"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化 top,bottom,left,right 边界并循环直到边界交叉",
+            "evidence": "top=0; bottom=len(matrix)-1; left=0; right=len(matrix[0])-1; while top<=bottom and left<=right"
+          },
+          {
+            "id": "S3",
+            "claim": "从左到右收集顶行，从上到下收集右列",
+            "evidence": "for i in range(left,right+1): res.append(matrix[top][i]); for i in range(top+1,bottom+1): res.append(matrix[i][right])"
+          },
+          {
+            "id": "S4",
+            "claim": "仅当 top<bottom 从右到左收集底行，仅当 left<right 从下到上收集左列，避免单行/单列重复",
+            "evidence": "if top<bottom: for i in range(right-1,left-1,-1): res.append(matrix[bottom][i]); if left<right: for i in range(bottom-1,top,-1): res.append(matrix[i][left])"
+          },
+          {
+            "id": "S5",
+            "claim": "每轮结束后边界向内收缩一层",
+            "evidence": "top+=1; bottom-=1; left+=1; right-=1 保持不变量并终止"
+          },
+          {
+            "id": "S6",
+            "claim": "时间复杂度 O(mn)，空间复杂度 O(mn) 结果列表，满足约束",
+            "evidence": "每个元素恰好访问一次，m,n<=200"
+          }
+        ],
+        "code": "def spiral_order(matrix):\n    if not matrix or not matrix[0]:\n        return []\n    res = []\n    top = 0\n    bottom = len(matrix) - 1\n    left = 0\n    right = len(matrix[0]) - 1\n    while top <= bottom and left <= right:\n        for i in range(left, right + 1):\n            res.append(matrix[top][i])\n        for i in range(top + 1, bottom + 1):\n            res.append(matrix[i][right])\n        if top < bottom:\n            for i in range(right - 1, left - 1, -1):\n                res.append(matrix[bottom][i])\n        if left < right:\n            for i in range(bottom - 1, top, -1):\n                res.append(matrix[i][left])\n        top += 1\n        bottom -= 1\n        left += 1\n        right -= 1\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M12",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S6",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S6",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：边界收缩, 单行或单列"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M13",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M13",
+        "summary": "使用贪心区间跳跃，在必须跳时跳到能覆盖最远的下一区间，统计最少跳跃次数。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "数组长度不超过1时最少跳跃次数为0",
+            "evidence": "len(nums)<=1 => return 0; 对应代码边界判断"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化跳跃次数、当前区间右边界和能到达的最远位置",
+            "evidence": "jumps=0, cur_end=0, farthest=0; 不变量：cur_end为已规划跳跃覆盖的最远下标"
+          },
+          {
+            "id": "S3",
+            "claim": "遍历至倒数第二个下标，更新从当前及之前起跳能到达的最远位置",
+            "evidence": "farthest = max(farthest, i + nums[i]) for i in range(n-1)"
+          },
+          {
+            "id": "S4",
+            "claim": "当遍历到下标等于当前区间右边界时，必须进行一次跳跃并扩展区间",
+            "evidence": "if i == cur_end: jumps+=1; cur_end=farthest; 保证每次跳跃覆盖最远可达区间"
+          },
+          {
+            "id": "S5",
+            "claim": "若更新后区间已覆盖最后一个下标则提前结束",
+            "evidence": "if cur_end >= n-1: break; 避免多余计算且保证正确终止"
+          },
+          {
+            "id": "S6",
+            "claim": "返回的跳跃次数即为最少跳跃次数",
+            "evidence": "贪心局部最优（每次跳到最远）得全局最优；时间O(n),空间O(1)对应代码"
+          }
+        ],
+        "code": "def jump_count(nums: list[int]) -> int:\n    n = len(nums)\n    if n <= 1:\n        return 0\n    jumps = 0\n    cur_end = 0\n    farthest = 0\n    for i in range(n - 1):\n        farthest = max(farthest, i + nums[i])\n        if i == cur_end:\n            jumps += 1\n            cur_end = farthest\n            if cur_end >= n - 1:\n                break\n    return jumps",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M13",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S6",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S6",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：可达边界, 一次遍历"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M14",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M14",
+        "summary": "用dict计数分数，按(次数,分数)降序排序后取前k个分数",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "k为0或scores为空时直接返回空列表",
+            "evidence": "约束: k=0或输入为空返回空列表"
+          },
+          {
+            "id": "S2",
+            "claim": "用dict统计每个分数出现次数",
+            "evidence": "遍历scores, 若s在cnt则+1否则置1, O(n)"
+          },
+          {
+            "id": "S3",
+            "claim": "构造(count,score)元组列表",
+            "evidence": "items=[(cnt[s],s) for s in cnt]"
+          },
+          {
+            "id": "S4",
+            "claim": "按(count,score)降序排序满足次数高优先、同次分数大优先",
+            "evidence": "sorted(items,reverse=True)利用元组比较"
+          },
+          {
+            "id": "S5",
+            "claim": "取前min(k,len(items))个分数输出",
+            "evidence": "range(k if k<len(items) else len(items))提取score"
+          }
+        ],
+        "code": "def top_scores(scores: list[int], k: int) -> list[int]:\n    if k == 0 or len(scores) == 0:\n        return []\n    cnt = {}\n    for s in scores:\n        if s in cnt:\n            cnt[s] += 1\n        else:\n            cnt[s] = 1\n    items = [(cnt[s], s) for s in cnt]\n    items = sorted(items, reverse=True)\n    res = []\n    for i in range(k if k < len(items) else len(items)):\n        res.append(items[i][1])\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M14",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：计数数组, 频次, 并列"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M15",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M15",
+        "summary": "使用 KMP 算法预处理模式串的部分匹配表(lps)，然后在主串上线性扫描匹配，主串指针不回退。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "若 needle 为空字符串，直接返回 0，满足题目边界要求。",
+            "evidence": "if not needle: return 0"
+          },
+          {
+            "id": "S2",
+            "claim": "预处理 lps 数组：lps[i] 为 needle[0..i] 最长真前后缀长度，用双指针在 O(n) 时间计算。",
+            "evidence": "lps=[0]*n; length=0; i=1; while i<n: if needle[i]==needle[length]: length+=1; lps[i]=length; i+=1; elif length!=0: length=lps[length-1]; else: lps[i]=0; i+=1"
+          },
+          {
+            "id": "S3",
+            "claim": "KMP 匹配：主串指针 i 与模式指针 j 从 0 开始，匹配时同进，不匹配且 j>0 时 j 回退到 lps[j-1]，j=0 时 i 前进，保证 i 只增不减。",
+            "evidence": "while i<m: if haystack[i]==needle[j]: i+=1; j+=1; if j==n: return i-j; elif j!=0: j=lps[j-1]; else: i+=1"
+          },
+          {
+            "id": "S4",
+            "claim": "若扫描结束未匹配，返回 -1。",
+            "evidence": "return -1"
+          },
+          {
+            "id": "S5",
+            "claim": "时间复杂度 O(m+n)，空间 O(n) 存 lps，满足长度约束 5000。",
+            "evidence": "m,n<=5000; 仅用 list 和 int 实现"
+          }
+        ],
+        "code": "def str_str(haystack: str, needle: str) -> int:\n    if not needle:\n        return 0\n    n = len(needle)\n    lps = [0] * n\n    length = 0\n    i = 1\n    while i < n:\n        if needle[i] == needle[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        elif length != 0:\n            length = lps[length - 1]\n        else:\n            lps[i] = 0\n            i += 1\n    m = len(haystack)\n    i = 0\n    j = 0\n    while i < m:\n        if haystack[i] == needle[j]:\n            i += 1\n            j += 1\n            if j == n:\n                return i - j\n        elif j != 0:\n            j = lps[j - 1]\n        else:\n            i += 1\n    return -1",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M15",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 8,
+          "total": 8,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S5",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：部分匹配表, 指针不回退, O(n+m)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M16",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M16",
+        "summary": "用单调队列（列表+头指针）在O(n)时间内求每个滑动窗口最大值。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "边界条件：nums空、k<=0或k>len(nums)时返回空列表",
+            "evidence": "代码开头 if not nums or k <= 0 or k > len(nums): return []"
+          },
+          {
+            "id": "S2",
+            "claim": "用列表q存储索引，维护nums[q]单调递减，head指向有效队首",
+            "evidence": "q.append(i)且while弹出队尾保证递减；head管理过期"
+          },
+          {
+            "id": "S3",
+            "claim": "窗口滑动时移除过期索引：若q[head] <= i-k则head增1",
+            "evidence": "if q and q[head] <= i - k: head += 1 排除左边界外元素"
+          },
+          {
+            "id": "S4",
+            "claim": "维护递减性：从队尾弹出所有对应值<=当前值的索引，若清空则head归零",
+            "evidence": "while q and nums[q[-1]] <= x: q.pop(); if not q: head = 0"
+          },
+          {
+            "id": "S5",
+            "claim": "当i>=k-1时记录窗口最大值nums[q[head]]到结果",
+            "evidence": "if i >= k - 1: res.append(nums[q[head]])"
+          },
+          {
+            "id": "S6",
+            "claim": "算法时间O(n)空间O(n)，满足约束",
+            "evidence": "每个索引进出队列各常数次，n<=10000"
+          }
+        ],
+        "code": "def max_sliding(nums: list[int], k: int) -> list[int]:\n    if not nums or k <= 0 or k > len(nums):\n        return []\n    q = []\n    head = 0\n    res = []\n    for i, x in enumerate(nums):\n        if q and q[head] <= i - k:\n            head += 1\n        while q and nums[q[-1]] <= x:\n            q.pop()\n            if not q:\n                head = 0\n        q.append(i)\n        if i >= k - 1:\n            res.append(nums[q[head]])\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M16",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S6",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 7,
+          "total": 7,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S6",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：单调队列, 下标"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M17",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M17",
+        "summary": "二分查找，依据 mid 分割出的有序半区决定是否收缩左或右区间。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "空数组边界直接返回 -1",
+            "evidence": "if n == 0: return -1"
+          },
+          {
+            "id": "S2",
+            "claim": "初始化双指针并循环直到交叉",
+            "evidence": "left=0; right=n-1; while left<=right"
+          },
+          {
+            "id": "S3",
+            "claim": "中点命中即返回",
+            "evidence": "mid=left+(right-left)//2; if nums[mid]==target: return mid"
+          },
+          {
+            "id": "S4",
+            "claim": "左半有序时判断 target 是否在左半区间并收缩",
+            "evidence": "if nums[left]<=nums[mid]: if nums[left]<=target<nums[mid]: right=mid-1 else left=mid+1"
+          },
+          {
+            "id": "S5",
+            "claim": "否则右半有序并判断 target 是否在右半区间并收缩",
+            "evidence": "else: if nums[mid]<target<=nums[right]: left=mid+1 else right=mid-1"
+          },
+          {
+            "id": "S6",
+            "claim": "未命中返回 -1，每次区间减半保证 O(log n)",
+            "evidence": "loop ends return -1; halving invariant"
+          }
+        ],
+        "code": "def search_rotated(nums: list[int], target: int) -> int:\n    n = len(nums)\n    if n == 0:\n        return -1\n    left = 0\n    right = n - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[left] <= nums[mid]:\n            if nums[left] <= target < nums[mid]:\n                right = mid - 1\n            else:\n                left = mid + 1\n        else:\n            if nums[mid] < target <= nums[right]:\n                left = mid + 1\n            else:\n                right = mid - 1\n    return -1",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M17",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S6",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 12,
+          "total": 12,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S6",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S6",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：二分, 至少一半有序"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M18",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '34300fa6-3b5e-4a81-8cf1-873e3cf77fbf'}}"
+    },
+    {
+      "task": {
+        "id": "M19",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '063d3f74-114b-4a53-b105-f1e6fbba7506'}}"
+    },
+    {
+      "task": {
+        "id": "M20",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M20",
+        "summary": "使用差分数组在 O(n+|ops|) 时间内完成区间加并还原最终数组。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "初始化长度为 n+1 的全 0 差分数组 diff，利用差分性质将区间加转化为端点修改",
+            "evidence": "diff = [0]*(n+1)；不变量：diff 长度 n+1 覆盖索引 0..n，初始全 0"
+          },
+          {
+            "id": "S2",
+            "claim": "对每个操作 [l,r,v]，执行 diff[l] += v 和 diff[r+1] -= v，将闭区间 [l,r] 加 v 等价于两端点差分修改",
+            "evidence": "因 r <= n-1 故 r+1 <= n，diff[r+1] 有效；边界 l=r 时仍正确"
+          },
+          {
+            "id": "S3",
+            "claim": "通过前缀和扫描 diff 得到原数组：cur 累加 diff[i] 并写入结果，res[i] = sum(diff[0..i])",
+            "evidence": "for i in range(n): cur += diff[i]; res.append(cur)；n=0 时 range(n) 为空直接返回 []"
+          },
+          {
+            "id": "S4",
+            "claim": "时间复杂度 O(n + |ops|)，空间复杂度 O(n)，满足约束",
+            "evidence": "两次独立线性扫描，差分数组长度 n+1"
+          }
+        ],
+        "code": "def range_add_diff(n: int, ops: list[list[int]]) -> list[int]:\n    diff = [0] * (n + 1)\n    for op in ops:\n        l, r, v = op[0], op[1], op[2]\n        diff[l] += v\n        diff[r + 1] -= v\n    res = []\n    cur = 0\n    for i in range(n):\n        cur += diff[i]\n        res.append(cur)\n    return res",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M20",
+        "final_correct": true,
+        "process_correct": false,
+        "verdict": "答案正确但过程不成立",
+        "first_error_step": "S4",
+        "error_type": "条件遗漏",
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 9,
+          "total": 9,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": false,
+          "first_error_step": "S4",
+          "error_type": "条件遗漏",
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "unsupported",
+              "error_type": "条件遗漏",
+              "reason": "缺少关键说明：O(n+m)"
+            }
+          ],
+          "confidence": 0.72,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M21",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '0b468301-3faf-4a85-839d-7cd08891bf32'}}"
+    },
+    {
+      "task": {
+        "id": "M22",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '758b48b8-47db-4b36-b724-36482a1a2b3b'}}"
+    },
+    {
+      "task": {
+        "id": "M23",
+        "difficulty": "medium"
+      },
+      "solution": {
+        "task_id": "M23",
+        "summary": "用栈模拟压入并按贪心匹配弹出，最后检查栈空且长度一致。",
+        "steps": [
+          {
+            "id": "S1",
+            "claim": "长度不同直接不合法",
+            "evidence": "if len(pushed) != len(popped): return False 对应题目约束"
+          },
+          {
+            "id": "S2",
+            "claim": "顺序将 pushed 元素压入栈",
+            "evidence": "stack.append(x) 保持栈序不变量"
+          },
+          {
+            "id": "S3",
+            "claim": "压入后若栈顶等于当前 popped 元素则循环弹出并推进指针",
+            "evidence": "while stack and j<len(popped) and stack[-1]==popped[j]: stack.pop(); j+=1 贪心匹配不变量"
+          },
+          {
+            "id": "S4",
+            "claim": "模拟结束栈空则序列合法",
+            "evidence": "return len(stack)==0 对应最终栈不为空判不合法及长度已校验"
+          },
+          {
+            "id": "S5",
+            "claim": "时间复杂度 O(n) 空间 O(n)",
+            "evidence": "每个元素最多入栈出栈一次，栈最大规模 n"
+          }
+        ],
+        "code": "def is_valid_stack_sequence(pushed, popped):\n    if len(pushed) != len(popped):\n        return False\n    stack = []\n    j = 0\n    for x in pushed:\n        stack.append(x)\n        while stack and j < len(popped) and stack[-1] == popped[j]:\n            stack.pop()\n            j += 1\n    return len(stack) == 0",
+        "final_answer": "implemented"
+      },
+      "evaluation": {
+        "task_id": "M23",
+        "final_correct": true,
+        "process_correct": true,
+        "verdict": "答案与过程均成立",
+        "first_error_step": null,
+        "error_type": null,
+        "visible_tests": {
+          "passed": 2,
+          "total": 2,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "hidden_tests": {
+          "passed": 10,
+          "total": 10,
+          "failures": [],
+          "policy_error": null,
+          "timed_out": false
+        },
+        "process_review": {
+          "process_correct": true,
+          "first_error_step": null,
+          "error_type": null,
+          "step_reviews": [
+            {
+              "step_id": "S1",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S2",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S3",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S4",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            },
+            {
+              "step_id": "S5",
+              "status": "valid",
+              "error_type": null,
+              "reason": "未命中确定性错误规则"
+            }
+          ],
+          "confidence": 0.62,
+          "source": "rules"
+        }
+      }
+    },
+    {
+      "task": {
+        "id": "M24",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'd97968e8-7e75-4e3f-bcc3-1421d398b465'}}"
+    },
+    {
+      "task": {
+        "id": "M25",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'f902d101-438e-46c7-9e30-c1de4bd55580'}}"
+    },
+    {
+      "task": {
+        "id": "M26",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '331a073f-3cdc-4f61-b726-7513810a1bd2'}}"
+    },
+    {
+      "task": {
+        "id": "M27",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'ffe4e11d-6a23-4375-bd6e-896009596726'}}"
+    },
+    {
+      "task": {
+        "id": "M28",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '6b094b1b-13e5-4193-9e9c-8dcc75d6cd78'}}"
+    },
+    {
+      "task": {
+        "id": "M29",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '59280cb3-0d91-46cd-8d29-8f902b8870bc'}}"
+    },
+    {
+      "task": {
+        "id": "M30",
+        "difficulty": "medium"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'fa4e43cc-eb09-4f7f-8d69-b0012505c313'}}"
+    },
+    {
+      "task": {
+        "id": "H04",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '37fff8d0-9691-49d7-bc8a-e1dc41224415'}}"
+    },
+    {
+      "task": {
+        "id": "H05",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '98e6bc4a-cbdd-4307-a13a-efda369dd3a7'}}"
+    },
+    {
+      "task": {
+        "id": "H06",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '74182eb3-8a71-4631-b463-333630316fe5'}}"
+    },
+    {
+      "task": {
+        "id": "H07",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '945966a7-755a-436b-b4ce-0879eede271b'}}"
+    },
+    {
+      "task": {
+        "id": "H08",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'e7ac2ed6-d251-4dae-9b25-098aa10c4b4c'}}"
+    },
+    {
+      "task": {
+        "id": "H09",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '424d0b34-01d0-484f-978d-e9fe92f9bf99'}}"
+    },
+    {
+      "task": {
+        "id": "H10",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '8cf14893-ffe9-4cf5-a6a2-245864a3b4af'}}"
+    },
+    {
+      "task": {
+        "id": "H11",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'ad2659d2-15cb-400f-845f-6c4af7d9089b'}}"
+    },
+    {
+      "task": {
+        "id": "H12",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '66094246-118a-4290-b6ab-daebc48b1e49'}}"
+    },
+    {
+      "task": {
+        "id": "H13",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'd64cff4e-abeb-4966-b885-d275640fae39'}}"
+    },
+    {
+      "task": {
+        "id": "H14",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'a5960fd8-94a8-4d06-aae3-78e10c4ea43a'}}"
+    },
+    {
+      "task": {
+        "id": "H15",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '5a995b98-c28d-4027-bfec-a870e1904f51'}}"
+    },
+    {
+      "task": {
+        "id": "H16",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '9cfaaf6d-c3d8-4e2c-81e2-33247c04c726'}}"
+    },
+    {
+      "task": {
+        "id": "H17",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '3939b11a-5496-4870-a1e3-5c47d91ee4da'}}"
+    },
+    {
+      "task": {
+        "id": "H18",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '6b23893b-0932-4830-8a87-395a35e4fc18'}}"
+    },
+    {
+      "task": {
+        "id": "H19",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '559ae676-0578-4835-860e-4de12c365f84'}}"
+    },
+    {
+      "task": {
+        "id": "H20",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '593a18ea-1527-4882-a589-2bc2b21b69c7'}}"
+    },
+    {
+      "task": {
+        "id": "H21",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '2885775f-db04-40d7-8517-952f90f83de2'}}"
+    },
+    {
+      "task": {
+        "id": "H22",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'a7825af3-1d17-4d5e-ba92-5eb2dc48bca3'}}"
+    },
+    {
+      "task": {
+        "id": "H23",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '80f16945-47cf-44ba-9ca8-f90a242f8866'}}"
+    },
+    {
+      "task": {
+        "id": "H24",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '79858ee8-183a-4632-944e-fd828afc548c'}}"
+    },
+    {
+      "task": {
+        "id": "H25",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'c45d09bb-d86d-4456-91d4-9a7f9af7d88c'}}"
+    },
+    {
+      "task": {
+        "id": "H26",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '8af3402c-df38-4d1d-a12a-a0b3bd5c3c93'}}"
+    },
+    {
+      "task": {
+        "id": "H27",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '4911f9d1-1f93-4c69-a04d-590c1ac94f53'}}"
+    },
+    {
+      "task": {
+        "id": "H28",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': 'df93460f-40b6-4d89-bed4-48db44aedd8d'}}"
+    },
+    {
+      "task": {
+        "id": "H29",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '2688debc-4b62-4608-8577-1c011cb98ad8'}}"
+    },
+    {
+      "task": {
+        "id": "H30",
+        "difficulty": "hard"
+      },
+      "solution": null,
+      "evaluation": null,
+      "error": "APIStatusError: Error code: 402 - {'error': {'type': 'gateway_error', 'code': '401008', 'message': 'The free trial quota for the service has been exhausted and postpaid billing is not enabled, so the service cannot be accessed. Please go to Console > Online Inference Service to enable postpaid billing. See: https://console.cloud.tencent.com/tokenhub/inference', 'message_zh': '服务免费体验额度已耗尽，且未开启后付费，无法正常访问。请前往控制台 > 在线推理服务开启后付费，查看链接：https://console.cloud.tencent.com/tokenhub/inference', 'request_id': '0373d3f5-c3eb-4882-8cbd-e559609480e3'}}"
+    }
+  ]
+}
