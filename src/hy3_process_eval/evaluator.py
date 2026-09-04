@@ -42,13 +42,25 @@ def deterministic_review(task: dict[str, Any], solution: Solution) -> ProcessRev
         first_error, first_type = solution.steps[-1].id if solution.steps else "S1", "条件遗漏"
         reviews.append(StepReview(first_error, "unsupported", first_type, f"缺少关键说明：{', '.join(missing)}"))
 
+    # ``forbidden_claims`` are explicit contradictions and may safely veto the
+    # semantic judge.  A missing ``required_concepts`` token is only a lexical
+    # signal: the same concept may have been expressed with different words.
+    # Keep that signal for offline analysis, but let Hy3 adjudicate it whenever
+    # the semantic judge is available.
+    if first_error is None:
+        source = "rules_clear"
+    elif first_type == "条件遗漏":
+        source = "rules_weak"
+    else:
+        source = "rules_strong"
+
     return ProcessReview(
         process_correct=first_error is None,
         first_error_step=first_error,
         error_type=first_type,
         step_reviews=reviews,
         confidence=0.72 if first_error else 0.62,
-        source="rules",
+        source=source,
     )
 
 
@@ -66,13 +78,31 @@ class ProcessEvaluator:
             "visible": {"passed": visible.passed, "total": visible.total, "failures": visible.failures[:2]},
             "hidden": {"passed": hidden.passed, "total": hidden.total, "failures": hidden.failures[:2]},
             "static_policy_error": hidden.policy_error,
+            "rule_signal": {
+                "source": rule_review.source,
+                "first_error_step": rule_review.first_error_step,
+                "error_type": rule_review.error_type,
+                "step_reviews": [
+                    {
+                        "step_id": item.step_id,
+                        "status": item.status,
+                        "error_type": item.error_type,
+                        "reason": item.reason,
+                    }
+                    for item in rule_review.step_reviews
+                    if item.status != "valid"
+                ],
+            },
         }
         review = rule_review
         if self.use_llm_judge and self.client is not None and not self.client.demo_mode:
             try:
                 llm_review = self.client.review(task, solution, evidence)
-                # A deterministic contradiction has veto power; otherwise use Hy3's richer review.
-                review = rule_review if not rule_review.process_correct else llm_review
+                # Regex matches are auditable evidence, not ground truth.  Hy3
+                # receives both strong and weak signals and makes the final
+                # semantic decision.  This prevents negation-scope and
+                # paraphrase artifacts from becoming automatic false positives.
+                review = llm_review
             except Exception:
                 review = rule_review
 
@@ -95,4 +125,3 @@ class ProcessEvaluator:
             verdict=verdict, first_error_step=first_step, error_type=error_type,
             visible_tests=visible, hidden_tests=hidden, process_review=review,
         )
-

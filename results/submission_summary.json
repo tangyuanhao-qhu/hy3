@@ -1,0 +1,475 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:01:32.340986+00:00",
+  "scenario": "可验证 Python 代码任务的过程评估与错误定位",
+  "model": {
+    "name": "hy3",
+    "endpoint": "https://tokenhub.tencentmaas.com/v1",
+    "reasoning_effort": "high",
+    "temperature": 0.2,
+    "api_key_recorded": false
+  },
+  "task_bank": {
+    "n": 90,
+    "by_difficulty": {
+      "easy": 30,
+      "medium": 30,
+      "hard": 30
+    },
+    "hidden_assertions": 680,
+    "sha256": "99f20b358a299a14682cf383a2c486293e8c2a4229eb5ea2379a299542880265"
+  },
+  "hy3_run2": {
+    "completed": 90,
+    "failed": 0,
+    "final_answer_accuracy": 1.0,
+    "final_answer_ci95": [
+      1.0,
+      1.0
+    ],
+    "hidden_assertions_passed": 680,
+    "hidden_assertions_total": 680,
+    "raw_process_pass_rate": 0.24444444444444446,
+    "raw_process_flag_count": 68,
+    "raw_correct_but_unsupported_count": 68,
+    "corrected_process_pass_rate_estimate": 0.9444444444444444,
+    "corrected_process_pass_ci95": [
+      0.8888888888888888,
+      0.9888888888888889
+    ],
+    "corrected_process_flag_count_estimate": 5,
+    "corrected_correct_but_unsupported_count_estimate": 5,
+    "corrected_error_type_distribution_estimate": {
+      "条件遗漏": 5
+    },
+    "by_difficulty": {
+      "easy": {
+        "n": 30,
+        "final_answer_accuracy": 1.0,
+        "raw_process_pass_rate": 0.3333333333333333,
+        "corrected_process_pass_rate_estimate": 0.9333333333333333
+      },
+      "hard": {
+        "n": 30,
+        "final_answer_accuracy": 1.0,
+        "raw_process_pass_rate": 0.3,
+        "corrected_process_pass_rate_estimate": 0.9666666666666667
+      },
+      "medium": {
+        "n": 30,
+        "final_answer_accuracy": 1.0,
+        "raw_process_pass_rate": 0.1,
+        "corrected_process_pass_rate_estimate": 0.9333333333333333
+      }
+    },
+    "capability_cliff": {
+      "answer": "not_observed_all_levels_1.0",
+      "corrected_process": "not_observed",
+      "scope_note": "只适用于本仓库90道自构纯函数题；满分可能表示题集仍未触及Hy3能力边界。"
+    },
+    "benchmark_sha256": "d62bf16269d527349deb7bac7e626148a8e6617815317cd3fcaada1b462e80b8"
+  },
+  "weak_signal_adjudication": {
+    "n_cases": 64,
+    "n_adjudicated": 64,
+    "paraphrase_false_alarms": 59,
+    "genuine_omissions_estimate": 5,
+    "false_alarm_rate_within_weak_signals": 0.921875,
+    "adjudicator": "Hy3 model; estimate, not human ground truth",
+    "sha256": "d4f19ae3be11456b2ffb2f785118ec4a3ae8c62903469c6371407bbde96d7fd7"
+  },
+  "rule_signal_adjudication": {
+    "n_cases": 4,
+    "n_adjudicated": 4,
+    "cleared_false_alarms": 4,
+    "false_alarm_rate": 1.0,
+    "adjudicator": "Hy3 full process judge; estimate, not human ground truth",
+    "sha256": "dac218e25f0234533a38e1b4bacd8c3b766fcc23d088b65ff9ebc75337fddb4b"
+  },
+  "combined_process_adjudication": {
+    "raw_flags": 68,
+    "cleared_false_alarms": 63,
+    "estimated_true_issues": 5,
+    "estimated_true_issue_ratio_among_raw_flags": 0.07352941176470588
+  },
+  "evaluator_validity": {
+    "all_gold": {
+      "n": 286,
+      "process_accuracy": 0.7132867132867133,
+      "process_flag_rate": 0.2867132867132867,
+      "answer_accuracy": 0.6713286713286714,
+      "error_type_distribution": {
+        "无错误": 157,
+        "概念错误": 6,
+        "条件遗漏": 58,
+        "边界错误": 9,
+        "题意误读": 3,
+        "实现不一致": 49,
+        "计算错误": 2,
+        "复杂度错误": 2
+      },
+      "gold_error_type_distribution": {
+        "无错误": 97,
+        "概念错误": 21,
+        "条件遗漏": 21,
+        "边界错误": 20,
+        "题意误读": 19,
+        "计算错误": 18,
+        "幻觉": 18,
+        "格式不符": 18,
+        "复杂度错误": 18,
+        "实现不一致": 18,
+        "跳步推导": 18
+      },
+      "difficulty": {
+        "easy": {
+          "n": 95,
+          "answer_accuracy": 0.6736842105263158,
+          "process_flag_rate": 0.3684210526315789,
+          "gold_process_flaw_rate": 0.6631578947368421,
+          "localization_accuracy": 0.31746031746031744,
+          "localization_denominator": 63,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 32,
+          "detection": {
+            "tp": 35,
+            "fp": 0,
+            "fn": 28,
+            "tn": 32,
+            "precision": 1.0,
+            "recall": 0.5555555555555556,
+            "f1": 0.7142857142857143,
+            "agreement_with_gold": 0.7052631578947368
+          }
+        },
+        "hard": {
+          "n": 96,
+          "answer_accuracy": 0.6666666666666666,
+          "process_flag_rate": 0.125,
+          "gold_process_flaw_rate": 0.65625,
+          "localization_accuracy": 0.15873015873015872,
+          "localization_denominator": 63,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 33,
+          "detection": {
+            "tp": 12,
+            "fp": 0,
+            "fn": 51,
+            "tn": 33,
+            "precision": 1.0,
+            "recall": 0.19047619047619047,
+            "f1": 0.32,
+            "agreement_with_gold": 0.46875
+          }
+        },
+        "medium": {
+          "n": 95,
+          "answer_accuracy": 0.6736842105263158,
+          "process_flag_rate": 0.3684210526315789,
+          "gold_process_flaw_rate": 0.6631578947368421,
+          "localization_accuracy": 0.2698412698412698,
+          "localization_denominator": 63,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 32,
+          "detection": {
+            "tp": 35,
+            "fp": 0,
+            "fn": 28,
+            "tn": 32,
+            "precision": 1.0,
+            "recall": 0.5555555555555556,
+            "f1": 0.7142857142857143,
+            "agreement_with_gold": 0.7052631578947368
+          }
+        }
+      },
+      "localization_accuracy": 0.24867724867724866,
+      "localization_denominator": 189,
+      "localization_accuracy_among_caught": 0.573170731707317,
+      "caught_denominator": 82,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 97,
+      "flagged_correct_answer_count": 35,
+      "flagged_true_issue_ratio": 1.0,
+      "detection": {
+        "tp": 82,
+        "fp": 0,
+        "fn": 107,
+        "tn": 97,
+        "precision": 1.0,
+        "recall": 0.43386243386243384,
+        "f1": 0.6051660516605165,
+        "agreement_with_gold": 0.6258741258741258
+      },
+      "confidence_interval_95": {
+        "answer_accuracy": [
+          0.6153846153846154,
+          0.7237762237762237
+        ],
+        "process_flag_rate": [
+          0.23426573426573427,
+          0.34265734265734266
+        ],
+        "localization_accuracy": [
+          0.19047619047619047,
+          0.31216931216931215
+        ],
+        "false_positive_rate": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "human_single_review_subset": {
+      "n": 16,
+      "process_accuracy": 0.4375,
+      "process_flag_rate": 0.5625,
+      "answer_accuracy": 0.75,
+      "error_type_distribution": {
+        "无错误": 7,
+        "概念错误": 3,
+        "条件遗漏": 3,
+        "边界错误": 2,
+        "题意误读": 1
+      },
+      "gold_error_type_distribution": {
+        "无错误": 7,
+        "概念错误": 3,
+        "条件遗漏": 3,
+        "边界错误": 2,
+        "题意误读": 1
+      },
+      "difficulty": {
+        "easy": {
+          "n": 5,
+          "answer_accuracy": 0.8,
+          "process_flag_rate": 0.6,
+          "gold_process_flaw_rate": 0.6,
+          "localization_accuracy": 1.0,
+          "localization_denominator": 3,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 2,
+          "detection": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "tn": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "agreement_with_gold": 1.0
+          }
+        },
+        "hard": {
+          "n": 6,
+          "answer_accuracy": 0.6666666666666666,
+          "process_flag_rate": 0.5,
+          "gold_process_flaw_rate": 0.5,
+          "localization_accuracy": 1.0,
+          "localization_denominator": 3,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 3,
+          "detection": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "agreement_with_gold": 1.0
+          }
+        },
+        "medium": {
+          "n": 5,
+          "answer_accuracy": 0.8,
+          "process_flag_rate": 0.6,
+          "gold_process_flaw_rate": 0.6,
+          "localization_accuracy": 1.0,
+          "localization_denominator": 3,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 2,
+          "detection": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "tn": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "agreement_with_gold": 1.0
+          }
+        }
+      },
+      "localization_accuracy": 1.0,
+      "localization_denominator": 9,
+      "localization_accuracy_among_caught": 1.0,
+      "caught_denominator": 9,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 7,
+      "flagged_correct_answer_count": 5,
+      "flagged_true_issue_ratio": 1.0,
+      "detection": {
+        "tp": 9,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "agreement_with_gold": 1.0
+      },
+      "confidence_interval_95": {
+        "answer_accuracy": [
+          0.5,
+          0.9375
+        ],
+        "process_flag_rate": [
+          0.3125,
+          0.8125
+        ],
+        "localization_accuracy": [
+          1.0,
+          1.0
+        ],
+        "false_positive_rate": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "constructed_injection_subset": {
+      "n": 270,
+      "process_accuracy": 0.7296296296296296,
+      "process_flag_rate": 0.27037037037037037,
+      "answer_accuracy": 0.6666666666666666,
+      "error_type_distribution": {
+        "无错误": 150,
+        "概念错误": 3,
+        "条件遗漏": 55,
+        "题意误读": 2,
+        "边界错误": 7,
+        "实现不一致": 49,
+        "计算错误": 2,
+        "复杂度错误": 2
+      },
+      "gold_error_type_distribution": {
+        "无错误": 90,
+        "概念错误": 18,
+        "计算错误": 18,
+        "条件遗漏": 18,
+        "题意误读": 18,
+        "幻觉": 18,
+        "格式不符": 18,
+        "复杂度错误": 18,
+        "实现不一致": 18,
+        "边界错误": 18,
+        "跳步推导": 18
+      },
+      "difficulty": {
+        "easy": {
+          "n": 90,
+          "answer_accuracy": 0.6666666666666666,
+          "process_flag_rate": 0.35555555555555557,
+          "gold_process_flaw_rate": 0.6666666666666666,
+          "localization_accuracy": 0.2833333333333333,
+          "localization_denominator": 60,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 30,
+          "detection": {
+            "tp": 32,
+            "fp": 0,
+            "fn": 28,
+            "tn": 30,
+            "precision": 1.0,
+            "recall": 0.5333333333333333,
+            "f1": 0.6956521739130436,
+            "agreement_with_gold": 0.6888888888888889
+          }
+        },
+        "hard": {
+          "n": 90,
+          "answer_accuracy": 0.6666666666666666,
+          "process_flag_rate": 0.1,
+          "gold_process_flaw_rate": 0.6666666666666666,
+          "localization_accuracy": 0.11666666666666667,
+          "localization_denominator": 60,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 30,
+          "detection": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 51,
+            "tn": 30,
+            "precision": 1.0,
+            "recall": 0.15,
+            "f1": 0.2608695652173913,
+            "agreement_with_gold": 0.43333333333333335
+          }
+        },
+        "medium": {
+          "n": 90,
+          "answer_accuracy": 0.6666666666666666,
+          "process_flag_rate": 0.35555555555555557,
+          "gold_process_flaw_rate": 0.6666666666666666,
+          "localization_accuracy": 0.23333333333333334,
+          "localization_denominator": 60,
+          "false_positive_rate": 0.0,
+          "false_positive_denominator": 30,
+          "detection": {
+            "tp": 32,
+            "fp": 0,
+            "fn": 28,
+            "tn": 30,
+            "precision": 1.0,
+            "recall": 0.5333333333333333,
+            "f1": 0.6956521739130436,
+            "agreement_with_gold": 0.6888888888888889
+          }
+        }
+      },
+      "localization_accuracy": 0.2111111111111111,
+      "localization_denominator": 180,
+      "localization_accuracy_among_caught": 0.5205479452054794,
+      "caught_denominator": 73,
+      "false_positive_rate": 0.0,
+      "false_positive_denominator": 90,
+      "flagged_correct_answer_count": 30,
+      "flagged_true_issue_ratio": 1.0,
+      "detection": {
+        "tp": 73,
+        "fp": 0,
+        "fn": 107,
+        "tn": 90,
+        "precision": 1.0,
+        "recall": 0.40555555555555556,
+        "f1": 0.5770750988142292,
+        "agreement_with_gold": 0.6037037037037037
+      },
+      "confidence_interval_95": {
+        "answer_accuracy": [
+          0.6111111111111112,
+          0.7222222222222222
+        ],
+        "process_flag_rate": [
+          0.21851851851851853,
+          0.32222222222222224
+        ],
+        "localization_accuracy": [
+          0.15555555555555556,
+          0.2722222222222222
+        ],
+        "false_positive_rate": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "human_subset_limitation": "16条为早期单人复核样本，样本量小且与规则开发同源；单列报告，不与独立构造集混作人工双标金标。"
+  },
+  "provenance": {
+    "validation_samples_sha256": "465e1f0a8e8d22a20f43776149a53d3065768560d70913b3d190fbc8e65a427a",
+    "validation_details_sha256": "5d9f05e5f1931474bc94fcc7fbebdad88a9b940ecc91099948108c21bcf41a25",
+    "solver_and_judge_prompt_sha256": "a721eec9ffa5f83879bd651a1daeee910ca4b5bafa1e54613a4c9f567eb131c5"
+  }
+}

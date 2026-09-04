@@ -1,0 +1,404 @@
+{
+  "generated_at": "2026-09-04T06:29:36.818120+00:00",
+  "model": "hy3",
+  "n_cases": 4,
+  "n_adjudicated": 4,
+  "n_cleared_false_alarm": 4,
+  "false_alarm_rate": 1.0,
+  "results": [
+    {
+      "task_id": "M01",
+      "difficulty": "medium",
+      "original_review": {
+        "process_correct": false,
+        "first_error_step": "S4",
+        "error_type": "边界错误",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S4",
+            "status": "invalid",
+            "error_type": "边界错误",
+            "reason": "闭区间端点接触需要合并"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S6",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S7",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      },
+      "semantic_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "confidence": 0.95,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "空输入返回[]，代码一致"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "排序使重叠相邻，O(n log n)正确"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "初始化首区间，S1保障非空"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "s<=cur_end含端点接触，合并不变量正确"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "循环后追加末尾，无遗漏"
+          },
+          {
+            "step_id": "S6",
+            "status": "valid",
+            "error_type": null,
+            "reason": "返回结果已按起点升序"
+          },
+          {
+            "step_id": "S7",
+            "status": "valid",
+            "error_type": null,
+            "reason": "空间O(n)符合长度约束"
+          }
+        ],
+        "source": "hy3"
+      }
+    },
+    {
+      "task_id": "H03",
+      "difficulty": "hard",
+      "original_review": {
+        "process_correct": false,
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S5",
+            "status": "unsupported",
+            "error_type": "条件遗漏",
+            "reason": "缺少关键说明：重数"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      },
+      "semantic_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "confidence": 0.95,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "t为空返回空串，符合约束与边界，无禁止声明"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "dict统计need包含字符重数及种类数，覆盖重数概念"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "扩展右边界维护have与satisfied，正确反映重数满足"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "覆盖时记录严格更短并更新左边界，保证最左最短"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "返回子串或空串与复杂度分析正确，与代码一致"
+          }
+        ],
+        "source": "hy3"
+      }
+    },
+    {
+      "task_id": "E20",
+      "difficulty": "easy",
+      "original_review": {
+        "process_correct": false,
+        "first_error_step": "S5",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S5",
+            "status": "unsupported",
+            "error_type": "条件遗漏",
+            "reason": "缺少关键说明：主对角线"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      },
+      "semantic_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "confidence": 0.92,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "空矩阵返回True符合题目边界定义，代码一致"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "遍历每行检查len(row)!=n覆盖行数列数不等或各行长度不一致，代码一致"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "对所有i,j检查matrix[i][j]==matrix[j][i]实现主对角线对称不变量，代码双重循环一致"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "两层range(n)循环时间O(n^2)且仅标量空间O(1)分析正确"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "前置检查完备后返回True，与代码return True一致，无遗漏"
+          }
+        ],
+        "source": "hy3"
+      }
+    },
+    {
+      "task_id": "H18",
+      "difficulty": "hard",
+      "original_review": {
+        "process_correct": false,
+        "first_error_step": "S7",
+        "error_type": "条件遗漏",
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S6",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S7",
+            "status": "valid",
+            "error_type": null,
+            "reason": "未命中确定性错误规则"
+          },
+          {
+            "step_id": "S7",
+            "status": "unsupported",
+            "error_type": "条件遗漏",
+            "reason": "缺少关键说明：树形动态规划"
+          }
+        ],
+        "confidence": 0.72,
+        "source": "rules"
+      },
+      "semantic_review": {
+        "process_correct": true,
+        "first_error_step": null,
+        "error_type": null,
+        "confidence": 0.95,
+        "step_reviews": [
+          {
+            "step_id": "S1",
+            "status": "valid",
+            "error_type": null,
+            "reason": "空树边界处理与代码一致，符合题意k=0返回0否则-1"
+          },
+          {
+            "step_id": "S2",
+            "status": "valid",
+            "error_type": null,
+            "reason": "逆序遍历利用父<子性质保证子节点先完成DP，正确"
+          },
+          {
+            "step_id": "S3",
+            "status": "valid",
+            "error_type": null,
+            "reason": "初始化cur0[0]=0、k>=1时cur1[1]=weights[u]，独立集基例正确"
+          },
+          {
+            "step_id": "S4",
+            "status": "valid",
+            "error_type": null,
+            "reason": "合并时不选取max(dp0,dp1)，选取强制用dp0，背包卷积s=i+j正确实现约束"
+          },
+          {
+            "step_id": "S5",
+            "status": "valid",
+            "error_type": null,
+            "reason": "合并后存回dp0[u]/dp1[u]，步骤与代码一致"
+          },
+          {
+            "step_id": "S6",
+            "status": "valid",
+            "error_type": null,
+            "reason": "根取max(dp0[0][k],dp1[0][k])，不可达返回-1，正确"
+          },
+          {
+            "step_id": "S7",
+            "status": "valid",
+            "error_type": null,
+            "reason": "复杂度O(n k^2)与空间O(n k)分析正确，满足约束且非错误声称"
+          }
+        ],
+        "source": "hy3"
+      }
+    }
+  ]
+}

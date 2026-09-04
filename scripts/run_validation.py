@@ -35,7 +35,7 @@ def main() -> None:
     # columns are intentionally left empty for two independent human annotators,
     # with a final adjudication column for disagreements. See docs/ANNOTATION_PROTOCOL.md.
     with (out_dir / "human_audit.csv").open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=[
+        writer = csv.DictWriter(handle, lineterminator="\n", fieldnames=[
             "sample_id", "task_id", "difficulty", "gold_source", "intended_error_type",
             "gold_final_correct", "gold_process_correct", "gold_first_error_step",
             "pred_process_correct", "pred_first_error_step", "pred_error_type",
@@ -69,4 +69,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -128,7 +128,9 @@ def main() -> None:
         if row.get("evaluation") is None:
             continue
         pr = row["evaluation"]["process_review"]
-        if pr["source"] != "rules" or pr["process_correct"]:
+        # Accept legacy benchmark files (source="rules") and files produced
+        # after weak/strong rule provenance was made explicit.
+        if pr["source"] not in {"rules", "rules_weak"} or pr["process_correct"]:
             continue
         tid = row["task"]["id"]
         steps = row["solution"]["steps"]

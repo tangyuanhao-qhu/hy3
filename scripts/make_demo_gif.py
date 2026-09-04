@@ -37,14 +37,15 @@ def frame(title: str, subtitle: str, cards: list[tuple[str, str, str]]) -> Image
 
 def main() -> None:
     frames = [
-        frame("Hy3 VerifyLab", "Verifiable code tasks: beyond test pass/fail", [("Task E03: Two Sum", "Prompt, constraints, visible tests, and hidden tests", "#E8F1FF"), ("Run", "Hy3 returns concise auditable steps and code", "#F4EEFF")]),
-        frame("Structured solution", "Every claim has a stable step ID and checkable evidence", [("S1", "Store previously visited value-index pairs in seen", "#EAF8F1"), ("S2", "Query complement; return distinct indices; O(n)", "#EAF8F1")]),
-        frame("Three-way verification", "Model judgment is anchored by executable evidence", [("Execution", "Visible tests 2/2; hidden tests 3/3", "#E8F1FF"), ("Rules and static evidence", "Constraints, boundaries, contradictions, code policy", "#FFF4E5"), ("Hy3 review", "Step validity, first error, and error category", "#F4EEFF")]),
-        frame("Critical mismatch", "All tests may pass while the stated process is invalid", [("Final answer", "CORRECT", "#EAF8F1"), ("Process step S1", "'Sorting preserves original indices' is false", "#FFE9E7"), ("Verdict", "Correct answer, unsupported process", "#FFF4E5")]),
-        frame("Batch evaluation", "Analyze difficulty and validate the evaluator", [("Core metrics", "Answer accuracy, process accuracy, error distribution", "#E8F1FF"), ("Reliability", "Localization accuracy, false-positive rate, audit log", "#F4EEFF")]),
+        frame("Hy3 VerifyLab", "One complete solve-and-review flow: E03 Two Sum", [("Input", "Task, function signature, constraints, and visible tests", "#E8F1FF"), ("Run", "Hy3 returns auditable steps S1...Sn and executable code", "#F4EEFF")]),
+        frame("Structured Hy3 solution", "Keep reasoning claims separate from executable code", [("S1 - invalid claim", "Sorting preserves original indices; return sorted positions", "#FFE9E7"), ("S2", "Actual code uses a seen hash map to find complements in O(n)", "#EAF8F1")]),
+        frame("Automatic answer check", "Run visible and hidden tests in an isolated subprocess", [("Candidate code", "Hash lookup returns two distinct original indices", "#E8F1FF"), ("Execution evidence", "Visible tests pass; hidden tests 3/3 pass", "#EAF8F1"), ("Final answer", "CORRECT", "#EAF8F1")]),
+        frame("Process-level evaluation", "Combine rule evidence with a separate Hy3 semantic review", [("Strong contradiction", "Sorting does not preserve the original index mapping", "#FFE9E7"), ("First error", "S1", "#FFF4E5"), ("Error category", "Concept error", "#FFF4E5")]),
+        frame("Critical sample detected", "Passing every test does not prove that the process is valid", [("Final answer", "CORRECT", "#EAF8F1"), ("Reasoning process", "INVALID", "#FFE9E7"), ("Verdict", "Correct answer, unsupported process", "#FFF4E5")]),
+        frame("Hy3 run2 summary", "All 90 stratified tasks completed with downloadable evidence", [("Answer", "90/90 tasks and 680/680 hidden assertions pass", "#EAF8F1"), ("Process - corrected estimate", "85/90 valid; 5 correct answers have unsupported processes", "#FFF4E5"), ("Evaluator validity", "Localization, false alarms, error types, and human audit", "#F4EEFF")]),
     ]
     out = ROOT / "assets" / "demo.gif"
-    frames[0].save(out, save_all=True, append_images=frames[1:], duration=1500, loop=0, optimize=True)
+    frames[0].save(out, save_all=True, append_images=frames[1:], duration=2200, loop=0, optimize=True)
     print(out)
 
 

@@ -9,6 +9,7 @@ description = "Hy3 code-task app with process-level evaluation and error localiz
 requires-python = ">=3.10"
 dependencies = [
   "openai>=1.40",
+  "socksio>=1.0",
   "streamlit>=1.37",
   "pandas>=2.0",
   "python-dotenv>=1.0",
@@ -24,4 +25,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

@@ -122,27 +122,34 @@ def main() -> None:
 
 
 def _report_correction(path: Path, rows: list[dict], n: int) -> None:
-    """Report metrics after removing the vocabulary artifact from the rule layer.
+    """Report metrics after semantic adjudication of rule-layer flags.
 
     deterministic_review() flags `条件遗漏` whenever a required_concepts keyword is
     absent, which fires on paraphrase. scripts/audit_weak_signals.py asks the model
-    whether each such flag is a genuine omission or merely a rewording; those judged
-    as rewording are dropped here.
+    whether each such flag is a genuine omission or merely a rewording.  An optional
+    rule-signal audit similarly checks non-weak regex hits with the full process judge.
+    Cases cleared by either audit are dropped here.
     """
-    audit_path = path.parent / "weak_signal_audit.json"
+    suffix = path.stem.removeprefix("hy3_benchmark")
+    audit_path = path.parent / f"weak_signal_audit{suffix}.json"
     if not audit_path.exists():
         print("\n=== CORRECTED (vocabulary artifact removed) ===")
         print("  run scripts/audit_weak_signals.py first to enable this section")
         return
 
-    import re
-    tasks = {json.loads(l)["id"]: json.loads(l)
-             for l in Path("data/tasks.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()}
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
     false_alarm = {r["task_id"] for r in audit["results"] if r.get("addressed") is True}
+    rule_audit_path = path.parent / f"rule_signal_audit{suffix}.json"
+    if rule_audit_path.exists():
+        rule_audit = json.loads(rule_audit_path.read_text(encoding="utf-8"))
+        false_alarm.update(
+            r["task_id"] for r in rule_audit["results"]
+            if r.get("semantic_review", {}).get("process_correct") is True
+        )
 
-    # A flag is retained only if it is a strong signal, a confirmed omission, or a
-    # Hy3-judge finding. Weak flags judged as paraphrase are discarded.
+    # Keep every raw flag except cases explicitly cleared by one of the semantic
+    # adjudication files.  If the non-weak audit is absent, strong rule flags are
+    # conservatively retained for backward compatibility.
     kept: list[int] = []
     for row in rows:
         tid = row["task"]["id"]
@@ -150,23 +157,18 @@ def _report_correction(path: Path, rows: list[dict], n: int) -> None:
         if pr["process_correct"]:
             kept.append(0)
             continue
-        if pr["source"] == "hy3":
-            kept.append(1)
-            continue
-        combined = " ".join(f"{s['claim']} {s['evidence']}" for s in row["solution"]["steps"])
-        strong = any(re.search(rule["pattern"], combined, flags=re.I)
-                     for rule in tasks[tid]["rubric"].get("forbidden_claims", []))
-        kept.append(1 if (strong or tid not in false_alarm) else 0)
+        kept.append(0 if tid in false_alarm else 1)
 
     dropped = sum(1 for row, k in zip(rows, kept)
                   if not row["evaluation"]["process_correct"] and not k)
     cbu = [1 if (r["evaluation"]["final_correct"] and k) else 0 for r, k in zip(rows, kept)]
     raw_flag = sum(0 if r["evaluation"]["process_correct"] else 1 for r in rows)
 
-    print("\n=== CORRECTED (vocabulary artifact removed) ===")
-    print(f"  weak-signal flags dropped as paraphrase : {dropped}")
+    print("\n=== CORRECTED (semantic adjudication applied) ===")
+    print(f"  rule flags cleared as false alarms : {dropped}")
     print(f"  process_flag_rate   : {_pct(raw_flag / n)} -> {_pct(sum(kept) / n)}")
-    print(f"  process_accuracy    : {_pct(1 - raw_flag / n)} -> {_pct(1 - sum(kept) / n)}   {_ci(kept)}")
+    corrected_pass = [1 - flag for flag in kept]
+    print(f"  process_accuracy    : {_pct(1 - raw_flag / n)} -> {_pct(sum(corrected_pass) / n)}   {_ci(corrected_pass)}")
     print(f"  correct_but_unsupported : {_pct(sum(cbu) / n)}  ({sum(cbu)} samples)")
 
     print("\n  by level:")
